@@ -1937,25 +1937,46 @@ GoRoute(
 **ตอบคำถามต่อไปนี้:**
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
-```text
-
+```
+ข้อแตกต่าง:
+- MediaQuery: ดึงข้อมูลขนาดของ "หน้าจอทั้งหมด"  รวมทั้ง Screen Orientation และ Insets ต่างๆ
+- LayoutBuilder: ดึงข้อมูลขนาดพื้นที่  ที่ Widget แม่อนุญาตให้ Widget ลูกใช้ได้ โดยดูผ่าน constraints.maxWidth / maxHeight
+หลักการเลือกใช้:
+- ใช้ MediaQuery: เมื่อต้องการปรับเปลี่ยนโครงสร้างหลักของทั้งหน้าจอตามขนาดอุปกรณ์ เช่น ปรับเป็น BottomNavigationBar บนมือถือ หรือปรับเป็น NavigationRail บน Desktop/Tablet
+- ใช้ LayoutBuilder: เมื่อต้องการทำ Responsive เฉพาะส่วนคอมโพเนนต์  เช่น Card หรือ Grid ที่ต้องการปรับเปลี่ยนสไตล์/จำนวนคอลัมน์ตามพื้นที่ของ Container ที่มันสังกัดอยู่
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-
+สาเหตุที่ใช้ StatefulShellRoute:
+เพราะต้องการรักษา State ของแต่ละ Tab ใน BottomNavigationBar เอาไว้ เมื่อผู้ใช้สลับหน้าไป-มา
+ผลต่างเรื่อง State Management:
+- ShellRoute (ธรรมดา): ทุกครั้งที่มีการสลับ Tab หน้าเก่าจะถูก Destroy (ทำลาย) และสร้างใหม่ ทำให้ข้อมูลชั่วคราวหายไป 
+- StatefulShellRoute: จะใช้ IndexedStack แยกการจัดการแต่ละ Tab (StatefulShellBranch) ทำให้เมื่อสลับ Tab หน้าเก่าจะไม่ถูกทำลาย 
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+เหตุผลที่ใช้เพราะ Text อยู่ภายใน Row ซึ่ง Row ให้พื้นที่ความกว้างแบบไม่จำกัด  กับลูกๆ การใช้ Expanded จะเป็นการจำกัดพื้นที่ให้ Text ใช้เฉพาะ "พื้นที่ส่วนที่เหลือ" ใน Row เท่านั้น และทำให้คุณสมบัติ ทำงานได้ถูกต้องเมื่อข้อความยาวเกินไป
+ผลถ้าลบออก หากชื่อสถานที่ยาวเกินขนาดการ์ด จะเกิดข้อผิดพลาด RenderFlex overflowed by XXX pixels (ขึ้นแถบเหลืองสลับดำแจ้งเตือน) เนื่องจาก Text จะพยายามขยายความกว้างออกไปเรื่อยๆ จนทะลุขอบของการ์ด
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+ข้อจำกัด: 'extra' เป็นการส่ง Object ในหน่วยความจำ  ระหว่างการนำทางภายในแอป แต่ไม่ได้ถูกบันทึกไว้ใน URL ดังนั้น เมื่อผู้ใช้กด Refresh หน้าเว็บ  หรือเข้าหน้าจอด้วย Deep Link ผ่าน URL โดยตรง ค่า 'extra' จะกลายเป็น null ทันที ทำให้เกิด Error ไม่พบข้อมูล
+วิธีแก้ปัญหา:
+1. ส่งเฉพาะ Identifier (เช่น ID) ผ่าน Path Parameter แทน 
+2. ใน router หรือ Detail Screen ให้ใช้ ID ที่ได้จาก URL ไปค้นหาข้อมูลจริงจาก Data Source/Repository
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
-```text
-
-```
+App Navigation Hierarchy (GoRouter Architecture)
+│
+└── 1. / (MainShell - StatefulShellRoute with BottomNavigationBar)
+    ├── 1.1 /explore (Tab 1: Explore Screen)
+    │   └── destinations/:id (Destination Detail Screen) *เปิดทับ Shell
+    │
+    ├── 1.2 /saved (Tab 2: Saved Screen)
+    │   └── destinations/:id (Destination Detail Screen) *เปิดทับ Shell
+    │
+    └── 1.3 /profile (Tab 3: Profile Screen)
+   
 ---
 
 ## 📤 การส่งงาน
