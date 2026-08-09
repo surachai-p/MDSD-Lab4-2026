@@ -1439,21 +1439,24 @@ flutter devices
 
 | # | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผลจริง |
 |---|---|---|---|
-| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | |
-| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | |
-| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | |
-| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | |
-| 5 | กด Back บน Detail | กลับมา Explore Screen | |
-| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | |
-| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | |
-| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | |
-| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | |
-| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | |
-| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
-| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | |
-| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | |
+| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar |✅|
+| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | ✅|
+| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว |✅|
+| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง |✅|
+| 5 | กด Back บน Detail | กลับมา Explore Screen |✅|
+| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย |✅|
+| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ |✅|
+| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ |✅|
+| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home |✅|
+| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint |✅|
+| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) |✅|
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล |✅|
+| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง |✅|
+| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ |✅|
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง |✅|
+
+MediaQuery.size.width = ความกว้างของ หน้าจออุปกรณ์ทั้งหมด เหมาะใช้คำนวณสัดส่วน Layout จากภาพรวมทั้งหน้าจอ
+constraints.maxWidth = ความกว้างสูงสุดของ Widget แม่ (Parent) ที่ส่งลงมาให้ ใช้ร่วมกับ LayoutBuilder เหมาะใช้ทำ Responsive Component ตามขนาดพื้นที่จริง
 
 ---
 
@@ -1550,6 +1553,9 @@ GoRoute(
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
 ```
+<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/795a9d05-f449-4ca2-a83f-5fba97e3978a" />
+<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/b0607104-d5d4-4148-977b-fd2e5541d21c" />
+
 ---
 
 ## 📝 คำถามท้ายใบงาน
@@ -1558,23 +1564,39 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
-
+MediaQuery วัดขนาด หน้าจอทั้งหมด ส่วน LayoutBuilder วัดขนาดพื้นที่ของ Widget แม่ (Parent)
+วิธีเลือกใช้: ใช้ MediaQuery จัดสัดส่วนระดับหน้าจอภาพรวม / ใช้ LayoutBuilder ทำ Responsive Component ในพื้นที่เฉพาะจุด
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-
+ใช้เพื่อรักษา State (เช่น ตำแหน่ง Scroll หรือข้อมูลหน้า) ของแต่ละ Tab ไว้ ไม่ให้ถูกลบ (Dispose) เวลาสลับ Tab ไปมา ต่างจาก ShellRoute ธรรมดาที่จะ Rebuild หน้าใหม่ทุกครั้ง
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+ใช้เพื่อบีบข้อความให้อยู่ในพื้นที่ที่เหลือและตัดข้อความยาวเกินด้วย ... (Overflow) หากลบออก ข้อความที่ยาวเกินจะทำให้เกิด Error แถบเหลืองดำ (RenderFlex overflowed)
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+ข้อมูลใน extra เก็บใน Memory เมื่อ Refresh Web หรือเข้าผ่าน Deep Link ข้อมูลจะหายกลายเป็น null
+วิธีแก้: ส่งแค่ ID ผ่าน URL (Path parameters) แล้วเขียน Logic ให้ไปค้นหา/ดึงข้อมูลมาแสดงผลหาก extra เป็น null
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-
+App
+ └── GoRouter (Root)
+      └── StatefulShellRoute.indexedStack (ScaffoldWithNavBar)
+           ├── Branch 0: Home ('/')
+           │    └── HomeScreen
+           ├── Branch 1: Explore ('/explore')
+           │    └── ExploreScreen
+           │         └── GoRoute: Detail ('destinations/:id')
+           │              └── DestinationDetailScreen
+           ├── Branch 2: Saved ('/saved')
+           │    └── SavedScreen
+           ├── Branch 3: Profile ('/profile')
+           │    └── ProfileScreen
+           └── Branch 4: About ('/about')
+                └── AboutScreen
 ```
 ---
 
