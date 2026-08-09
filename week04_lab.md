@@ -2049,8 +2049,114 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
+
+<img width="1919" height="1019" alt="image" src="https://github.com/user-attachments/assets/bf7d5236-026d-4e88-9cc3-62140c19138a" />
+
+<img width="1919" height="1017" alt="image" src="https://github.com/user-attachments/assets/9101a119-6ab3-40d7-907a-c1ad3b2da769" />
+
+```
+class DestinationCard extends StatefulWidget {
+  final Destination destination;
+  final VoidCallback onTap;
+  final VoidCallback? onSavedChanged;
+
+  const DestinationCard({
+    super.key,
+    required this.destination,
+    required this.onTap,
+    this.onSavedChanged,
+  });
+
+  @override
+  State<DestinationCard> createState() => _DestinationCardState();
+}
+
+class _DestinationCardState extends State<DestinationCard> {
+  @override
+  Widget build(BuildContext context) {
+    // 📍 จุดซับซ้อนที่ 1 ดึงสถานะการบันทึกข้าม Widget จาก Centralized State (SavedService)
+    // อ่านค่าแบบ Reactive จาก Class กึ่ง Global เพื่อเช็กว่าสถานที่ ID นี้ถูกบันทึกไว้หรือยัง 
+    // เพื่อนำไปกำหนดไอคอน (Icons.favorite ↔ Icons.favorite_border) และสีของหัวใจ
+    final isSaved = SavedService.isSaved(widget.destination.id);
+
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: InkWell(
+        onTap: widget.onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Image.network(
+                  widget.destination.imageUrl,
+                  height: 140,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  // 📍 จุดซับซ้อนที่ 2 Image Error Fallback Handling
+                  // ป้องกันแอปพัง/หน้าจอแสดงสีแดง เมื่อ URL รูปภาพโหลดไม่ได้หรือไม่มีสัญญาณอินเทอร์เน็ต
+                  // โดยจะแสดง Container สีเทาพร้อมไอคอนหลุดชั่วคราวแทน
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: 140,
+                    color: Colors.grey.shade300,
+                    child: const Icon(Icons.image_not_supported),
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.black.withValues(alpha: 0.4),
+                    child: IconButton(
+                      icon: Icon(
+                        isSaved ? Icons.favorite : Icons.favorite_border,
+                        color: isSaved ? Colors.red : Colors.white,
+                        size: 20,
+                      ),
+                      // 📍 จุดซับซ้อนที่ 3 State Mutation & Callback Notification Pipeline
+                      // เมื่อผู้ใช้กดหัวใจ
+                      // 1. เรียก SavedService.toggleSave() เพื่อเพิ่ม/ลบ ID ออกจาก Set กลาง
+                      // 2. เรียก setState() เพื่อสั่ง Rebuild การ์ดใบนี้ ให้ไอคอนสลับรูปทรงทันที
+                      // 3. สั่ง trigger คืนไปยัง widget.onSavedChanged? (ถ้ามี) เพื่อแจ้ง Parent (เช่น SavedScreen) 
+                      //    ให้วาดหน้าจอใหม่ทันที กรณีที่ผู้ใช้ถอดหัวใจออกในหน้า Saved
+                      onPressed: () {
+                        setState(() {
+                          SavedService.toggleSave(widget.destination.id);
+                        });
+                        widget.onSavedChanged?.call();
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.destination.name,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    widget.destination.country,
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 ```
 ---
 
