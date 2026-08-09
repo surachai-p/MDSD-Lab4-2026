@@ -1295,7 +1295,7 @@ class _StatCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 
-<img width="1919" height="1015" alt="image" src="https://github.com/user-attachments/assets/d358f139-3c01-4ee6-b412-df386ad218f5" />
+<img width="1919" height="1019" alt="image" src="https://github.com/user-attachments/assets/c654905d-037e-4a7c-88fc-7fb88f295c43" />
 
 <img width="1919" height="1018" alt="image" src="https://github.com/user-attachments/assets/07e9fd74-ae0d-427e-a364-3cec89e6dec2" />
 
