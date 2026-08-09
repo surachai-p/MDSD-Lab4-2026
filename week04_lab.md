@@ -2165,24 +2165,60 @@ class _DestinationCardState extends State<DestinationCard> {
 **ตอบคำถามต่อไปนี้:**
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
-```text
+```
+ความแตกต่าง
+MediaQuery คืนค่าขนาดและข้อมูลของ หน้าจออุปกรณ์ทั้งหมด
+LayoutBuilder คืนค่าเงื่อนไขความกว้าง/ความสูงสูงสุด ของ พื้นที่จริงภายใน Parent Widget ที่ห่อหุ้มมันอยู่
 
+หลักการเลือกใช้
+1.ใช้ MediaQuery เมื่อต้องการทราบขนาดหน้าจอภาพรวม เช่น เช็กดูว่าเป็นอุปกรณ์แนวนอน แนวตั้ง หรือดูระยะเว้นขอบกล้อง แถบสถานะ 
+2.ใช้ LayoutBuilder เมื่อต้องการทำ Responsive Layout ระดับ Component/Widget โดยไม่ต้องสนใจว่าหน้าจอใหญ่เท่าใด
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
-```text
+```
+สาเหตุที่ใช้ StatefulShellRoute
+เพื่อรักษา State ของแต่ละ Tab/Branch ไว้ เช่น ตำแหน่งการ Scroll หรือ Sub-route Stack ของหน้านั้นๆ เมื่อผู้ใช้สลับไปแท็บอื่นแล้วสลับกลับมา
 
+ผลต่างเรื่อง State Management
+1.ShellRoute จะทำลาย State และสร้าง Widget หน้าจอใหม่ทุกครั้งที่กดสลับ Tab ทำให้ข้อมูลเดิมหาย และกลับไปเริ่มต้นที่หน้าแรกของ Tab นั้นเสมอ
+2.StatefulShellRoute ใช้เทคนิค IndexedStack หรือสลับ Branch ทำให้ State และ Navigation Stack ของทุก Tab ถูกรักษาไว้ในหน่วยความจำตลอดการใช้งาน
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
-```text
+```
+เหตุผลที่ใช้
+เพื่อบังคับให้ Text ขยายพื้นที่เท่าที่เหลืออยู่ใน Row และจำกัดไม่ให้ข้อความยาวล้นขอบการ์ด
 
+ถ้าลบออกจะเกิดอะไรขึ้น
+หากชื่อ Destination มีความยาวเกินขนาดของการ์ด Flutter จะไม่สามารถคำนวณขนาดได้ และจะเกิด Error A RenderFlex overflowed by ... pixels (เกิดแถบเฉียงสีเหลือง-ดำล้นขอบหน้าจอ)
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
-```text
+```
+extra จะส่ง Object ข้อมูลผ่านทาง RAM ในหน่วยความจำชั่วคราว เมื่อผู้ใช้กด Refresh หน้าเว็บ (F5) หรือเข้าผ่าน Deep Link/URL ตรงๆ ค่า extra จะกลายเป็น null ทันที เนื่องจากไม่ได้ถูกฝากไว้ใน String URL
 
+วิธีแก้ปัญหา (Fallback Logic)
+1.ให้ส่ง pathParameters (เช่น :id) แนบไปกับ URL เสมอ
+2.ในหน้าปลายทาง ให้ดึงจาก extra ก่อน ถ้า extra == null ให้เขียน Logic ค้นหาข้อมูล (Fallback) จาก Data Source/API โดยใช้ :id ที่ส่งมาจาก URL แทน
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
-```text
-
+```
+                               ┌───────────────────────────┐
+                               │       MaterialApp         │
+                               └─────────────┬─────────────┘
+                                             │
+                               ┌─────────────▼─────────────┐
+                               │   ScaffoldWithNavBar      │ (StatefulShellRoute)
+                               │  (BottomNavigationBar)    │
+                               └─────────────┬─────────────┘
+                                             │
+      ┌───────────────────┬──────────────────┼───────────────────┬───────────────────┐
+      │ Branch 0          │ Branch 1         │ Branch 2          │ Branch 3          │ Branch 4
+┌─────▼───────┐     ┌─────▼───────┐    ┌─────▼───────┐     ┌─────▼───────┐     ┌─────▼───────┐
+│ HomeScreen  │     │ExploreScreen│    │ SavedScreen │     │ProfileScreen│     │ AboutScreen │
+└─────────────┘     └──────┬──────┘    └─────────────┘     └─────────────┘     └─────────────┘
+                           │ (Sub-route)
+                    ┌──────▼──────────────────┐
+                    │ DestinationDetailScreen │
+                    └─────────────────────────┘
 ```
 ---
 
