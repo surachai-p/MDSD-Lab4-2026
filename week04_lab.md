@@ -1297,7 +1297,7 @@ class _StatCard extends StatelessWidget {
 
 <img width="1919" height="1019" alt="image" src="https://github.com/user-attachments/assets/c654905d-037e-4a7c-88fc-7fb88f295c43" />
 
-<img width="1919" height="1018" alt="image" src="https://github.com/user-attachments/assets/07e9fd74-ae0d-427e-a364-3cec89e6dec2" />
+<img width="1919" height="694" alt="image" src="https://github.com/user-attachments/assets/25ad67d2-596c-434c-ab73-11c69e742ef6" />
 
 ```
   @override
