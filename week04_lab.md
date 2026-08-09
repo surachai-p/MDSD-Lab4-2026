@@ -485,8 +485,7 @@ class DestinationCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 
-<img width="1919" height="441" alt="image" src="https://github.com/user-attachments/assets/2c37a08b-4cbc-4ff9-8a89-3f9839f169d4" />
-
+<img width="1919" height="470" alt="image" src="https://github.com/user-attachments/assets/68f868e3-9036-4ded-8159-a393ec8bb611" />
 
       body: SingleChildScrollView(
         child: Column(
