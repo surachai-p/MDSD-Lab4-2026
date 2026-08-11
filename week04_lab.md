@@ -1499,7 +1499,7 @@ flutter devices
 | 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | ✅ |
 | 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | ✅ |
 | 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | ✅ |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | ✅ บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | ทดสอบ 3 ขนาดจอ พบว่าค่าเท่ากันทุกครั้ง ค่าเท่ากันเพราะ Grid ไม่มี Sidebar/Padding มาบีบพื้นที่ก่อนถึงมัน ในทางปฏิบัติควรใช้ constraints.maxWidth เป็นหลัก เพราะแม่นยำกับพื้นที่จริงที่ widget ได้รับ ต่างจาก MediaQuery ที่ให้แค่ขนาดจอทั้งหมดเสมอ|
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | ✅ ทดสอบ 3 ขนาดจอ พบว่าค่าเท่ากันทุกครั้ง ค่าเท่ากันเพราะ Grid ไม่มี Sidebar/Padding มาบีบพื้นที่ก่อนถึงมัน ในทางปฏิบัติควรใช้ constraints.maxWidth เป็นหลัก เพราะแม่นยำกับพื้นที่จริงที่ widget ได้รับ ต่างจาก MediaQuery ที่ให้แค่ขนาดจอทั้งหมดเสมอ|
 
 ---
 
@@ -1593,8 +1593,30 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
+``image
+บันทึกรูปโค้ด
+<img width="1124" height="869" alt="image" src="https://github.com/user-attachments/assets/9db6feb8-7c5b-4d7d-8111-15fcf63b6a03" />
+<img width="1123" height="771" alt="image" src="https://github.com/user-attachments/assets/cd0faead-8845-45f9-bf5c-307731b6a0de" />
+<img width="1122" height="738" alt="image" src="https://github.com/user-attachments/assets/2c233921-61d4-4212-a8d5-06b541c455e3" />
+
+
+<img width="1128" height="720" alt="image" src="https://github.com/user-attachments/assets/e536d8b5-389d-4fe9-8550-1578a47fe726" />
+
+
+<img width="1123" height="841" alt="image" src="https://github.com/user-attachments/assets/546ff34f-5a0c-42a2-a6d6-4fa55fc04716" />
+<img width="1126" height="784" alt="image" src="https://github.com/user-attachments/assets/b74119c5-34e7-41ed-8667-2bb7f900c3dc" />
+<img width="1129" height="800" alt="image" src="https://github.com/user-attachments/assets/afabd079-8abf-4e44-b401-1255dd2ce235" />
+
+
+รูปผลการทดลอง
+
+<img width="1470" height="925" alt="image" src="https://github.com/user-attachments/assets/9dc6e8f9-ba85-41ef-934a-e7bc41415bea" />
+<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/be0f9588-e53d-4f2e-9207-a5287315afb2" />
+<img width="1470" height="954" alt="image" src="https://github.com/user-attachments/assets/db3d509e-74c4-42f1-937a-386037bccc6d" />
+
+
+
+```
 ```
 ---
 
@@ -1604,23 +1626,35 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
-
+LayoutBuilder ให้ค่าความกว้าง/สูงที่ widget นั้นได้รับจริงจาก parent ส่วน MediaQuery ให้ขนาดของทั้งหน้าจอ ไม่ว่า widget จะอยู่ตรงไหนก็ตาม
+ถ้าจะจัด Layout ของ widget นั้น ๆ เอง (เช่นปรับจำนวนคอลัมน์ของ Grid) ให้ใช้ LayoutBuilder เพราะแม่นยำกว่า แต่ถ้าจะเอาขนาดจอโดยรวมไปใช้ตัดสินใจ เช่น เช็คว่าเป็นมือถือหรือแท็บเล็ต ให้ใช้ MediaQuery
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-
+เพราะ ShellRoute ธรรมดา พอสลับ Tab แล้วหน้าเก่าจะถูกทำลายไปเลย State และตำแหน่ง scroll หายหมด
+ส่วน StatefulShellRoute.indexedStack จะเก็บหน้าของแต่ละ Tab ไว้ใน IndexedStack ไม่ได้ทำลายทิ้ง พอสลับกลับมาหน้าก็ยังอยู่ตำแหน่งเดิม ไม่ต้องโหลดใหม่
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+ใช้ Expanded ครอบ Text ชื่อ เพื่อให้มันยืดกินพื้นที่ที่เหลือใน Row (ไม่แย่งพื้นที่กับราคาด้านขวา) และให้ overflow: ellipsis ทำงานได้ ถ้าชื่อยาวเกินจะตัดเป็น ... แทน
+ถ้าลบ Expanded ออก Text จะพยายามขยายตามความยาวของชื่อเต็ม ๆ ทำให้ไปดันราคาล้นออกนอกจอ หรือถ้าชื่อยาวมากอาจเกิด overflow error (แถบเหลือง-ดำ) ได้
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+extra ใช้ส่ง Object ข้ามหน้าได้สะดวก แต่ถ้าผู้ใช้กด Refresh หรือเปิดผ่าน Deep Link ตรง ๆ ค่า extra จะกลายเป็น null ทันที เพราะมันเป็นแค่ข้อมูลที่ค้างอยู่ใน memory ไม่ได้ผูกกับ URL
+วิธีแก้คือต้องมี Fallback โดยดึง id จาก pathParameters แล้วไปค้นหาข้อมูลจริงจาก id นั้นแทน ถ้าหาไม่เจอค่อยแสดงหน้า "ไม่พบข้อมูล"
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
+/ (Home)
+├── /explore (Explore)
+│   └── /explore/destinations/:id (Destination Detail)
+├── /saved (Saved)
+├── /profile (Profile)
+└── /about (About)
 
+ทั้ง 5 กิ่งอยู่ใต้ StatefulShellRoute เดียวกัน (Bottom Navigation 5 แท็บ)
+มีแค่กิ่ง Explore ที่มีหน้าลูกซ้อนอยู่ คือ Destination Detail ซึ่งเข้าถึงผ่านการกด Card แล้ว push ทับขึ้นมา
 ```
 ---
 
