@@ -1558,23 +1558,47 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+- MediaQuery อ่านข้อมูลขนาดรวมของหน้าจอหรือ Window ทั้งหมด (Screen Width / Height / Orientation) ผ่าน Context/Window
+- LayoutBuilder รับข้อมูลข้อจำกัดขนาด (BoxConstraints: min/max width/height) ที่ Widget Parent จัดสรรให้ Child ตัวนั้นใช้งานจริง
 
+หลักการเลือกใช้:
+- ใช้ MediaQuery เมื่อต้องการตัดสินใจเลย์เอาต์ระดับภาพรวมทั้งหน้าจอ (Global Page Layout) เช่น ตรวจสอบว่าแอปเปิดในแท็บเล็ต/เดสก์ท็อปเพื่อปรับ Bottom Navigation Bar เป็น Navigation Rail
+- ใช้ LayoutBuilder เมื่อต้องการทำ Responsive ในระดับส่วนประกอบย่อย (Local Component Layout) เช่น ปรับจำนวนคอลัมน์ของ GridView ตามความกว้างของ Container ที่ได้รับ โดยไม่ขึ้นกับว่า Component นั้นจะถูกนำไปวางที่ตำแหน่งใดบนจอ
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
+- ShellRoute ธรรมดา: ทุกครั้งที่มีการสลับ Tab ตัว ShellRoute จะทำการ Rebuild และ Destroy Widget ของ Tab เก่าทิ้ง ส่งผลให้ State ทั้งหมดใน Tab นั้นหายไป (เช่น ตำแหน่งการ Scroll, ค่าที่พิมพ์ค้นหาค้างไว้)
+- StatefulShellRoute (เช่น StatefulShellRoute.indexedStack): จะทำการเก็บรักษา State (Keep-Alive / State Preservation) ของทุก Branch/Tab เอาไว้ในหน่วยความจำ แม้สลับไป Tab อื่น เมื่อกดกลับมา Tab เดิม ตำแหน่ง Scroll และ State ทั้งหมดยังคงเดิม
 
+ผลต่างเรื่อง State Management: StatefulShellRoute ช่วยรักษา State ของแต่ละ Tab แยกกันอย่างอิสระ ให้ประสบการณ์ใช้งานลื่นไหลเสมือน Mobile App Native ทั่วไป
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+- เหตุผลที่ใช้: Expanded บังคับให้ Text ชื่อ Destination ขยายพื้นที่ตามสัดส่วนที่เหลืออยู่ใน Row (หลังหักพื้นที่แสดงราคาทางขวาแล้ว) และควบคุมไม่ให้ข้อความขยายล้นออกนอก Row
+- ถ้าลบออก: หากชื่อ Destination ยาวมาก ข้อความจะยืดกว้างเกินขอบเขตพื้นที่ของ Card ส่งผลให้เกิด RenderFlex overflowed (แถบเหลืองดำแจ้งพิกัดล้น) และดันส่วนราคาตกขอบหน้าจอ
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+- ข้อจำกัด: การส่ง Object ผ่าน extra จะคงอยู่เฉพาะใน In-Memory State ของ Flutter เท่านั้น หากผู้ใช้กด Refresh หน้าเว็บ (F5) หรือเปิดเข้าผ่าน Deep Link / Direct URL โดยตรง ค่า extra จะกลายเป็น null
+- วิธีแก้ปัญหา: เขียน Fallback Logic ใน Router Builder เสมอ โดยการดึง id จาก pathParameters ('destinations/:id') มาใช้ค้นหาข้อมูลสำรองจาก Data Source กรณี extra เป็น null และหากหา ID ไม่พบ ให้เปลี่ยนไปแสดงหน้า Not Found/Error Screen แทนการแสดงข้อมูลผิดตัว
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-
+StatefulShellRoute (ScaffoldWithNavBar)
+├── Branch 0 (Home):
+│   └── GoRoute path: '/' ('home') → HomeScreen
+│       └── context.pushNamed('destination-detail') → DestinationDetailScreen
+├── Branch 1 (Explore):
+│   └── GoRoute path: '/explore' ('explore') → ExploreScreen
+│       └── Sub-route path: 'destinations/:id' ('destination-detail') → DestinationDetailScreen
+│           └── showDialog() → AlertDialog (จองสำเร็จ) → context.go('/')
+├── Branch 2 (Saved):
+│   └── GoRoute path: '/saved' ('saved') → SavedScreen
+│       └── context.pushNamed('destination-detail') → DestinationDetailScreen
+├── Branch 3 (Profile):
+│   └── GoRoute path: '/profile' ('profile') → ProfileScreen
+└── Branch 4 (About):
+    └── GoRoute path: '/about' ('about') → AboutScreen
 ```
 ---
 
