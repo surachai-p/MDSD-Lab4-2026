@@ -487,6 +487,11 @@ class DestinationCard extends StatelessWidget {
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+
+<img width="1700" height="1676" alt="code-checkpoint1" src="https://github.com/user-attachments/assets/78880da8-0756-41d6-bf76-f404bc0c7045" />
+
+<img width="434" height="866" alt="image" src="https://github.com/user-attachments/assets/058c0646-c674-4e2e-918d-62f2903f65f9" />
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
@@ -642,7 +647,12 @@ class _ExploreScreenState extends State<ExploreScreen> {
 บันทึกรูปผลการทดลอง
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+
 ```
+
+<img width="1434" height="3128" alt="code-checkpoint2" src="https://github.com/user-attachments/assets/56cfbbd9-9219-4026-ac5b-01e527bdd8da" />
+
+<img width="433" height="867" alt="image" src="https://github.com/user-attachments/assets/ec4dab21-7517-48fa-864b-ab51be246442" />
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
@@ -1107,6 +1117,13 @@ class _StatCard extends StatelessWidget {
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
 
+<img width="434" height="868" alt="image" src="https://github.com/user-attachments/assets/e3b2ceb0-5baa-421b-8121-9d21ad988727" />
+
+<img width="1798" height="532" alt="code-checkpoint3-1" src="https://github.com/user-attachments/assets/a5c58661-bc2b-4f63-9eaf-a1ab978ff416" />
+
+<img width="1408" height="2640" alt="code-checkpoint3-2" src="https://github.com/user-attachments/assets/574d2542-8179-48a1-b4e3-7428986c658d" />
+
+
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
 
 ```dart
@@ -1360,6 +1377,17 @@ final GoRouter appRouter = GoRouter(
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
 
+<img width="1422" height="1060" alt="code-checkpoint4-1" src="https://github.com/user-attachments/assets/d50b0306-2ed5-4296-a606-b99d511547cd" />
+
+<img width="1504" height="1372" alt="code-checkpoint4-2" src="https://github.com/user-attachments/assets/f5b3a449-0b86-4a9f-9434-94880fbd93b8" />
+
+<img width="722" height="356" alt="code-checkpoint4-3" src="https://github.com/user-attachments/assets/137d0d07-8425-4898-8614-52a0683278d7" />
+
+<img width="1212" height="576" alt="code-checkpoint4-4" src="https://github.com/user-attachments/assets/56288cc8-4251-48d5-8a8c-8d551a0ac6be" />
+
+<img width="437" height="868" alt="image" src="https://github.com/user-attachments/assets/71c32bae-206f-41cc-9386-0417dd84a6ca" />
+
+<img width="435" height="867" alt="image" src="https://github.com/user-attachments/assets/9d595439-4714-4410-a7c5-a6aa045ac816" />
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
 
@@ -1439,21 +1467,21 @@ flutter devices
 
 | # | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผลจริง |
 |---|---|---|---|
-| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | |
-| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | |
-| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | |
-| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | |
-| 5 | กด Back บน Detail | กลับมา Explore Screen | |
-| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | |
-| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | |
-| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | |
-| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | |
-| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | |
-| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
-| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | |
-| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | |
+| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | ✅ |
+| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | ✅ |
+| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | ✅ |
+| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | ✅ |
+| 5 | กด Back บน Detail | กลับมา Explore Screen | ✅ |
+| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | ✅ |
+| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | ✅ |
+| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | ✅ |
+| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | ✅ |
+| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | ✅ |
+| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | ✅ |
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | ✅ |
+| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | ✅ |
+| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | ✅ |
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง |  ที่หน้า /explore ความกว้างหน้าต่าง 1698px สังเกตได้ MediaQuery width: 1698 และ LayoutBuilder maxWidth: 1698 เท่ากันพอดี เพราะ _buildGrid() ไม่ได้ถูกครอบด้วย Sidebar/Padding ที่แบ่งพื้นที่เพิ่ม ทำให้พื้นที่จริงที่ Grid ได้รับ (LayoutBuilder) เท่ากับความกว้างทั้งหน้าจอ (MediaQuery) พอดี |
 
 ---
 
@@ -1546,6 +1574,16 @@ GoRoute(
 
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
+**สรุปการทำ Independent Challenge:**
+
+1. **ปุ่มบันทึก:** เพิ่มไอคอนหัวใจทั้งสองจุด — บน `DestinationCard` (มุมขวาบนของรูป) และบน `DestinationDetailScreen` (ปุ่มใน AppBar) กดแล้วสลับ `Icons.favorite` ↔ `Icons.favorite_border` ทันที (`lib/widgets/destination_card.dart`, `lib/screens/destination_detail_screen.dart`)
+2. **State ร่วมข้ามหน้า:** สร้าง `SavedStore` (`lib/state/saved_store.dart`) เป็น Global Singleton ที่ extend `ChangeNotifier` (มากับ Flutter SDK ไม่ใช่ State Management Library ภายนอก) เก็บ `Set<String> savedIds` — ทุกหน้าที่ต้องการอ่าน/ฟังการเปลี่ยนแปลงจะห่อด้วย `ListenableBuilder(listenable: SavedStore.instance, ...)`
+3. **Saved Screen ใช้งานได้จริง:** `lib/screens/saved_screen.dart` กรอง `sampleDestinations` ด้วย `SavedStore.instance.savedIds` ทุกครั้งที่ build, แสดงด้วย `GridView.builder` + `LayoutBuilder` ปรับ column ตาม M3 breakpoint เดียวกับ Explore Screen (2/3/4 คอลัมน์), ถ้าไม่มีรายการแสดง Empty State เดิม
+4. **Navigation:** การ์ดใน Saved Screen เรียก `context.pushNamed('destination-detail', pathParameters: {'id': ...}, extra: ...)` แบบเดียวกับหน้าอื่น ๆ
+5. **Comment อธิบายจุดซับซ้อน:** ใส่ไว้ 3 จุดหลักคือ (ก) เหตุผลที่ใช้ `ChangeNotifier` แทน State Management Library ใน `saved_store.dart`, (ข) เหตุผลที่ห่อเฉพาะไอคอนหัวใจด้วย `ListenableBuilder` แทนการทำทั้ง Card เป็น StatefulWidget ใน `destination_card.dart`, (ค) เหตุผลที่ `SavedScreen` ต้องกรองข้อมูลใหม่ทุกครั้งที่ build แทนการเก็บ List ซ้ำใน `saved_screen.dart`
+
+ผล `flutter analyze`: ผ่านไม่มี error (No issues found!)
+
 บันทึกรูปผลการทดลอง
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
@@ -1558,23 +1596,82 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+MediaQuery.of(context).size อ่านขนาดของ "ทั้งหน้าจอ/viewport ทั้งแอป" ผ่าน
+InheritedWidget ที่อยู่บนสุดของทรี ไม่ว่า Widget จะอยู่ลึกแค่ไหน ค่าที่ได้จะเป็น
+ขนาดจอเสมอ (global) ส่วน LayoutBuilder จะให้ BoxConstraints ที่ widget "แม่ที่อยู่
+ติดกัน" ส่งลงมาจริง ๆ (local ต่อตำแหน่งใน widget tree) ซึ่งอาจแคบกว่าขนาดจอทั้งหมด
+ถ้า widget นั้นถูกครอบด้วย Padding, Sidebar, Row ที่แบ่งพื้นที่ ฯลฯ
 
+หลักการเลือกใช้:
+- ใช้ MediaQuery เมื่อต้องตัดสินใจระดับ "ทั้งหน้าจอ" เช่น กำหนด breakpoint ที่ระดับ
+  Scaffold/Screen หรือคำนวณ safe area
+- ใช้ LayoutBuilder เมื่อ widget อยู่ลึกในทรีและพื้นที่จริงที่มันได้รับอาจไม่เท่ากับ
+  ขนาดจอ เช่น Grid ใน ExploreScreen ที่ใช้ constraints.maxWidth ปรับ crossAxisCount
+  (explore_screen.dart:74-83) เพื่อให้ Layout ถูกต้องแม้ถูกฝังอยู่ใน Container อื่น
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
+StatefulShellRoute.indexedStack (app_router.dart:94-174) สร้าง Navigator แยกของ
+ตัวเองให้แต่ละ Branch (Home / Explore / Saved / Profile / About) และเก็บทุก Branch
+ไว้พร้อมกันด้วย IndexedStack เวลาสลับ Tab ด้วย navigationShell.goBranch(index) จึง
+เป็นแค่การสลับว่า Branch ไหน "แสดงผล" อยู่ โดย Stack ของ Navigator ในแต่ละ Branch
+(หน้าที่ push ไว้, scroll position, form state) ยังคงอยู่ครบไม่ถูกรีเซ็ต
 
+ต่างจาก ShellRoute ธรรมดาที่ใช้ Navigator เดียวร่วมกันทุก Route ในกลุ่ม เมื่อสลับไป
+Route อื่นภายใต้ Shell เดียวกัน หน้าที่ Navigate ไปก่อนหน้าจะถูก pop ออกจาก Stack
+เดิม ทำให้ State และ Stack ของ Branch ที่เพิ่งออกจากไปหายไป ตรงกับตารางทดสอบ #6
+ที่กด Tab "หน้าหลัก" แล้ว Stack ใน Explore ต้องยังไม่หาย ซึ่งทำได้เพราะ
+StatefulShellRoute เท่านั้น
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
+ใน destination_card.dart:99-108 Text ชื่อ Destination อยู่ใน Row ที่มี
+mainAxisAlignment: spaceBetween ร่วมกับ Text ราคาที่มีความกว้างตายตัวตามเนื้อหา
+ถ้าไม่มี Expanded ครอบ Text ชื่อ, Text จะพยายามใช้ความกว้างเท่าที่เนื้อหาต้องการ
+(unbounded ตามธรรมชาติของ Text ใน Row) เมื่อชื่อ Destination ยาวเกินพื้นที่ที่เหลือ
+หลังหักราคาออก จะเกิด RenderFlex overflow (แถบเหลืองดำ error บนหน้าจอ)
 
+Expanded บังคับให้ Text ชื่อกินพื้นที่ที่เหลือทั้งหมดในแนวนอนหลังหักความกว้างของ
+Text ราคาแล้ว จากนั้น overflow: TextOverflow.ellipsis ที่ใส่ไว้จะตัดข้อความที่ยัง
+ยาวเกินเป็น "..." แทนที่จะทำให้ Layout พัง
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
+state.extra เป็น Object ที่ส่งผ่านหน่วยความจำ (in-memory) ตอนเรียก context.push /
+context.pushNamed เท่านั้น ไม่ได้ถูก encode เป็นส่วนหนึ่งของ URL ดังนั้นเมื่อผู้ใช้
+เข้าเว็บแบบ Deep Link ตรง ๆ หรือกด Refresh (F5) บน Web ตัวแอปจะถูกโหลดใหม่ทั้งหมด
+โดยอ่านแค่ URL ปัจจุบัน ค่า extra จึงเป็น null เสมอในสถานการณ์เหล่านี้ ถ้าโค้ด builder
+พึ่งพา extra อย่างเดียวจะได้ null/error หรือแอป crash
 
+วิธีแก้ตามที่ทำใน app_router.dart:117-137 (Route destination-detail) คือ ส่งเฉพาะ
+id ที่จำเป็นผ่าน path parameter (:id) ซึ่งเป็นส่วนหนึ่งของ URL อยู่แล้ว แล้วให้ builder
+เช็คก่อนว่า extra มีค่าไหม (กรณี navigate มาปกติ ใช้ extra ได้เลยไม่ต้องค้นหาซ้ำ) ถ้า
+extra เป็น null ให้ fallback ไป lookup ข้อมูลจริงจาก id ใน sampleDestinations แทน
+และถ้าหา id นั้นไม่เจอจริง ๆ (ทั้ง extra และ lookup ล้มเหลว) ให้แสดง
+DestinationNotFoundScreen แทนที่จะปล่อยให้ error หรือโชว์ข้อมูลผิดตัวแบบเงียบ ๆ
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
+StatefulShellRoute.indexedStack (root)
+│
+├─ Branch 0: "/"                         → HomeScreen
+│                                           └─ (ปุ่ม "ดูทั้งหมด" / กด Card) → push ไป Branch 1 sub-route
+│
+├─ Branch 1: "/explore"                  → ExploreScreen
+│   └─ "/explore/destinations/:id"       → DestinationDetailScreen
+│                                           (หรือ DestinationNotFoundScreen ถ้าหา id ไม่เจอ)
+│
+├─ Branch 2: "/saved"                    → SavedScreen
+│                                           └─ กด Card → push ไป "/explore/destinations/:id"
+│
+├─ Branch 3: "/profile"                  → ProfileScreen
+│
+└─ Branch 4: "/about"                    → AboutScreen
 
+ทั้ง 5 Branch อยู่ภายใต้ ScaffoldWithNavBar เดียวกัน (Bottom NavigationBar) แต่ละ
+Branch มี Navigator/Stack แยกอิสระของตัวเอง สลับ Branch ด้วย goBranch() โดย Stack
+ของ Branch อื่นไม่ถูกรีเซ็ต ส่วน errorBuilder ระดับบนสุด (นอก StatefulShellRoute)
+จะรับ URL ที่ไม่ตรง Route ใดเลยในระบบ (เช่นพิมพ์ path ผิดทั้งหมด)
 ```
 ---
 
