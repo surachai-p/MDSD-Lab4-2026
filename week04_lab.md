@@ -484,8 +484,17 @@ class DestinationCard extends StatelessWidget {
 > 3. เขียน Comment สั้น ๆ ในโค้ดของตัวเองอธิบายว่าทำไมต้องใช้ `Positioned` คู่กับ `Stack` ถึงจะย้ายตำแหน่ง Badge ได้ (ถ้าใช้ `Positioned` นอก `Stack` จะเกิดอะไรขึ้น)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+``image
+<img width="1166" height="637" alt="image" src="https://github.com/user-attachments/assets/3ea9cc34-5277-4617-91eb-4b159524e6c7" />
+<img width="1168" height="662" alt="image" src="https://github.com/user-attachments/assets/f1e95134-f28c-4034-98a6-551df9fec262" />
+<img width="1158" height="590" alt="image" src="https://github.com/user-attachments/assets/6be7caec-5d4c-4dd4-8e3e-845296cf1b0a" />
+<img width="1167" height="588" alt="image" src="https://github.com/user-attachments/assets/1485a05a-d798-4263-b6da-5f28d8433685" />
+<img width="1167" height="589" alt="image" src="https://github.com/user-attachments/assets/be959e7a-eb89-4237-9c63-495f00f70080" />
+<img width="1184" height="600" alt="image" src="https://github.com/user-attachments/assets/28dff77d-5cf4-4f0c-ba6f-fea89ca97749" />
+<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/e12bf8d9-05f0-4c38-80b3-df90f6edbf69" />
+<img width="2940" height="1872" alt="image" src="https://github.com/user-attachments/assets/aee2649f-20a1-49d3-b646-8f7fe4070a9b" />
+
+```
 ```
 ---
 
@@ -640,8 +649,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
 > 3. สังเกตว่าค่าทั้งสองตัวเท่ากันหรือไม่ แล้วเขียนสรุป 2-3 บรรทัดเป็น Comment ในโค้ดว่า `MediaQuery.of(context).size.width` (ความกว้างของทั้งหน้าจอ) กับ `LayoutBuilder` `constraints.maxWidth` (ความกว้างที่ Widget นั้น ๆ ได้รับจาก Parent) ต่างกันอย่างไร และควรเลือกใช้ตัวไหนเมื่อไหร่
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+``image
+<img width="1164" height="741" alt="image" src="https://github.com/user-attachments/assets/c344d451-cb6e-41eb-97ee-12c98aeebb1e" />
+<img width="1163" height="695" alt="image" src="https://github.com/user-attachments/assets/dc42ddf4-c32a-417b-824e-b8d7e403105c" />
+<img width="1160" height="715" alt="image" src="https://github.com/user-attachments/assets/d3acbae9-eab9-4158-8854-a2812f78e7f4" />
+<img width="1165" height="624" alt="image" src="https://github.com/user-attachments/assets/fe57f3ff-06cf-4daa-9aed-ee527467d734" />
+<img width="1166" height="714" alt="image" src="https://github.com/user-attachments/assets/b0bcde76-a22b-4b41-a17c-98a1bf7f9a2b" />
+<img width="2928" height="1844" alt="image" src="https://github.com/user-attachments/assets/55e248f9-24f8-4f19-a157-1f72cef057e1" />
+
+```
 ```
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
@@ -1103,8 +1119,22 @@ class _StatCard extends StatelessWidget {
 > 3. เขียน Comment อธิบายว่าทำไมต้องใส่ `shrinkWrap: true` และ `NeverScrollableScrollPhysics()` เมื่อวาง `ListView` ซ้อนอยู่ใน `Column` ที่อยู่ใน `SingleChildScrollView` อีกที (จะเกิดอะไรขึ้นถ้าไม่ใส่)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+``image
+บันทึกรูปโค้ด
+<img width="1120" height="835" alt="image" src="https://github.com/user-attachments/assets/837461c5-62e8-4cdc-904f-b3cfa3963d15" />
+<img width="1126" height="776" alt="image" src="https://github.com/user-attachments/assets/465d8017-0387-4fae-aeda-c3e72031b9f8" />
+<img width="1125" height="796" alt="image" src="https://github.com/user-attachments/assets/003e3baa-d398-497c-add5-0d195f43da52" />
+<img width="1124" height="792" alt="image" src="https://github.com/user-attachments/assets/ad5f0553-a409-4777-8212-ec714cdf13ee" />
+<img width="1127" height="777" alt="image" src="https://github.com/user-attachments/assets/169f18aa-7fdc-430b-af49-f294e1573c08" />
+<img width="1125" height="787" alt="image" src="https://github.com/user-attachments/assets/f5d58428-9f47-43d2-8cf4-095f6fc651c3" />
+<img width="1125" height="618" alt="image" src="https://github.com/user-attachments/assets/61ece23b-c11f-401c-a08e-759dbc43f5d3" />
+
+
+รูปผลการทดลองที่นี่ 
+<img width="1470" height="847" alt="image" src="https://github.com/user-attachments/assets/683bc111-b2b6-4f3b-8c24-2798b1bdc700" />
+
+
+```
 ```
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
@@ -1356,10 +1386,24 @@ final GoRouter appRouter = GoRouter(
 > 3. ทดสอบ Fallback ที่แก้ไข โดยรันแอปบน Chrome (`flutter run -d chrome`) แล้วพิมพ์ URL `/explore/destinations/999` ตรง ๆ ใน Address Bar (เป็น `id` ที่ไม่มีอยู่จริง) — ต้องเห็นหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดงหรือข้อมูลผิดตัว
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+``image
 ```
+```
+บันทึกรูปโค้ด
+<img width="1128" height="864" alt="image" src="https://github.com/user-attachments/assets/7155a35e-e996-4fc2-917a-202baa85150f" />
+<img width="1124" height="793" alt="image" src="https://github.com/user-attachments/assets/d18b95ae-1aa2-4d0a-85f6-98bc4d32c841" />
+<img width="1128" height="797" alt="image" src="https://github.com/user-attachments/assets/cf6e9068-8121-4513-83f5-613b247a86f0" />
+<img width="1125" height="794" alt="image" src="https://github.com/user-attachments/assets/a74e7b20-3d70-4391-8144-dcb5fa29475f" />
+<img width="1123" height="769" alt="image" src="https://github.com/user-attachments/assets/516b86b6-5ba9-45b9-ba7c-bf979b49d9f8" />
 
+<img width="1131" height="705" alt="image" src="https://github.com/user-attachments/assets/3c87628f-1f73-4bf3-8138-f802416b5aa6" />
+
+รูปผลการทดลอง
+<img width="1470" height="929" alt="image" src="https://github.com/user-attachments/assets/aac55f5d-45e1-4f52-bc02-65592cc7ec2b" />
+
+
+```
+```
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
 
@@ -1412,6 +1456,8 @@ class TravelApp extends StatelessWidget {
 flutter analyze
 # ควรไม่มี Error หลัก
 ```
+<img width="570" height="107" alt="image" src="https://github.com/user-attachments/assets/7988cb84-d83b-457d-b64d-2055c10fc72b" />
+
 
 #### ขั้นตอนที่ 6.2 — รันบน Device ที่เลือกไว้
 
@@ -1439,21 +1485,21 @@ flutter devices
 
 | # | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผลจริง |
 |---|---|---|---|
-| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | |
-| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | |
-| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | |
-| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | |
-| 5 | กด Back บน Detail | กลับมา Explore Screen | |
-| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | |
-| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | |
-| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | |
-| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | |
-| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | |
-| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
-| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | |
-| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | |
+| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | ✅ |
+| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | ✅ |
+| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | ✅ |
+| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | ✅ |
+| 5 | กด Back บน Detail | กลับมา Explore Screen | ✅ |
+| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | ✅ |
+| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | ✅ |
+| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | ✅ |
+| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | ✅ |
+| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | ✅ |
+| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | ✅ |
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | ✅ |
+| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | ✅ |
+| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | ✅ |
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | ✅ ทดสอบ 3 ขนาดจอ พบว่าค่าเท่ากันทุกครั้ง ค่าเท่ากันเพราะ Grid ไม่มี Sidebar/Padding มาบีบพื้นที่ก่อนถึงมัน ในทางปฏิบัติควรใช้ constraints.maxWidth เป็นหลัก เพราะแม่นยำกับพื้นที่จริงที่ widget ได้รับ ต่างจาก MediaQuery ที่ให้แค่ขนาดจอทั้งหมดเสมอ|
 
 ---
 
@@ -1547,8 +1593,30 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
+``image
+บันทึกรูปโค้ด
+<img width="1124" height="869" alt="image" src="https://github.com/user-attachments/assets/9db6feb8-7c5b-4d7d-8111-15fcf63b6a03" />
+<img width="1123" height="771" alt="image" src="https://github.com/user-attachments/assets/cd0faead-8845-45f9-bf5c-307731b6a0de" />
+<img width="1122" height="738" alt="image" src="https://github.com/user-attachments/assets/2c233921-61d4-4212-a8d5-06b541c455e3" />
+
+
+<img width="1128" height="720" alt="image" src="https://github.com/user-attachments/assets/e536d8b5-389d-4fe9-8550-1578a47fe726" />
+
+
+<img width="1123" height="841" alt="image" src="https://github.com/user-attachments/assets/546ff34f-5a0c-42a2-a6d6-4fa55fc04716" />
+<img width="1126" height="784" alt="image" src="https://github.com/user-attachments/assets/b74119c5-34e7-41ed-8667-2bb7f900c3dc" />
+<img width="1129" height="800" alt="image" src="https://github.com/user-attachments/assets/afabd079-8abf-4e44-b401-1255dd2ce235" />
+
+
+รูปผลการทดลอง
+
+<img width="1470" height="925" alt="image" src="https://github.com/user-attachments/assets/9dc6e8f9-ba85-41ef-934a-e7bc41415bea" />
+<img width="2940" height="1912" alt="image" src="https://github.com/user-attachments/assets/be0f9588-e53d-4f2e-9207-a5287315afb2" />
+<img width="1470" height="954" alt="image" src="https://github.com/user-attachments/assets/db3d509e-74c4-42f1-937a-386037bccc6d" />
+
+
+
+```
 ```
 ---
 
@@ -1558,23 +1626,35 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
-
+LayoutBuilder ให้ค่าความกว้าง/สูงที่ widget นั้นได้รับจริงจาก parent ส่วน MediaQuery ให้ขนาดของทั้งหน้าจอ ไม่ว่า widget จะอยู่ตรงไหนก็ตาม
+ถ้าจะจัด Layout ของ widget นั้น ๆ เอง (เช่นปรับจำนวนคอลัมน์ของ Grid) ให้ใช้ LayoutBuilder เพราะแม่นยำกว่า แต่ถ้าจะเอาขนาดจอโดยรวมไปใช้ตัดสินใจ เช่น เช็คว่าเป็นมือถือหรือแท็บเล็ต ให้ใช้ MediaQuery
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-
+เพราะ ShellRoute ธรรมดา พอสลับ Tab แล้วหน้าเก่าจะถูกทำลายไปเลย State และตำแหน่ง scroll หายหมด
+ส่วน StatefulShellRoute.indexedStack จะเก็บหน้าของแต่ละ Tab ไว้ใน IndexedStack ไม่ได้ทำลายทิ้ง พอสลับกลับมาหน้าก็ยังอยู่ตำแหน่งเดิม ไม่ต้องโหลดใหม่
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+ใช้ Expanded ครอบ Text ชื่อ เพื่อให้มันยืดกินพื้นที่ที่เหลือใน Row (ไม่แย่งพื้นที่กับราคาด้านขวา) และให้ overflow: ellipsis ทำงานได้ ถ้าชื่อยาวเกินจะตัดเป็น ... แทน
+ถ้าลบ Expanded ออก Text จะพยายามขยายตามความยาวของชื่อเต็ม ๆ ทำให้ไปดันราคาล้นออกนอกจอ หรือถ้าชื่อยาวมากอาจเกิด overflow error (แถบเหลือง-ดำ) ได้
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+extra ใช้ส่ง Object ข้ามหน้าได้สะดวก แต่ถ้าผู้ใช้กด Refresh หรือเปิดผ่าน Deep Link ตรง ๆ ค่า extra จะกลายเป็น null ทันที เพราะมันเป็นแค่ข้อมูลที่ค้างอยู่ใน memory ไม่ได้ผูกกับ URL
+วิธีแก้คือต้องมี Fallback โดยดึง id จาก pathParameters แล้วไปค้นหาข้อมูลจริงจาก id นั้นแทน ถ้าหาไม่เจอค่อยแสดงหน้า "ไม่พบข้อมูล"
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
+/ (Home)
+├── /explore (Explore)
+│   └── /explore/destinations/:id (Destination Detail)
+├── /saved (Saved)
+├── /profile (Profile)
+└── /about (About)
 
+ทั้ง 5 กิ่งอยู่ใต้ StatefulShellRoute เดียวกัน (Bottom Navigation 5 แท็บ)
+มีแค่กิ่ง Explore ที่มีหน้าลูกซ้อนอยู่ คือ Destination Detail ซึ่งเข้าถึงผ่านการกด Card แล้ว push ทับขึ้นมา
 ```
 ---
 
