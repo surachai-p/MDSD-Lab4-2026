@@ -1467,21 +1467,21 @@ flutter devices
 
 | # | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผลจริง |
 |---|---|---|---|
-| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | |
-| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | |
-| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | |
-| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | |
-| 5 | กด Back บน Detail | กลับมา Explore Screen | |
-| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | |
-| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | |
-| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | |
-| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | |
-| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | |
-| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
-| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | |
-| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | |
+| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | ✅ |
+| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | ✅ |
+| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | ✅ |
+| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | ✅ |
+| 5 | กด Back บน Detail | กลับมา Explore Screen | ✅ |
+| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | ✅|
+| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ |✅ |
+| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | ✅ |
+| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | ✅ |
+| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | ✅|
+| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) |✅ |
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | ✅|
+| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | ✅ |
+| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ |❌ |
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | ❌ |
 
 ---
 
@@ -1575,9 +1575,10 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
-```
+``image
+บันทึกรูปโค้ด และรูปผลการทดลองที่นี่
+
+``
 ---
 
 ## 📝 คำถามท้ายใบงาน
@@ -1586,23 +1587,47 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
-
+ลักษณะการทำงาน: ดึงข้อมูลขนาดและความสามารถของ "หน้าจออุปกรณ์ทั้งหมด" (Screen / Window Window Size) เช่น ความกว้างรวม, แนวตั้ง/แนวนอน (Orientation), พื้นที่ปลอดภัย (Safe Area).  การเลือกใช้งาน: เหมาะกับการตัดสินใจในระดับโครงสร้างหลักของแอปพลิเคชัน (Global Layout) เช่น การปรับเปลี่ยนเมนูหลักระหว่าง Navigation Bar สำหรับมือถือ กับ Navigation Rail/Drawer สำหรับแท็บเล็ต หรือการเช็กว่าอุปกรณ์ตั้งอยู่แนวตั้งหรือแนวนอน
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-
+ShellRoute (แบบธรรมดา):เมื่อผู้ใช้สลับ Tab ไปมา ตัวหน้าเก่าจะถูกทำลาย (Destroy) ออกจาก Memory.  ผลกระทบด้าน State: State ทั้งหมดในหน้านั้น (เช่น ตำแหน่งการ Scroll, ข้อมูลที่พิมพ์ค้างในช่องค้นหา หรือผลการเลือก Filter) จะหายไปทั้งหมด เมื่อกดกลับมา Tab เดิม หน้าจอจะถูก rebuild ใหม่ตั้งแต่ต้น.  StatefulShellRoute:ใช้โครงสร้างแบบ IndexedStack แยกตามแต่ละ Branch (Tab) เพื่อรักษาสภาพหน้าไว้ตลอดเวลา (Keep-Alive).  ผลกระทบด้าน State: ช่วยคง State และตำแหน่ง Scroll ของทุก Tab ไว้ครบถ้วน. เมื่อสลับ Tab กลับมา ผู้ใช้จะเห็นหน้าจอเดิมในตำแหน่งล่าสุดทันที ทำให้ประสบการณ์ใช้งานลื่นไหลเสมือน Native App
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+เหตุผลที่ต้องใช้:ใน DestinationCard ข้อความชื่อสถานที่จัดวางอยู่ภายใน Row ร่วมกับข้อความแสดงราคา.  การใช้ Expanded จะบอกให้ Text ชื่อสถานที่ยืดขยายใช้พื้นที่ตามความกว้างที่เหลืออยู่ของ Row และเมื่อชื่อยาวเกินพื้นที่ ให้ตัดคำแสดงเป็นจุดไข่ปลา (...) ด้วยคุณสมบัติ overflow: TextOverflow.ellipsis.  สิ่งที่จะเกิดขึ้นเมื่อลบออก:หากชื่อสถานที่ยาวเกินไป Flutter จะไม่สามารถคำนวณขนาดความกว้างจำกัดของ Row ได้ (Unbounded Width) ส่งผลให้เกิดข้อผิดพลาด RenderFlex overflowed by... pixels (ปรากฏแถบสีดำสลับเหลืองเตือนขอบล้น) หรือดันข้อความราคาหลุดขอบหน้าจอไป
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+ข้อจำกัด:การส่ง Object ผ่าน extra จะถูกเก็บไว้ใน Memory ชั่วคราว.  หากผู้ใช้กด Refresh บนเว็บ หรือเปิดลิงก์แบบ Deep Link เข้ามายัง URL ตรง ๆ ตัว Object ที่แนบมากับ extra จะกลายเป็น null เนื่องจาก URL มีเพียงข้อความ Path ไม่ได้บันทึกตัว Object นั้นไว้ด้วย.  แนวทางแก้ไข (Fallback Logic):กำหนด Route ให้รับ pathParameters (เช่น ID ของข้อมูล /destinations/:id) กำกับไว้ที่ URL เสมอ.  เขียน Logic ตรวจสอบค่าก่อนแสดงผล หาก extra เป็น null ให้ใช้ ID จาก pathParameters['id'] ไปค้นหาข้อมูลสำรอง (Fallback) จาก Data Source/API มาแสดงผลแทน
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-
+GoRouter (Router Configuration)[cite: 1]
+│
+└── StatefulShellRoute (ScaffoldWithNavBar)[cite: 1]
+    │
+    ├── Branch 0 (Tab: หน้าหลัก)
+    │   └── GoRoute: '/' (name: 'home')[cite: 1]
+    │       └── HomeScreen[cite: 1]
+    │
+    ├── Branch 1 (Tab: สำรวจ)
+    │   └── GoRoute: '/explore' (name: 'explore')[cite: 1]
+    │       └── ExploreScreen[cite: 1]
+    │           └── GoRoute: 'destinations/:id' (name: 'destination-detail')[cite: 1]
+    │               └── DestinationDetailScreen[cite: 1]
+    │
+    ├── Branch 2 (Tab: บันทึก)
+    │   └── GoRoute: '/saved' (name: 'saved')[cite: 1]
+    │       └── SavedScreen[cite: 1]
+    │
+    ├── Branch 3 (Tab: โปรไฟล์)
+    │   └── GoRoute: '/profile' (name: 'profile')[cite: 1]
+    │       └── ProfileScreen[cite: 1]
+    │
+    └── Branch 4 (Tab: เกี่ยวกับ — เพิ่มใน Checkpoint 5.1)[cite: 1]
+        └── GoRoute: '/about' (name: 'about')[cite: 1]
+            └── AboutScreen[cite: 1]
 ```
 ---
 
