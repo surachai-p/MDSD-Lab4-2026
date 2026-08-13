@@ -2477,22 +2477,23 @@ StatefulShellRoute: จะใช้โครงสร้างการเก็
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-                               [ Travel App ]
-                                         |
-                               (Bottom Navigation Bar)
-                                         |
-    +-----------------+------------------+------------------+------------------+
-    |                 |                  |                  |                  |
-[ Branch 0 ]     [ Branch 1 ]       [ Branch 2 ]       [ Branch 3 ]       [ Branch 4 ]
-    /                 /explore            /saved             /profile           /about
-    |                 |                  |                  |                  |
-(HomeScreen)    (ExploreScreen)     (SavedScreen)      (ProfileScreen)     (AboutScreen)
-    |                 |                  |
-    +-----------------+------------------+
-                      |
-                      |  (Push Navigation)
-                      v
-         /explore/destinations/:id  -------- ( DestinationDetailScreen )
+GoRouter (Root Navigation)
+└── StatefulShellRoute.indexedStack (Bottom Navigation Wrapper)
+    ├── Branch 0 (Home): 
+    │   └── Path: '/'                     → HomeScreen
+    │
+    ├── Branch 1 (Explore): 
+    │   └── Path: '/explore'              → ExploreScreen
+    │       └── Path: 'destinations/:id'  → DestinationDetailScreen (Sub-route)
+    │
+    ├── Branch 2 (Saved): 
+    │   └── Path: '/saved'                → SavedScreen
+    │
+    ├── Branch 3 (Profile): 
+    │   └── Path: '/profile'              → ProfileScreen
+    │
+    └── Branch 4 (About):                 <-- [เพิ่มส่วนนี้เข้ามา]
+        └── Path: '/about'                → AboutScreen
 ```
 ---
 
