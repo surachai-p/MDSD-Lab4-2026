@@ -1775,6 +1775,7 @@ final GoRouter appRouter = GoRouter(
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+<img width="1917" height="1021" alt="image" src="https://github.com/user-attachments/assets/b0e21a59-435d-41d0-8763-15aaca4d8986" />
 
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
