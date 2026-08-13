@@ -1618,7 +1618,26 @@ ID ของ Destination ไว้ใน Path Parameter เช่น /explore/de
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-
+GoRouter (Root Navigation)
+└── StatefulShellRoute.indexedStack (Bottom Navigation Wrapper)
+    │
+    ├── Branch 0 (Home)
+    │   └── Path: '/' 
+    │       └── HomeScreen
+    │
+    ├── Branch 1 (Explore)
+    │   └── Path: '/explore'
+    │       └── ExploreScreen
+    │           └── Path: 'destinations/:id'
+    │               └── DestinationDetailScreen
+    │
+    ├── Branch 2 (Saved)
+    │   └── Path: '/saved'
+    │       └── SavedScreen
+    │
+    └── Branch 3 (Profile)
+        └── Path: '/profile'
+            └── ProfileScreen
 ```
 ---
 
