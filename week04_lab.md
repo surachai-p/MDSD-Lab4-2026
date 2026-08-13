@@ -484,6 +484,12 @@ class DestinationCard extends StatelessWidget {
 > 3. เขียน Comment สั้น ๆ ในโค้ดของตัวเองอธิบายว่าทำไมต้องใช้ `Positioned` คู่กับ `Stack` ถึงจะย้ายตำแหน่ง Badge ได้ (ถ้าใช้ `Positioned` นอก `Stack` จะเกิดอะไรขึ้น)
 
 บันทึกรูปผลการทดลอง
+<img width="920" height="671" alt="Screenshot 2026-08-13 160804" src="https://github.com/user-attachments/assets/b313e912-48f3-45e1-999e-551de96ff647" />
+
+<img width="1269" height="833" alt="Screenshot 2026-08-13 160736" src="https://github.com/user-attachments/assets/c38095e1-5598-489d-872e-a89c35246fb4" />
+
+<img width="917" height="457" alt="Screenshot 2026-08-13 160347" src="https://github.com/user-attachments/assets/e7d26d92-39f7-4982-88f6-71d03abe3cf0" />
+
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
@@ -640,6 +646,13 @@ class _ExploreScreenState extends State<ExploreScreen> {
 > 3. สังเกตว่าค่าทั้งสองตัวเท่ากันหรือไม่ แล้วเขียนสรุป 2-3 บรรทัดเป็น Comment ในโค้ดว่า `MediaQuery.of(context).size.width` (ความกว้างของทั้งหน้าจอ) กับ `LayoutBuilder` `constraints.maxWidth` (ความกว้างที่ Widget นั้น ๆ ได้รับจาก Parent) ต่างกันอย่างไร และควรเลือกใช้ตัวไหนเมื่อไหร่
 
 บันทึกรูปผลการทดลอง
+<img width="734" height="785" alt="Screenshot 2026-08-13 161929" src="https://github.com/user-attachments/assets/8d68727a-8aa7-4190-8a46-5c123d630a02" />
+<img width="582" height="674" alt="Screenshot 2026-08-13 162023" src="https://github.com/user-attachments/assets/7e0e89c2-810f-4ab9-9ca7-9a2935cf1c21" />
+<img width="562" height="451" alt="Screenshot 2026-08-13 162037" src="https://github.com/user-attachments/assets/ab85712f-b0d0-47cc-9010-216c0a15f5e3" />
+<img width="928" height="370" alt="Screenshot 2026-08-13 162158" src="https://github.com/user-attachments/assets/2efea669-95e8-4c54-9788-7c94de1dac43" />
+
+
+
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
@@ -1103,6 +1116,13 @@ class _StatCard extends StatelessWidget {
 > 3. เขียน Comment อธิบายว่าทำไมต้องใส่ `shrinkWrap: true` และ `NeverScrollableScrollPhysics()` เมื่อวาง `ListView` ซ้อนอยู่ใน `Column` ที่อยู่ใน `SingleChildScrollView` อีกที (จะเกิดอะไรขึ้นถ้าไม่ใส่)
 
 บันทึกรูปผลการทดลอง
+<img width="554" height="639" alt="Screenshot 2026-08-13 162303" src="https://github.com/user-attachments/assets/4b4f8d24-9e75-48b5-a881-715fdefccb37" />
+<img width="684" height="633" alt="Screenshot 2026-08-13 162338" src="https://github.com/user-attachments/assets/99141350-185e-4118-84bf-de744f7fd9a2" />
+<img width="637" height="521" alt="Screenshot 2026-08-13 162352" src="https://github.com/user-attachments/assets/ea4f5d7b-e5f5-46f4-b2f7-d11614b5f36f" />
+<img width="1282" height="851" alt="Screenshot 2026-08-13 162427" src="https://github.com/user-attachments/assets/e85a243b-2e6c-4bf8-9b7b-ed2ccf0ff4ab" />
+
+
+
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
@@ -1356,6 +1376,18 @@ final GoRouter appRouter = GoRouter(
 > 3. ทดสอบ Fallback ที่แก้ไข โดยรันแอปบน Chrome (`flutter run -d chrome`) แล้วพิมพ์ URL `/explore/destinations/999` ตรง ๆ ใน Address Bar (เป็น `id` ที่ไม่มีอยู่จริง) — ต้องเห็นหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดงหรือข้อมูลผิดตัว
 
 บันทึกรูปผลการทดลอง
+<img width="848" height="672" alt="Screenshot 2026-08-13 162637" src="https://github.com/user-attachments/assets/5b93c82a-3d02-4ef2-b29b-0157e6f47449" />
+<img width="597" height="645" alt="Screenshot 2026-08-13 162656" src="https://github.com/user-attachments/assets/7ed74840-d63a-4476-84f3-48504cf9f525" />
+<img width="878" height="598" alt="Screenshot 2026-08-13 162711" src="https://github.com/user-attachments/assets/e7e20c67-f263-48eb-b318-a4ca08e30f28" />
+<img width="1901" height="950" alt="Screenshot 2026-08-13 162805" src="https://github.com/user-attachments/assets/e7ad68a5-bae5-4799-8f62-8f171a4ce655" />
+<img width="1907" height="899" alt="Screenshot 2026-08-13 163939" src="https://github.com/user-attachments/assets/6e2cddbb-a233-45ed-a5f3-e513a778a94c" />
+<img width="1907" height="908" alt="Screenshot 2026-08-13 163952" src="https://github.com/user-attachments/assets/820c7be4-5024-463d-b4a8-dffc4c8430bd" />
+<img width="1907" height="885" alt="Screenshot 2026-08-13 164003" src="https://github.com/user-attachments/assets/9fd9d442-a10f-40bb-a01d-bcd34af052db" />
+
+
+
+
+
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
@@ -1547,6 +1579,12 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
+<img width="1907" height="900" alt="Screenshot 2026-08-13 164701" src="https://github.com/user-attachments/assets/4f1aa0e5-6204-4565-b7ac-71f859efaa68" />
+<img width="740" height="223" alt="Screenshot 2026-08-13 164830" src="https://github.com/user-attachments/assets/4a1ba457-f1f0-4e38-b34d-772bebb93f14" />
+<img width="848" height="117" alt="Screenshot 2026-08-13 164854" src="https://github.com/user-attachments/assets/7259cd64-9dbb-4aa9-a252-c6f831cb3954" />
+
+
+
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
 ```
@@ -1558,22 +1596,28 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
-
+MediaQuery.of(context).size.width = ความกว้างของทั้งหน้าจอ (device screen) ไม่ว่า Widget นั้นจะอยู่ลึกแค่ไหนใน Widget tree ก็ได้ค่าเดียวกันเสมอ
+LayoutBuilder → constraints.maxWidth = ความกว้างที่ Widget นั้นได้รับจาก Parent จริงๆ ซึ่งอาจแคบกว่าหน้าจอทั้งหมด (เช่น ถ้าอยู่ใน Row ที่แบ่งพื้นที่กับ Widget อื่น หรืออยู่ใน NavigationRail ที่กินพื้นที่ซ้ายไปแล้ว)
+เลือกใช้เมื่อไหร่: ถ้าต้องการ Responsive ตาม "พื้นที่จริง" ที่ Widget มี (เช่น Grid ในหน้าที่มี Sidebar) ใช้ LayoutBuilder; ถ้าต้องการ Responsive ตาม "อุปกรณ์ทั้งเครื่อง" (เช่น ตัดสินใจใช้ Bottom Nav หรือ Navigation Rail ที่ระดับ App) ใช้ MediaQuery
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-
+ShellRoute ธรรมดา: สลับ Tab แล้ว Flutter จะทำลาย (dispose) หน้าเก่าทิ้ง แล้วสร้างหน้าใหม่ขึ้นมา → State ทั้งหมด (ตำแหน่ง Scroll, ค่าที่พิมพ์ใน Search, Stack ของหน้าที่ push ไว้) หายหมด
+StatefulShellRoute.indexedStack: ใช้ IndexedStack เก็บทุก Branch (Tab) ไว้ใน Memory พร้อมกัน แค่สลับว่าอันไหน "โชว์" → กลับมา Tab เดิม สภาพหน้าจะเหมือนตอนที่ออกไปทุกอย่าง (Keep-Alive)
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+เพราะอยู่ใน Row ร่วมกับ Text ราคา ($xx/คืน) ถ้าไม่ครอบด้วย Expanded, Text ชื่อจะพยายามขยายตามความยาวของข้อความเต็มที่ ถ้าชื่อยาว (เช่น "นครศรีธรรมราช") จะดันราคาล้นออกไปนอกจอ หรือทำให้ Row overflow เกิด error แถบเหลือง-ดำ (RenderFlex overflowed)
+Expanded บังคับให้ Text ชื่อใช้พื้นที่ที่เหลือเท่านั้น แล้วค่อยใช้ overflow: TextOverflow.ellipsis ตัดด้วย ... แทนที่จะดันเลย์เอาต์พัง
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+extra เป็นการส่ง Object ผ่าน Memory ตรงๆ (ไม่ได้เข้ารหัสอยู่ใน URL) ดังนั้นถ้าผู้ใช้กด Refresh หน้าเว็บ หรือเปิด URL ตรงๆ (Deep Link) แอปจะสร้าง Widget tree ใหม่ทั้งหมด → ค่า extra ที่เคยส่งมาจะหายไปกลายเป็น null
+วิธีแก้: ต้องพึ่ง pathParameters['id'] เสมอเป็นแหล่งข้อมูลสำรอง แล้วเขียน Fallback logic แบบที่ app_router.dart ทำ คือ state.extra as Destination? ?? sampleDestinations.firstWhere(...) — ถ้า extra เป็น null ก็ค้นหาจาก id ใน path แทน
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
+<img width="667" height="303" alt="Screenshot 2026-08-13 164953" src="https://github.com/user-attachments/assets/3b82360c-85a6-4de6-914d-7cf280c50dd5" />
 
 ```
 ---
