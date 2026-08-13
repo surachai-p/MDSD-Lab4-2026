@@ -487,6 +487,9 @@ class DestinationCard extends StatelessWidget {
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+
+<img width="612" height="982" alt="image" src="https://github.com/user-attachments/assets/49359e17-5cd5-4815-83ae-e696f8f529d8" />
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
