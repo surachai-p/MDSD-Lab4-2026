@@ -485,8 +485,11 @@ class DestinationCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+
+
 ```
+<img width="1366" height="704" alt="image" src="https://github.com/user-attachments/assets/e3cf534d-8535-4933-a7b5-0ce7e8c60f97" />
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
@@ -641,8 +644,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+
 ```
+<img width="1366" height="765" alt="image" src="https://github.com/user-attachments/assets/fd7716b7-ebd6-4f06-9868-3e56236d046c" />
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
@@ -1104,8 +1108,10 @@ class _StatCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+
 ```
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/43dd1b12-836c-43f1-8d7f-ac01dba80197" />
+
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
 
@@ -1359,6 +1365,7 @@ final GoRouter appRouter = GoRouter(
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+<img width="1365" height="763" alt="image" src="https://github.com/user-attachments/assets/36ba1504-ffcb-4bd1-9c65-3cfa636ae0f8" />
 
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
