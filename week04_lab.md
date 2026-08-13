@@ -2502,7 +2502,8 @@ GoRouter (Root Navigation)
 1. Push โค้ดขึ้น GitHub Repository ส่วนตัว (Branch: `week04-layout-navigation`) 
 2. สร้าง Pull Request พร้อมเขียน Description ว่าทำอะไรไปบ้าง (รวมถึงสรุปสั้น ๆ ว่าการทดลองที่ 8 ทำอะไรสำเร็จบ้าง)
 
-ออกแบบและจัดทำ Navigation Hierarchy:
+```
+1. ออกแบบและจัดทำ Navigation Hierarchy:
 
 วิเคราะห์และออกแบบโครงสร้างการนำทาง (Navigation Hierarchy) ของแอปพลิเคชัน Travel App โดยแบ่งออกเป็น 5 เมนูหลัก (Branches) ผ่านแถบ Bottom Navigation Bar
 
@@ -2520,7 +2521,7 @@ Branch 4 : /about ➔ AboutScreen (หน้าเกี่ยวกับแอ
 
 กำหนดการนำทางแบบ Sub-route (Push Navigation) สำหรับหน้ารายละเอียดสถานที่ท่องเที่ยว /explore/destinations/:id (DestinationDetailScreen) ซึ่งสามารถเข้าถึงได้จากหน้า HomeScreen, ExploreScreen และ SavedScreen
 
-พัฒนาและตกแต่ง UI หน้าจอหลัก:
+2. พัฒนาและตกแต่ง UI หน้าจอหลัก:
 
 พัฒนาหน้า HomeScreen ให้แสดงผลการ์ดสถานที่ท่องเที่ยว (Destination Cards) สถิติการเดินทาง (Travel Stats) และรีวิวยอดนิยม
 
@@ -2529,7 +2530,7 @@ Branch 4 : /about ➔ AboutScreen (หน้าเกี่ยวกับแอ
 📌 สรุปผลการทดลองที่ 8 (Lab 8 Summary)
 สรุปความสำเร็จของการทดลองที่ 8:
 ในการทดลองนี้ ทำการประยุกต์ใช้ระบบการจัดการการนำทาง (Routing & Navigation) ใน Flutter ได้อย่างสำเร็จ โดยสามารถสร้างโครงสร้างแอปพลิเคชันที่รองรับ Bottom Navigation Bar แบบ 5 แท็บ และการส่งผ่านข้อมูล/พาผู้ใช้ไปยังหน้าเจาะลึก (DestinationDetailScreen) ผ่าน Push Navigation ได้อย่างถูกต้องตามไดอะแกรม รวมถึงแสดงผล UI หน้าหลัก และจัดการ State ของสถานที่ที่บันทึกไว้ได้อย่างเป็นระบบ
-
+```
 **กำหนดส่ง:** ก่อนเรียนในสัปดาห์ถัดไป
 
 ---
