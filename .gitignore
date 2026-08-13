@@ -1,0 +1,57 @@
+# Miscellaneous / OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.log
+*.tmp
+*.temp
+*.swp
+*.bak
+
+# IDE & Editor files
+.idea/
+*.iml
+*.ipr
+*.iws
+.history/
+.vscode/
+
+# Flutter / Dart related
+.dart_tool/
+**/.dart_tool/
+build/
+**/build/
+.pub/
+**/.pub/
+**/.pub-cache/
+**/doc/api/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/coverage/
+
+# Android related
+**/android/app/debug/
+**/android/app/profile/
+**/android/app/release/
+**/android/.gradle/
+**/android/captures/
+**/android/local.properties
+**/android/key.properties
+*.keystore
+*.jks
+
+# iOS / macOS related
+**/ios/Flutter/.last_build_id
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/ephemeral/
+**/.swiftpm/
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
