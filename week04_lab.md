@@ -1558,6 +1558,8 @@ GoRoute(
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
 ```
+<img width="1364" height="768" alt="image" src="https://github.com/user-attachments/assets/ac388946-52a5-4b40-9da7-aacaae1f3908" />
+
 ---
 
 ## 📝 คำถามท้ายใบงาน
@@ -1566,19 +1568,53 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+LayoutBuilder ใช้ตรวจสอบพื้นที่ที่ Widget นั้นได้รับจริงจาก Parent
+โดยดูจาก constraints เช่น maxWidth แล้วนำไปปรับ Layout ให้เหมาะกับพื้นที่นั้น
+จึงเหมาะกับการทำ Responsive Layout เฉพาะส่วน เช่น การกำหนดจำนวนคอลัมน์
+ของ GridView ตามความกว้างของพื้นที่ที่มีอยู่
 
+ส่วน MediaQuery ใช้ดูข้อมูลของหน้าจอโดยรวม เช่น ขนาดหน้าจอ ความกว้าง
+ความสูง และข้อมูลเกี่ยวกับ Display/Accessibility จึงเหมาะกับกรณีที่ต้องการ
+ข้อมูลระดับหน้าจอทั้งหมด
+
+สรุปคือ ถ้าต้องการรู้ว่า "พื้นที่ของ Widget มีเท่าไร" ควรใช้ LayoutBuilder
+แต่ถ้าต้องการรู้ว่า "หน้าจอหรืออุปกรณ์มีขนาดเท่าไร" ควรใช้ MediaQuery
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
+StatefulShellRoute เหมาะกับแอปที่มีหลาย Tab เช่น หน้าหลัก สำรวจ บันทึก
+และโปรไฟล์ เพราะสามารถรักษา State และ Navigation Stack ของแต่ละ Branch
+เอาไว้ได้ เมื่อผู้ใช้สลับ Tab กลับไปมา ข้อมูลและตำแหน่งหน้าที่เคยเปิดไว้
+จะยังคงอยู่
 
+ถ้าใช้ ShellRoute ธรรมดา การเปลี่ยน Branch/Tab อาจทำให้ Navigation Stack
+หรือ State ของหน้าก่อนหน้าถูกสร้างหรือเปลี่ยนใหม่ได้ง่ายกว่า
+
+ดังนั้น StatefulShellRoute จึงเหมาะกับ Bottom Navigation ที่ต้องการให้
+แต่ละ Tab มี State และ Navigation Stack ของตัวเอง
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
+ใช้ Expanded ครอบ Text ชื่อ Destination เพื่อให้ Text สามารถใช้พื้นที่
+แนวนอนที่เหลืออยู่ภายใน Row โดยไม่ไปเบียดกับ Widget ราคา
 
+ถ้าลบ Expanded ออก เมื่อชื่อ Destination ยาวเกินพื้นที่ที่เหลือ
+Text อาจใช้พื้นที่มากเกินไปจนชนกับราคาหรือทำให้เกิด Layout Overflow
+โดยเฉพาะเมื่อแสดงผลบนหน้าจอที่มีความกว้างจำกัด
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
+extra เป็นข้อมูลที่ส่งไปพร้อมกับการ Navigate ภายในแอป แต่ข้อมูลนี้
+ไม่ได้ถูกเก็บอยู่ใน URL ดังนั้นเมื่อผู้ใช้เปิด Deep Link โดยตรง
+หรือกด Refresh บน Web ค่า extra อาจไม่มีค่า (null)
 
+วิธีแก้คือไม่ควรพึ่งพา extra เพียงอย่างเดียว แต่ควรใส่ข้อมูลสำคัญ เช่น
+ID ของ Destination ไว้ใน Path Parameter เช่น /explore/destinations/:id
+แล้วให้ Router นำ ID ไปค้นหาข้อมูลจาก sampleDestinations หรือแหล่งข้อมูล
+อื่นอีกครั้งเมื่อ extra เป็น null
+
+ถ้าไม่พบ ID ที่ระบุ ก็ควรแสดงหน้า "ไม่พบข้อมูลที่ต้องการ" แทนการใช้ข้อมูล
+รายการแรกมาแสดงแบบผิดตัว
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
