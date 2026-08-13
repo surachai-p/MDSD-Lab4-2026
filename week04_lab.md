@@ -648,9 +648,192 @@ class _ExploreScreenState extends State<ExploreScreen> {
 > 3. สังเกตว่าค่าทั้งสองตัวเท่ากันหรือไม่ แล้วเขียนสรุป 2-3 บรรทัดเป็น Comment ในโค้ดว่า `MediaQuery.of(context).size.width` (ความกว้างของทั้งหน้าจอ) กับ `LayoutBuilder` `constraints.maxWidth` (ความกว้างที่ Widget นั้น ๆ ได้รับจาก Parent) ต่างกันอย่างไร และควรเลือกใช้ตัวไหนเมื่อไหร่
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+code
+```
+```
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'models/destination.dart';
+import 'screens/explore_screen.dart';
+import 'widgets/destination_card.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'Travel App',
+
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ),
+        useMaterial3: true,
+      ),
+
+      routerConfig: _router,
+    );
+  }
+}
+
+// ─────────────────────────────────────────────
+// Router
+// ─────────────────────────────────────────────
+
+final GoRouter _router = GoRouter(
+  initialLocation: '/explore',
+
+  routes: [
+    GoRoute(
+      path: '/explore',
+      name: 'explore',
+      builder: (context, state) {
+        return const ExploreScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/destination/:id',
+      name: 'destination-detail',
+      builder: (context, state) {
+        final destination =
+            state.extra as Destination?;
+
+        if (destination == null) {
+          return const Scaffold(
+            body: Center(
+              child: Text(
+                'ไม่พบข้อมูล Destination',
+              ),
+            ),
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(destination.name),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(16),
+                  child: Image.network(
+                    destination.imageUrl,
+                    width: double.infinity,
+                    height: 300,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                Text(
+                  destination.name,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      destination.country,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                Text(
+                  destination.description,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                Text(
+                  '\$${destination.price}/คืน',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary,
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      destination.rating.toString(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                Wrap(
+                  spacing: 8,
+                  children: destination.tags
+                      .map(
+                        (tag) => Chip(
+                          label: Text(tag),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
+  ],
+);
+```
+
+```
+image
+```
+<img width="1913" height="1017" alt="image" src="https://github.com/user-attachments/assets/00bcf19b-e2ad-4574-a18b-8a1174356601" />
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
