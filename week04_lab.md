@@ -487,6 +487,8 @@ class DestinationCard extends StatelessWidget {
 
 <img width="1919" height="953" alt="image" src="https://github.com/user-attachments/assets/b4351c56-5a4b-427d-978c-51401c6531e7" />
 
+<img width="970" height="638" alt="image" src="https://github.com/user-attachments/assets/cfe5e63e-0b20-4cf0-92f4-eeca1cae4528" />
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
