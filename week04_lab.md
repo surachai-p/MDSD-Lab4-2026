@@ -1969,6 +1969,8 @@ GoRoute(
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
 ```
 ---
+<img width="1917" height="912" alt="image" src="https://github.com/user-attachments/assets/81910e56-58f5-4438-be9a-c00ad64fe8e9" />
+
 
 ## 📝 คำถามท้ายใบงาน
 
@@ -1976,23 +1978,47 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
-
+MediaQuery: อ่านขนาดหน้าจอทั้งหมด ใช้ปรับ UI ภาพรวมตามอุปกรณ์
+LayoutBuilder: อ่านขนาดจาก Widget ตัวแม่ ใช้ทำ Reusable/Responsive Component
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-
+ShellRoute: ทำลายและสร้างหน้าใหม่ทุกครั้งที่สลับแท็บ (State และ Scroll Position หาย)
+StatefulShellRoute: ซ่อน/แสดงด้วย IndexedStack ช่วยเก็บ State และตำแหน่ง Scroll ของทุกแท็บไว้
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+บังคับให้ข้อความขยายเต็มพื้นที่ที่เหลือ และทำงานร่วมกับ ellipsis ได้
+ถ้าลบออก ข้อความที่ยาวเกินจะส่งผลให้เกิด RenderFlex overflowed (แถบเหลืองดำ)
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+ข้อจำกัด: กด Refresh หรือเปิด Deep Link ค่า extra จะกลายเป็น null
+ทางแก้: ส่ง id ผ่าน URL Path (/destinations/:id) และทำระบบดึงข้อมูลสำรองจาก id หาก extra เป็น null
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-
+[ GoRouter ] (appRouter)
+ └── StatefulShellRoute.indexedStack (ScaffoldWithNavBar)
+      │
+      ├── Branch 0 (Home Tab)
+      │    └── GoRoute: '/' ('home') ──> HomeScreen
+      │
+      ├── Branch 1 (Explore Tab)
+      │    └── GoRoute: '/explore' ('explore') ──> ExploreScreen
+      │         └── [Sub-route] GoRoute: 'destinations/:id' ('destination-detail')
+      │              └── DestinationDetailScreen (Slide Transition)
+      │                   └── Modal Dialog: AlertDialog ('จองสำเร็จ!') ──> [Navigates to '/']
+      │
+      ├── Branch 2 (Saved Tab)
+      │    └── GoRoute: '/saved' ('saved') ──> SavedScreen
+      │         └── [Pushed Route] ──> DestinationDetailScreen (Via context.pushNamed)
+      │
+      ├── Branch 3 (Profile Tab)
+      │    └── GoRoute: '/profile' ('profile') ──> ProfileScreen
+      │
+      └── Branch 4 (About Tab)
+           └── GoRoute: '/about' ('about') ──> AboutScreen
 ```
 ---
 
