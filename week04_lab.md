@@ -2257,13 +2257,13 @@ flutter devices
 | 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | ✅ |
 | 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | ✅  |
 | 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | ✅ |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | ✅ |
 | 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | ✅ |
 | 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | ✅ |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | ✅ 
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | ✅ |
 1. MediaQuery.of(context).size.width คือ ความกว้างของหน้าจออุปกรณ์ทั้งหมด 
 2. constraints.maxWidth คือ ความกว้างสูงสุดที่ Widget แม่ (Parent Widget) ยินยอมให้ Widget ลูกใช้งานจริง (Local Constraint)
-   ควรใช้ LayoutBuilder วัดพื้นที่ของกล่องที่มันอยู่ เพื่อปรับขนาด Widget ย่อยให้พอดีกับกล่องนั้น และใช้ MediaQuery เมื่อต้องการเช็กสเปกขนาดหน้าจอภาพรวมของอุปกรณ์ |
+   ควรใช้ LayoutBuilder วัดพื้นที่ของกล่องที่มันอยู่ เพื่อปรับขนาด Widget ย่อยให้พอดีกับกล่องนั้น และใช้ MediaQuery เมื่อต้องการเช็กสเปกขนาดหน้าจอภาพรวมของอุปกรณ์ 
 
 ---
 
@@ -2357,9 +2357,18 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
-```
+
+<img width="1046" height="241" alt="image" src="https://github.com/user-attachments/assets/86905639-4748-44cf-acaf-28d5b545b843" />
+
+<img width="1229" height="151" alt="image" src="https://github.com/user-attachments/assets/747fdef8-4709-4682-9124-77b1e0985d65" />
+
+<img width="1102" height="161" alt="image" src="https://github.com/user-attachments/assets/131392e3-e58a-4805-ae5e-4c2e1cf91cf7" />
+
+
+<img width="1916" height="907" alt="image" src="https://github.com/user-attachments/assets/5dfbf7bc-53da-445f-994e-0792802b25df" />
+
+
+
 ---
 
 ## 📝 คำถามท้ายใบงาน
@@ -2368,22 +2377,61 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+- MediaQuery ใช้วัดขนาดหน้าจออุปกรณ์ทั้งหมด (Global Screen Size) ใช้เมื่ออยากรู้สเปกหน้าจอภาพรวม เช่น เช็กว่าเป็นมือถือหรือแท็บเล็ตเพื่อเปลี่ยน Theme
+- LayoutBuilder ใช้วัดพื้นที่ว่างที่ Widget แม่ (Parent) อนุญาตให้ใช้ได้(Local Constraints) ใช้เมื่อต้องการจัด UI ย่อยๆ ให้พอดีกับกล่องที่มันอยู่ เช่น Card Grid
 
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
+ตอบ เพราะ Bottom Navigation Bar ต้องการการจดจำสถานะ (State) ของแต่ละแท็บไว้ จึงใช้ StatefulShellRoute ในการรักษา State/Stack ของแต่ละ Tab ไว้
+ผลต่าง
+ - ShellRoute เวลาสลับแท็บ ระบบจะทำลายหน้าจอเดิมแล้วสร้างใหม่ (Rebuild) เสมอ ทำให้ State หายหมด
+ - StatefulShellRoute ทำงานผ่าน IndexedStack เบื้องหลัง แค่ซ่อนหน้าจอที่ไม่ได้ใช้งานเอาไว้ State ทุกอย่างยังอยู่ครบ
 
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+เพื่อบังคับให้ Text ใช้พื้นที่ว่างแนวนอนใน Row ให้เต็มพอดี และป้องกันไม่ให้ข้อความยาวเกินพื้นที่ที่มี
+ถ้าลบออก ข้อมูลชื่อสถานที่มีความยาวมากเกินไป มันจะดัน Widget อื่นๆ จนทะลุกรอบ และ UI จะพัง (RenderFlex Overflowed แถบเหลืองดำ)
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+ข้อจำกัด
+ข้อมูลที่ส่งผ่าน extra จะถูกเก็บไว้ใน RAM (หน่วยความจำชั่วคราว) ถ้าผู้ใช้กด Refresh หน้าเว็บ หรือเข้าเว็บผ่านลิงก์ตรงๆ (Deep Link) ค่า extra จะถูกล้างทิ้ง
+กลายเป็น null ทันที ทำให้แอปแสดงหน้าจอขาวหรือ Error
+วิธีแก้ปัญหา
+เขียน Fallback Logic โดยกำหนดเงื่อนไขหาก extra == null ให้ระบบเปลี่ยนไปดึงค่า id จากพารามิเตอร์บน URL (pathParameters) แทน
+แล้วนำ id ไปค้นหาและโหลดข้อมูลกลับมาแสดงผล เพื่อให้แอปทำงานต่อไปได้ตามปกติ
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
+
+appRouter (Root)
+└── StatefulShellRoute.indexedStack
+    └── ScaffoldWithNavBar
+        │
+        ├── Branch 0: Home 
+        │   └── GoRoute path: '/'  (name: 'home')
+        │       └── HomeScreen
+        │
+        ├── Branch 1: Explore 
+        │   └── GoRoute path: '/explore'  (name: 'explore')
+        │       └── ExploreScreen
+        │           └── GoRoute path: 'destinations/:id'  (name: 'destination-detail')
+        │               └── DestinationDetailScreen
+        │
+        ├── Branch 2: Saved 
+        │   └── GoRoute path: '/saved'  (name: 'saved')
+        │       └── SavedScreen
+        │
+        ├── Branch 3: Profile
+        │   └── GoRoute path: '/profile'  (name: 'profile')
+        │       └── ProfileScreen
+        │
+        └── Branch 4: About 
+            └── GoRoute path: '/about'  (name: 'about')
+                └── AboutScreen
+
 
 ```
 ---
