@@ -1592,28 +1592,28 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
-- **LayoutBuilder:** อ่านพื้นที่จริงที่ **Parent/Container** สั่งลงมา (`BoxConstraints`) ใช้ปรับ Layout ตามขนาดพื้นที่ที่ Widget นั้นได้รับ
+- LayoutBuilder อ่านพื้นที่จริงที่ Parent/Container สั่งลงมา (`BoxConstraints`) ใช้ปรับ Layout ตามขนาดพื้นที่ที่ Widget นั้นได้รับ
     
-- **MediaQuery:** อ่านขนาดและสถานะของ **ทั้งหน้าจอ/Device** (Size, Padding, Orientation) ใช้ทำ Responsive ระดับ Global Screen
+- MediaQuery อ่านขนาดและสถานะของ ทั้งหน้าจอ/Device** (Size, Padding, Orientation) ใช้ทำ Responsive ระดับ Global Screen
 
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-- **StatefulShellRoute:** **รักษา State/Stack** ของแต่ละ Tab ไว้เมื่อสลับหน้า (เช่น Scroll position หรือหน้าย่อยไม่หาย)
+- StatefulShellRoute รักษา State/Stack ของแต่ละ Tab ไว้เมื่อสลับหน้า (เช่น Scroll position หรือหน้าย่อยไม่หาย)
     
-- **ShellRoute ธรรมดา:** **Destroy State** ทิ้งทันทีเมื่อสลับ Tab ทำให้ต้องโหลดใหม่ทุกครั้ง
+- **ShellRoute ธรรมดา Destroy State ทิ้งทันทีเมื่อสลับ Tab ทำให้ต้องโหลดใหม่ทุกครั้ง
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-- **เหตุผลที่ใช้:** ขยาย Text เท่าพื้นที่ที่เหลือใน Row และตัดคำสั้นลงด้วย `overflow: TextOverflow.ellipsis`
+- เหตุผลที่ใช้ ขยาย Text เท่าพื้นที่ที่เหลือใน Row และตัดคำสั้นลงด้วย `overflow: TextOverflow.ellipsis`
     
-- **ถ้าลบออก:** ข้อความจะดัน Element อื่นจนล้น Row เกิด **Overflow Error (แถบเหลือง-ดำ)**
+- ถ้าลบออก ข้อความจะดัน Element อื่นจนล้น Row เกิด Overflow Error (แถบเหลือง-ดำ)
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-- **ข้อจำกัด:** เป็น In-Memory Data เท่านั้น เมื่อ **Refresh Web** หรือเข้าจาก **Deep Link** ข้อมูลจะกลายเป็น `null`
+- ข้อจำกัด เป็น In-Memory Data เท่านั้น เมื่อ Refresh Web หรือเข้าจาก Deep Link ข้อมูลจะกลายเป็น `null`
     
-- **วิธีแก้:** ส่ง ID ผ่าน `pathParameters` หรือ `queryParams` แทน แล้วค่อยดึงข้อมูลใหม่ (หรือทำ Fallback เมื่อ `extra == null`)
+- วิธีแก้ ส่ง ID ผ่าน `pathParameters` หรือ `queryParams` แทน แล้วค่อยดึงข้อมูลใหม่ (หรือทำ Fallback เมื่อ `extra == null`)
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 Root: GoRouter
