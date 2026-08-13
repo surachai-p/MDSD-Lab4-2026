@@ -487,6 +487,9 @@ class DestinationCard extends StatelessWidget {
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+<img width="1541" height="1013" alt="image" src="https://github.com/user-attachments/assets/083e1901-1b16-4b87-a438-f47d33fe6766" />
+<img width="1917" height="1141" alt="image" src="https://github.com/user-attachments/assets/357f0a83-e6d2-4073-9310-6db4fea9c218" />
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
@@ -643,6 +646,9 @@ class _ExploreScreenState extends State<ExploreScreen> {
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+<img width="1552" height="1012" alt="image" src="https://github.com/user-attachments/assets/d553ca55-437c-4513-b09e-765426c01ed2" />
+<img width="1918" height="1147" alt="image" src="https://github.com/user-attachments/assets/48b98328-f1fa-44a7-8c45-36945cd0ed94" />
+
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
@@ -1106,6 +1112,8 @@ class _StatCard extends StatelessWidget {
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+<img width="1547" height="1021" alt="image" src="https://github.com/user-attachments/assets/ee4382f8-4f9f-4136-baa5-b7a9a8decac5" />
+<img width="1918" height="1137" alt="image" src="https://github.com/user-attachments/assets/45b2e60e-35cf-4d55-9d08-9726d2aebc5f" />
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
 
@@ -1201,6 +1209,9 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 ```
+<img width="1540" height="1017" alt="image" src="https://github.com/user-attachments/assets/0c3dc265-627c-466c-80e4-36efe89d9d72" />
+<img width="1918" height="1143" alt="image" src="https://github.com/user-attachments/assets/53d40868-6c3b-4815-8753-cb59782d4fd5" />
+
 
 ---
 
@@ -1359,6 +1370,8 @@ final GoRouter appRouter = GoRouter(
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+<img width="1545" height="1017" alt="image" src="https://github.com/user-attachments/assets/a6a8de2b-7a8c-4ca0-894b-68b9f788b2f5" />
+<img width="1918" height="1146" alt="image" src="https://github.com/user-attachments/assets/6bf8ba9e-4438-412f-9d9b-5524e39ded9c" />
 
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
@@ -1439,21 +1452,21 @@ flutter devices
 
 | # | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผลจริง |
 |---|---|---|---|
-| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | |
-| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | |
-| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | |
-| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | |
-| 5 | กด Back บน Detail | กลับมา Explore Screen | |
-| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | |
-| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | |
-| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | |
-| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | |
-| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | |
-| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
-| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | |
-| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | |
+| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | ✅ |
+| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | ✅ |
+| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | ✅ |
+| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | ✅  |
+| 5 | กด Back บน Detail | กลับมา Explore Screen | ✅ |
+| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | ✅  |
+| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | ✅  |
+| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | ✅  |
+| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | ✅  |
+| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | ✅  |
+| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | ✅  |
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | ✅ |
+| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | ✅  |
+| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | ✅  |
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | ✅  |
 
 ---
 
@@ -1525,6 +1538,11 @@ GoRoute(
   },
 ),
 ```
+<img width="1918" height="652" alt="image" src="https://github.com/user-attachments/assets/3f2c018b-357d-469f-b160-f935688a045d" />
+<img width="1918" height="1140" alt="image" src="https://github.com/user-attachments/assets/8c11ce74-0efb-48ff-aec3-58184b7e3616" />
+<img width="1918" height="1141" alt="image" src="https://github.com/user-attachments/assets/d29fd2c6-7b59-43af-b1a6-eec7eae1ccf5" />
+<img width="1918" height="1145" alt="image" src="https://github.com/user-attachments/assets/bfdbcea3-13f1-4d7b-bd0c-875361bef334" />
+<img width="1918" height="1142" alt="image" src="https://github.com/user-attachments/assets/54a9de42-e654-4d79-a8e2-ae6d1fdd35aa" />
 
 ---
 
@@ -1558,23 +1576,48 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+ความต่าง: MediaQuery วัดขนาดของหน้าจอทั้งหมด ส่วน LayoutBuilder วัดขนาดของ Parent Widget (พื้นที่ที่ได้รับจัดสรร)
+หลักการเลือกใช้:
+ใช้ MediaQuery เมื่อต้องการปรับ Layout ตามขนาดหน้าจออุปกรณ์ (เช่น แยกโหมด Mobile / Tablet)
+ใช้ LayoutBuilder เมื่อต้องการปรับ Layout ตามขนาดพื้นที่ของ Widget แม่ (เช่น ปรับจำนวน Column ใน GridView หรือจัดการ Card ในพื้นที่จำกัด)
 
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
+ความต่างเรื่อง State: ShellRoute จะ Destroy (ทำลาย) หน้าเดิมทิ้งเมื่อสลับ Tab ทำให้ scroll position หรือข้อมูลที่กรอกไว้หายหมด ส่วน StatefulShellRoute จะ Keep-Alive (รักษา State) ของแต่ละ Tab เอาไว้
+เหตุผลที่ใช้: ทำให้ผู้ใช้สลับไปมาตาม Bottom Navigation Bar ได้ โดยหน้าเดิมไม่รีเซ็ตและไม่ต้องโหลดข้อมูลใหม่
 
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
+เหตุผลที่ใช้: บังคับให้ข้อความชื่อ Destination ขยายเต็มพื้นที่ที่เหลือใน Row และทำงานร่วมกับ overflow: TextOverflow.ellipsis เพื่อตัดข้อความยาวเกินให้เป็น ...
+ถ้าลบออก: หากชื่อสถานที่ยาวเกินไป ข้อความจะดันเกินขอบขวา และเกิด Error "Right overflowed by ... pixels" (แถบสีดำ-เหลืองขึ้นเตือน)
 
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
+ข้อจำกัด: ข้อมูลใน extra เก็บไว้ในหน่วยความจำ (In-Memory) เมื่อผู้ใช้กด Refresh Web หรือเข้าผ่าน Deep Link Direct URL ค่า extra จะกลายเป็น null ทำให้แอป Crash หรือหน้าจอขาว
+วิธีแก้:
+ใช้ pathParameters ส่งเฉพาะ id ผ่าน URL เช่น /destinations/123
+เขียน Fallback Logic ในหน้าปลายทาง นำ id จาก URL ไปค้นหาข้อมูลจาก Database/API เพิ่มเติมกรณีที่ extra เป็น null
 
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-
+                          [ AppRouter ]
+                                 │
+                   [ ScaffoldWithNavBar ] ──── (StatefulShellRoute)
+                                 │
+   ┌──────────────┬──────────────┼──────────────┬──────────────┐
+Branch 0       Branch 1       Branch 2       Branch 3       Branch 4
+   │              │              │              │              │
+[Home]        [Explore]       [Saved]       [Profile]       [About]
+                  │              │
+                  └──────┬───────┘
+                         │ (Click Card)
+                         ▼
+             [DestinationDetailScreen]
+             (/explore/destinations/:id)
 ```
 ---
 
