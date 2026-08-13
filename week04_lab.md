@@ -1541,28 +1541,26 @@ GoRoute(
 
 1. **เพิ่มปุ่มบันทึก :** เพิ่ม Icon รูปหัวใจบน `DestinationCard` หรือ `DestinationDetailScreen` (เลือกจุดใดจุดหนึ่งหรือทั้งสองจุด) ให้กดแล้วสลับสถานะ "บันทึกแล้ว / ยังไม่บันทึก" ได้ โดยไอคอนต้องเปลี่ยนรูปตามสถานะ (เช่น `Icons.favorite` ↔ `Icons.favorite_border`)
 
+   <img width="1919" height="1024" alt="image" src="https://github.com/user-attachments/assets/3f7c5b4a-9a8f-4159-aece-3f8653ce9f8a" />
+
 2. **จัดการ State ที่ใช้ร่วมกันข้ามหน้า:** ข้อมูลว่า Destination ไหนถูกบันทึกไว้บ้าง ต้องเข้าถึงได้จากทั้ง Explore Screen, Detail Screen และ Saved Screen พร้อมกัน (คำใบ้: ลองสร้าง Class ง่าย ๆ เก็บ `Set<String> savedIds` ไว้เป็นตัวแปร Global หรือส่งผ่าน Constructor — ยังไม่ต้องใช้ State Management Library ใด ๆ ในระดับนี้)
 
+   <img width="1917" height="1019" alt="image" src="https://github.com/user-attachments/assets/678fea25-5c01-499a-8e60-f4dede991169" />
+   
 3. **แสดงผลใน Saved Screen (Objective 1 & 2):** ให้ `SavedScreen` แสดงรายการ Destination ที่ถูกบันทึกไว้จริง โดยใช้ `GridView` หรือ `ListView` (เลือกอย่างใดอย่างหนึ่ง) และต้องปรับจำนวนคอลัมน์/Layout ตามขนาดหน้าจอด้วย `LayoutBuilder` เหมือนที่ทำใน Explore Screen — ถ้ายังไม่มีรายการที่บันทึกไว้ ให้แสดง Empty State เหมือนเดิม
-
-4. **Navigation (Objective 3 & 4):** กดที่ Card ใน Saved Screen แล้วต้องไปหน้า Detail ได้ถูกต้อง โดยใช้ `context.pushNamed('destination-detail', ...)` แบบเดียวกับหน้าอื่น ๆ
-
-5. **เขียน Comment อธิบายโค้ดของตัวเอง** อย่างน้อย 3 จุดที่คิดว่าซับซ้อนที่สุด เพื่อให้เพื่อนหรืออาจารย์อ่านเข้าใจการทำงานได้
-
-> 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
-
-บันทึกรูปผลการทดลอง
-
-
-<img width="1919" height="1024" alt="image" src="https://github.com/user-attachments/assets/3f7c5b4a-9a8f-4159-aece-3f8653ce9f8a" />
-
 
 <img width="1918" height="1018" alt="image" src="https://github.com/user-attachments/assets/2d11e1cb-9103-4f4d-9c51-32dcd33141c3" />
 
-
 <img width="675" height="981" alt="image" src="https://github.com/user-attachments/assets/841a4cab-8adb-41f1-83a9-ac0823c63c8c" />
 
-**8.4**
+
+4. **Navigation (Objective 3 & 4):** กดที่ Card ใน Saved Screen แล้วต้องไปหน้า Detail ได้ถูกต้อง โดยใช้ `context.pushNamed('destination-detail', ...)` แบบเดียวกับหน้าอื่น ๆ
+<img width="1916" height="1025" alt="image" src="https://github.com/user-attachments/assets/039f5403-974f-4a92-b0c4-6e718763762a" />
+
+5. **เขียน Comment อธิบายโค้ดของตัวเอง** อย่างน้อย 3 จุดที่คิดว่าซับซ้อนที่สุด เพื่อให้เพื่อนหรืออาจารย์อ่านเข้าใจการทำงานได้
+   
+
+> 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 
 ---
