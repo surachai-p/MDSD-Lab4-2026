@@ -484,8 +484,8 @@ class DestinationCard extends StatelessWidget {
 > 3. เขียน Comment สั้น ๆ ในโค้ดของตัวเองอธิบายว่าทำไมต้องใช้ `Positioned` คู่กับ `Stack` ถึงจะย้ายตำแหน่ง Badge ได้ (ถ้าใช้ `Positioned` นอก `Stack` จะเกิดอะไรขึ้น)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+<img width="933" height="919" alt="image" src="https://github.com/user-attachments/assets/2979f205-f70f-4c4e-a324-78a36bea6903" />
+
 ```
 ---
 
@@ -640,9 +640,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
 > 3. สังเกตว่าค่าทั้งสองตัวเท่ากันหรือไม่ แล้วเขียนสรุป 2-3 บรรทัดเป็น Comment ในโค้ดว่า `MediaQuery.of(context).size.width` (ความกว้างของทั้งหน้าจอ) กับ `LayoutBuilder` `constraints.maxWidth` (ความกว้างที่ Widget นั้น ๆ ได้รับจาก Parent) ต่างกันอย่างไร และควรเลือกใช้ตัวไหนเมื่อไหร่
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
+<img width="924" height="961" alt="image" src="https://github.com/user-attachments/assets/4b0f4735-9aa0-4e7e-b897-9adfc0196a39" />
+
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
@@ -1103,8 +1102,10 @@ class _StatCard extends StatelessWidget {
 > 3. เขียน Comment อธิบายว่าทำไมต้องใส่ `shrinkWrap: true` และ `NeverScrollableScrollPhysics()` เมื่อวาง `ListView` ซ้อนอยู่ใน `Column` ที่อยู่ใน `SingleChildScrollView` อีกที (จะเกิดอะไรขึ้นถ้าไม่ใส่)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+<img width="1914" height="1022" alt="image" src="https://github.com/user-attachments/assets/070abb54-2a61-4b42-b256-e2ae844bba6a" />
+<img width="1894" height="933" alt="image" src="https://github.com/user-attachments/assets/5ce5a2c4-d810-423c-a2cc-9a06103f3933" />
+
+
 ```
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
@@ -1356,8 +1357,8 @@ final GoRouter appRouter = GoRouter(
 > 3. ทดสอบ Fallback ที่แก้ไข โดยรันแอปบน Chrome (`flutter run -d chrome`) แล้วพิมพ์ URL `/explore/destinations/999` ตรง ๆ ใน Address Bar (เป็น `id` ที่ไม่มีอยู่จริง) — ต้องเห็นหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดงหรือข้อมูลผิดตัว
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+<img width="1915" height="1029" alt="image" src="https://github.com/user-attachments/assets/2e6f5ca6-b46d-408e-a7ef-039a33dfc310" />
+
 ```
 
 
@@ -1547,8 +1548,14 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
+<img width="1915" height="949" alt="image" src="https://github.com/user-attachments/assets/6ea812ae-c7cc-43f2-903d-b7b5ad85d90d" />
+
+<img width="1907" height="945" alt="image" src="https://github.com/user-attachments/assets/36dc2406-a857-4c45-abfd-54e09d0159b0" />
+<img width="1919" height="1035" alt="image" src="https://github.com/user-attachments/assets/3e558ab7-39a9-4acb-abd0-8945e54056d4" />
+<img width="1919" height="283" alt="image" src="https://github.com/user-attachments/assets/04353989-874d-44bd-abb3-b357c59288e9" />
+
+
+
 ```
 ---
 
@@ -1557,23 +1564,48 @@ GoRoute(
 **ตอบคำถามต่อไปนี้:**
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
-```text
+LayoutBuilder ใช้ดูพื้นที่ของ Widget ที่กำลังแสดง
+ส่วน MediaQuery ใช้ดูขนาดหน้าจอโดยรวม
+ถ้าปรับ Layout ของ Widget ใช้ LayoutBuilder
+ถ้าปรับตามขนาดหน้าจอ ใช้ MediaQuery
 
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
-```text
+เพราะ StatefulShellRoute สามารถจำ State ของแต่ละหน้าได้
+เช่น หน้าสำรวจยังจำข้อมูลที่ค้นหาหรือเลือกไว้
+ถึงแม้จะสลับไปหน้าอื่นแล้วกลับมา
 
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
-```text
+เพื่อให้ชื่อสถานที่ใช้พื้นที่ที่เหลือใน Row และไม่ชนกับราคา
+ถ้าลบ Expanded ออก ชื่อที่ยาวอาจทำให้เกิดข้อความล้นหน้าจอ
+หรือเกิด RenderFlex overflow ได้
 
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
-```text
+ข้อมูลใน extra ไม่ได้อยู่ใน URL
+ถ้าเปิด Deep Link หรือกด Refresh บน Web ข้อมูลอาจหาย
+วิธีแก้คือส่ง ID ผ่าน URL แล้วใช้ ID ไปค้นหาข้อมูลใหม่
 
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
-```text
+  Travel App
+                 │
+       ┌─────────┼─────────┐
+       ▼         ▼         ▼
+    หน้าหลัก    สำรวจ      บันทึก
+                 │
+                 ▼
+          Search / Filter
+                 │
+                 ▼
+           Destination
+                 │
+                 ▼
+               Detail
+              /      \
+             ▼        ▼
+           ❤️ Save   จองเลย
 
 ```
 ---
