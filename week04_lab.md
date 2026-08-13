@@ -484,9 +484,17 @@ class DestinationCard extends StatelessWidget {
 > 3. เขียน Comment สั้น ๆ ในโค้ดของตัวเองอธิบายว่าทำไมต้องใช้ `Positioned` คู่กับ `Stack` ถึงจะย้ายตำแหน่ง Badge ได้ (ถ้าใช้ `Positioned` นอก `Stack` จะเกิดอะไรขึ้น)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+Code
+```
+<img width="637" height="871" alt="image" src="https://github.com/user-attachments/assets/3a4740d3-c87a-4863-8d0b-0d30409ab0d7" />
+
+```
+image
+```
+<img width="1913" height="1071" alt="image" src="https://github.com/user-attachments/assets/e6827880-d9ba-45a6-89ff-e2eb373c29e0" />
+
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
@@ -640,9 +648,192 @@ class _ExploreScreenState extends State<ExploreScreen> {
 > 3. สังเกตว่าค่าทั้งสองตัวเท่ากันหรือไม่ แล้วเขียนสรุป 2-3 บรรทัดเป็น Comment ในโค้ดว่า `MediaQuery.of(context).size.width` (ความกว้างของทั้งหน้าจอ) กับ `LayoutBuilder` `constraints.maxWidth` (ความกว้างที่ Widget นั้น ๆ ได้รับจาก Parent) ต่างกันอย่างไร และควรเลือกใช้ตัวไหนเมื่อไหร่
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+code
+```
+```
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'models/destination.dart';
+import 'screens/explore_screen.dart';
+import 'widgets/destination_card.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'Travel App',
+
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ),
+        useMaterial3: true,
+      ),
+
+      routerConfig: _router,
+    );
+  }
+}
+
+// ─────────────────────────────────────────────
+// Router
+// ─────────────────────────────────────────────
+
+final GoRouter _router = GoRouter(
+  initialLocation: '/explore',
+
+  routes: [
+    GoRoute(
+      path: '/explore',
+      name: 'explore',
+      builder: (context, state) {
+        return const ExploreScreen();
+      },
+    ),
+
+    GoRoute(
+      path: '/destination/:id',
+      name: 'destination-detail',
+      builder: (context, state) {
+        final destination =
+            state.extra as Destination?;
+
+        if (destination == null) {
+          return const Scaffold(
+            body: Center(
+              child: Text(
+                'ไม่พบข้อมูล Destination',
+              ),
+            ),
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(destination.name),
+          ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment:
+                  CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(16),
+                  child: Image.network(
+                    destination.imageUrl,
+                    width: double.infinity,
+                    height: 300,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                Text(
+                  destination.name,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      destination.country,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                Text(
+                  destination.description,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                Text(
+                  '\$${destination.price}/คืน',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary,
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      destination.rating.toString(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                Wrap(
+                  spacing: 8,
+                  children: destination.tags
+                      .map(
+                        (tag) => Chip(
+                          label: Text(tag),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
+  ],
+);
+```
+
+```
+image
+```
+<img width="1913" height="1017" alt="image" src="https://github.com/user-attachments/assets/00bcf19b-e2ad-4574-a18b-8a1174356601" />
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
@@ -1103,9 +1294,234 @@ class _StatCard extends StatelessWidget {
 > 3. เขียน Comment อธิบายว่าทำไมต้องใส่ `shrinkWrap: true` และ `NeverScrollableScrollPhysics()` เมื่อวาง `ListView` ซ้อนอยู่ใน `Column` ที่อยู่ใน `SingleChildScrollView` อีกที (จะเกิดอะไรขึ้นถ้าไม่ใส่)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+```code
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'models/destination.dart';
+import 'screens/home_screen.dart';
+import 'screens/explore_screen.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'Travel App',
+
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ),
+        useMaterial3: true,
+      ),
+
+      routerConfig: _router,
+    );
+  }
+}
+
+// ─────────────────────────────────────────────
+// Router
+// ─────────────────────────────────────────────
+
+final GoRouter _router = GoRouter(
+  // เปิดแอปมาให้แสดง Home ก่อน
+  initialLocation: '/',
+
+  routes: [
+    // ─────────────────────────────────────────
+    // Home
+    // ─────────────────────────────────────────
+    GoRoute(
+      path: '/',
+      name: 'home',
+      builder: (context, state) {
+        return const HomeScreen();
+      },
+    ),
+
+    // ─────────────────────────────────────────
+    // Explore
+    // ─────────────────────────────────────────
+    GoRoute(
+      path: '/explore',
+      name: 'explore',
+      builder: (context, state) {
+        return const ExploreScreen();
+      },
+    ),
+
+    // ─────────────────────────────────────────
+    // Destination Detail
+    // ─────────────────────────────────────────
+    GoRoute(
+      path: '/destination/:id',
+      name: 'destination-detail',
+      builder: (context, state) {
+        final destination = state.extra as Destination?;
+
+        if (destination == null) {
+          return const Scaffold(
+            body: Center(
+              child: Text(
+                'ไม่พบข้อมูล Destination',
+              ),
+            ),
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(destination.name),
+          ),
+
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // รูปภาพ Destination
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+
+                  child: Image.network(
+                    destination.imageUrl,
+                    width: double.infinity,
+                    height: 300,
+                    fit: BoxFit.cover,
+
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 300,
+                        color: Colors.grey.shade200,
+                        child: const Center(
+                          child: Icon(
+                            Icons.image_not_supported,
+                            size: 48,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // ชื่อ
+                Text(
+                  destination.name,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                // ประเทศ
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.grey,
+                    ),
+
+                    const SizedBox(width: 4),
+
+                    Text(
+                      destination.country,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                // รายละเอียด
+                Text(
+                  destination.description,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // ราคา
+                Text(
+                  '\$${destination.price}/คืน',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary,
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                // Rating
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+
+                    const SizedBox(width: 4),
+
+                    Text(
+                      destination.rating.toString(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // Tags
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+
+                  children: destination.tags
+                      .map(
+                        (tag) => Chip(
+                          label: Text(tag),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
+  ],
+);
 ```
+```
+image
+```
+<img width="1917" height="903" alt="image" src="https://github.com/user-attachments/assets/6a01fcd2-c77d-46de-9e69-a76d7f58a6d2" />
+<img width="1905" height="402" alt="image" src="https://github.com/user-attachments/assets/1fd91a05-7ad5-4000-8448-07303287770c" />
+
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
 
@@ -1359,6 +1775,7 @@ final GoRouter appRouter = GoRouter(
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
+<img width="1917" height="1021" alt="image" src="https://github.com/user-attachments/assets/b0e21a59-435d-41d0-8763-15aaca4d8986" />
 
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
@@ -1439,21 +1856,22 @@ flutter devices
 
 | # | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผลจริง |
 |---|---|---|---|
-| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | |
-| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | |
-| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | |
-| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | |
-| 5 | กด Back บน Detail | กลับมา Explore Screen | |
-| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | |
-| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | |
-| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | |
-| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | |
-| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | |
-| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
-| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | |
-| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | |
+| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar |✓ |
+| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid |✓ |
+| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | ✓|
+| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง |✓ |
+| 5 | กด Back บน Detail | กลับมา Explore Screen |✓ |
+| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย |✓ |
+| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ |✓ |
+| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ |✓ |
+| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home |✓ |
+| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | ✓|
+| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) |✓ |
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล |✓ |
+| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง |✓ |
+| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ |✓ |
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง |✓ MediaQuery.size.width = ความกว้างของหน้าจอ
+constraints.maxWidth = ความกว้างสูงสุดที่ Widget ได้รับจาก Layout |
 
 ---
 
@@ -1551,6 +1969,8 @@ GoRoute(
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
 ```
 ---
+<img width="1917" height="912" alt="image" src="https://github.com/user-attachments/assets/81910e56-58f5-4438-be9a-c00ad64fe8e9" />
+
 
 ## 📝 คำถามท้ายใบงาน
 
@@ -1558,23 +1978,47 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
-
+MediaQuery: อ่านขนาดหน้าจอทั้งหมด ใช้ปรับ UI ภาพรวมตามอุปกรณ์
+LayoutBuilder: อ่านขนาดจาก Widget ตัวแม่ ใช้ทำ Reusable/Responsive Component
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-
+ShellRoute: ทำลายและสร้างหน้าใหม่ทุกครั้งที่สลับแท็บ (State และ Scroll Position หาย)
+StatefulShellRoute: ซ่อน/แสดงด้วย IndexedStack ช่วยเก็บ State และตำแหน่ง Scroll ของทุกแท็บไว้
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+บังคับให้ข้อความขยายเต็มพื้นที่ที่เหลือ และทำงานร่วมกับ ellipsis ได้
+ถ้าลบออก ข้อความที่ยาวเกินจะส่งผลให้เกิด RenderFlex overflowed (แถบเหลืองดำ)
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+ข้อจำกัด: กด Refresh หรือเปิด Deep Link ค่า extra จะกลายเป็น null
+ทางแก้: ส่ง id ผ่าน URL Path (/destinations/:id) และทำระบบดึงข้อมูลสำรองจาก id หาก extra เป็น null
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-
+[ GoRouter ] (appRouter)
+ └── StatefulShellRoute.indexedStack (ScaffoldWithNavBar)
+      │
+      ├── Branch 0 (Home Tab)
+      │    └── GoRoute: '/' ('home') ──> HomeScreen
+      │
+      ├── Branch 1 (Explore Tab)
+      │    └── GoRoute: '/explore' ('explore') ──> ExploreScreen
+      │         └── [Sub-route] GoRoute: 'destinations/:id' ('destination-detail')
+      │              └── DestinationDetailScreen (Slide Transition)
+      │                   └── Modal Dialog: AlertDialog ('จองสำเร็จ!') ──> [Navigates to '/']
+      │
+      ├── Branch 2 (Saved Tab)
+      │    └── GoRoute: '/saved' ('saved') ──> SavedScreen
+      │         └── [Pushed Route] ──> DestinationDetailScreen (Via context.pushNamed)
+      │
+      ├── Branch 3 (Profile Tab)
+      │    └── GoRoute: '/profile' ('profile') ──> ProfileScreen
+      │
+      └── Branch 4 (About Tab)
+           └── GoRoute: '/about' ('about') ──> AboutScreen
 ```
 ---
 
