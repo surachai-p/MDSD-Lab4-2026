@@ -1,4 +1,4 @@
-# 📱 ใบงานการทดลองที่ 4
+<img width="1917" height="1140" alt="image" src="https://github.com/user-attachments/assets/623395ee-0a64-4696-adb9-f8dbe36e612a" /># 📱 ใบงานการทดลองที่ 4
 # Flutter Layout & Navigation — Multi-Screen Travel App
 
 > **รายวิชา:** การพัฒนาซอฟต์แวร์สำหรับอุปกรณ์เคลื่อนที่  
@@ -675,6 +675,8 @@ class DestinationCard extends StatelessWidget {
   }
 }
 ```
+<img width="1917" height="1140" alt="image" src="https://github.com/user-attachments/assets/de986913-9f69-4be2-9034-aac58ae9ada0" />
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
@@ -987,6 +989,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
   }
 }
 ```
+<img width="1917" height="1140" alt="image" src="https://github.com/user-attachments/assets/4b53e388-38a2-4802-9b5f-15e2cddd012e" />
+
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
@@ -1711,6 +1715,8 @@ class _StatCard extends StatelessWidget {
   }
 }
 ```
+<img width="1917" height="1140" alt="image" src="https://github.com/user-attachments/assets/2a4ae676-3ac1-482b-90c8-2e64008024eb" />
+
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
 
@@ -2201,6 +2207,7 @@ final GoRouter appRouter = GoRouter(
   ),
 );
 ```
+<img width="1917" height="1140" alt="image" src="https://github.com/user-attachments/assets/24f14aca-65e4-42d6-8fc0-f9d30ed588af" />
 
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
@@ -2390,8 +2397,38 @@ GoRoute(
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
+import 'package:flutter/material.dart';
+import '../models/destination.dart';
+
+class SavedManager {
+  // เก็บ Set ของ ID สถานที่ที่บันทึกไว้ (ใช้ Set เพื่อป้องกัน ID ซ้ำ และค้นหาได้รวดเร็ว)
+  static final Set<String> _savedIds = {};
+
+  // ใช้ ValueNotifier เพื่อส่งสัญญาณแจ้งเตือนไปยังหน้าต่าง ๆ เมื่อรายการบันทึกมีการอัปเดต
+  static final ValueNotifier<int> savedNotifier = ValueNotifier<int>(0);
+
+  // ตรวจสอบว่า ID นี้ถูกบันทึกไว้แล้วหรือไม่
+  static bool isSaved(String id) => _savedIds.contains(id);
+
+  // สลับสถานะ บันทึก / ยกเลิกบันทึก
+  static void toggleSave(String id) {
+    if (_savedIds.contains(id)) {
+      _savedIds.remove(id);
+    } else {
+      _savedIds.add(id);
+    }
+    // แจ้งเตือน Listener ทุกตัวที่ฟังค่านี้อยู่ให้ Rebuild หน้าจอ
+    savedNotifier.value++;
+  }
+
+  // ดึงรายการ Destination ทั้งหมดที่ถูกบันทึกไว้
+  static List<Destination> get savedDestinations {
+    return sampleDestinations.where((d) => _savedIds.contains(d.id)).toList();
+  }
+}
 ```
+<img width="1917" height="1140" alt="image" src="https://github.com/user-attachments/assets/e0620d4f-8529-4819-a538-ce987def4841" />
+
 ---
 
 ## 📝 คำถามท้ายใบงาน
@@ -2400,23 +2437,61 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+ความต่าง:
 
+MediaQuery ใช้สำหรับวัดขนาดและคุณลักษณะของ หน้าจออุปกรณ์โดยรวม (Screen Width/Height)
+
+LayoutBuilder ใช้สำหรับวัดขนาดพื้นที่ขอบเขตจำกัดของ Parent Widget (Box Constraints) ที่ครอบมันอยู่
+
+หลักการเลือกใช้:
+
+ใช้ MediaQuery เมื่อ: ต้องการทำ Responsive Design ระดับแอปพลิเคชัน (App-level) เช่น การเช็กว่าอุปกรณ์เป็นมือถือหรือแท็บเล็ต เพื่อปรับแสดง Bottom Navigation Bar หรือการเช็กแนวตั้ง/แนวนอน (Portrait/Landscape)
+
+ใช้ LayoutBuilder เมื่อ: ต้องการทำ Responsive Design ระดับส่วนประกอบ (Component-level) เช่น การคำนวณจำนวนคอลัมน์ใน GridView ให้ปรับตามความกว้างของพื้นที่ที่มีอยู่จริง หรือการปรับ Layout ของ Card เมื่อนำไปวางในพื้นที่ขนาดต่างกัน
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
+เหตุผลที่เลือกใช้: ในแอปพลิเคชันที่มี Bottom Navigation Bar ผู้ใช้คาดหวังว่าเมื่อสลับ Tab ไปมา ข้อมูลหรือสถานะการสโครลในหน้าเดิมจะไม่หายไป การใช้ StatefulShellRoute ช่วยให้รักษาสภาพหน้าจอของแต่ละ Tab ไว้ได้ตลอดเวลา
 
+ผลต่างเรื่อง State Management:
+
+ShellRoute (ธรรมดา): เมื่อมีการสลับ Tab หน้าจอเดิมจะถูก Destroy (Dispose) ทิ้ง และสร้างใหม่ (Rebuild) เมื่อสลับกลับมา ทำให้ State ทั้งหมดของหน้านั้นสูญหาย (เช่น ตำแหน่งการสโครล หรือข้อความที่พิมพ์ค้างไว้ใน SearchBar จะหายไป)
+
+StatefulShellRoute: จะใช้โครงสร้างการเก็บแบบ IndexedStack ทำให้สามารถ คงสภาพ State ของแต่ละ Tab ไว้ได้ แม้ผู้ใช้จะสลับไปทำงานในหน้า Tab อื่นอยู่ก็ตาม
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
+เหตุผลที่ใช้: เพื่อบังคับให้ Text ขยายตัวและตีกรอบอยู่ภายในพื้นที่ที่เหลืออยู่ของ Container แม่ ไม่ให้ขยายความกว้างเกินขอบเขตของ Card
 
+ผลกระทบหากลบออก: หากสถานที่ท่องเที่ยวมักมีชื่อยาวมากๆ ตัวหนังสือจะดันพิกเซลเกินขอบเขตของ Card ทำให้เกิดข้อผิดพลาด RenderFlex overflowed by ... pixels (ขึ้นแถบสีดำ-เหลืองเตือน) การใส่ Expanded ช่วยให้ข้อความตัดขึ้นบรรทัดใหม่ หรือแสดงจุดไข่ปลา (...) เมื่อข้อความยาวเกินไป ทำให้ Layout ไม่พัง
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
+ข้อจำกัด: ข้อมูลใน extra ถูกส่งเป็น Object ใน RAM ไม่ได้แสดงหรือจัดเก็บไว้บน URL Bar ดังนั้น เมื่อผู้ใช้กด Refresh หน้าเว็บ (F5) หรือเข้าหน้าจอผ่านการกดลิงก์ตรง (Deep Link) Go Router จะหา Object ใน extra ไม่เจอ (มีค่าเป็น null) ส่งผลให้แอป Crash หรือแสดงหน้าสีแดง
 
+แนวทางแก้ไข:
+
+1. ส่งข้อมูลระบุตัวตนผ่าน Path Parameters บน URL แทน (เช่น /explore/destinations/dest_001)
+
+2. ในหน้าปลายทาง ให้เขียนระบบดึงข้อมูลสำรอง (Fallback) โดยเช็กว่าหาก extra เป็น null ให้นำ id จาก Path Parameter ไปค้นหาข้อมูลใน Database หรือ List ข้อมูลกลางมาแสดงแทน
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-
+                                [ App Center ]
+                                      │
+                         (StatefulShellRoute.indexedStack)
+                                      │
+       ┌──────────────────┬───────────┴───────────┬──────────────────┐
+       │                  │                       │                  │
+ [ Branch 0 ]       [ Branch 1 ]            [ Branch 2 ]       [ Branch 3 ]       [ Branch 4 ]
+   / (Home)           /explore                /saved             /profile           /about
+       │                  │                       │                  │                  │
+ (HomeScreen)     (ExploreScreen)           (SavedScreen)      (ProfileScreen)    (AboutScreen)
+                          │                       │
+                          ├───────────────────────┤
+                          │ (Push Navigation)     │ (Push Navigation)
+                          ▼                       ▼
+                   /explore/destinations/:id  ────────── ( DestinationDetailScreen )
 ```
 ---
 
