@@ -1567,20 +1567,20 @@ GoRoute(
 **ตอบคำถามต่อไปนี้:**
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
-```LayoutBuilder ใช้ดูพื้นที่ที่ Widget ได้รับจริง ส่วน MediaQuery ใช้ดูขนาดและข้อมูลของหน้าจอ โดยใช้ LayoutBuilder เมื่อต้องปรับ Layout ตามพื้นที่ของ Widget และใช้ MediaQuery เมื่อต้องการข้อมูลของหน้าจอ
-
+```
+LayoutBuilder ใช้ดูพื้นที่ที่ Widget ได้รับจริง ส่วน MediaQuery ใช้ดูขนาดและข้อมูลของหน้าจอ โดยใช้ LayoutBuilder เมื่อต้องปรับ Layout ตามพื้นที่ของ Widget และใช้ MediaQuery เมื่อต้องการข้อมูลของหน้าจอ
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
-```เพราะ StatefulShellRoute สามารถรักษา State และตำแหน่งของแต่ละ Tab ใน Bottom Navigation ไว้ได้ เมื่อสลับหน้า State เดิมจึงไม่หาย
-
+```
+เพราะ StatefulShellRoute สามารถรักษา State และตำแหน่งของแต่ละ Tab ใน Bottom Navigation ไว้ได้ เมื่อสลับหน้า State เดิมจึงไม่หาย
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
-```เพื่อให้ Text ใช้พื้นที่ที่เหลือใน Row และป้องกันข้อความล้นหน้าจอ หากไม่ใช้ อาจเกิด RenderFlex overflow
-
+```
+เพื่อให้ Text ใช้พื้นที่ที่เหลือใน Row และป้องกันข้อความล้นหน้าจอ หากไม่ใช้ อาจเกิด RenderFlex overflow
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
-```ข้อมูลใน extra ไม่อยู่ใน URL จึงอาจหายเมื่อเปิด Deep Link หรือ Refresh หน้าเว็บ แก้โดยส่ง id ผ่าน pathParameters แล้วค้นหาข้อมูลจาก ID อีกครั้ง
-
+``
+`ข้อมูลใน extra ไม่อยู่ใน URL จึงอาจหายเมื่อเปิด Deep Link หรือ Refresh หน้าเว็บ แก้โดยส่ง id ผ่าน pathParameters แล้วค้นหาข้อมูลจาก ID อีกครั้ง
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```
