@@ -1294,9 +1294,234 @@ class _StatCard extends StatelessWidget {
 > 3. เขียน Comment อธิบายว่าทำไมต้องใส่ `shrinkWrap: true` และ `NeverScrollableScrollPhysics()` เมื่อวาง `ListView` ซ้อนอยู่ใน `Column` ที่อยู่ใน `SingleChildScrollView` อีกที (จะเกิดอะไรขึ้นถ้าไม่ใส่)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+```code
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import 'models/destination.dart';
+import 'screens/home_screen.dart';
+import 'screens/explore_screen.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      title: 'Travel App',
+
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ),
+        useMaterial3: true,
+      ),
+
+      routerConfig: _router,
+    );
+  }
+}
+
+// ─────────────────────────────────────────────
+// Router
+// ─────────────────────────────────────────────
+
+final GoRouter _router = GoRouter(
+  // เปิดแอปมาให้แสดง Home ก่อน
+  initialLocation: '/',
+
+  routes: [
+    // ─────────────────────────────────────────
+    // Home
+    // ─────────────────────────────────────────
+    GoRoute(
+      path: '/',
+      name: 'home',
+      builder: (context, state) {
+        return const HomeScreen();
+      },
+    ),
+
+    // ─────────────────────────────────────────
+    // Explore
+    // ─────────────────────────────────────────
+    GoRoute(
+      path: '/explore',
+      name: 'explore',
+      builder: (context, state) {
+        return const ExploreScreen();
+      },
+    ),
+
+    // ─────────────────────────────────────────
+    // Destination Detail
+    // ─────────────────────────────────────────
+    GoRoute(
+      path: '/destination/:id',
+      name: 'destination-detail',
+      builder: (context, state) {
+        final destination = state.extra as Destination?;
+
+        if (destination == null) {
+          return const Scaffold(
+            body: Center(
+              child: Text(
+                'ไม่พบข้อมูล Destination',
+              ),
+            ),
+          );
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(destination.name),
+          ),
+
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // รูปภาพ Destination
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+
+                  child: Image.network(
+                    destination.imageUrl,
+                    width: double.infinity,
+                    height: 300,
+                    fit: BoxFit.cover,
+
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 300,
+                        color: Colors.grey.shade200,
+                        child: const Center(
+                          child: Icon(
+                            Icons.image_not_supported,
+                            size: 48,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // ชื่อ
+                Text(
+                  destination.name,
+                  style: const TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                // ประเทศ
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.grey,
+                    ),
+
+                    const SizedBox(width: 4),
+
+                    Text(
+                      destination.country,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
+                // รายละเอียด
+                Text(
+                  destination.description,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // ราคา
+                Text(
+                  '\$${destination.price}/คืน',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary,
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                // Rating
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: Colors.amber,
+                    ),
+
+                    const SizedBox(width: 4),
+
+                    Text(
+                      destination.rating.toString(),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // Tags
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+
+                  children: destination.tags
+                      .map(
+                        (tag) => Chip(
+                          label: Text(tag),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
+  ],
+);
 ```
+```
+image
+```
+<img width="1917" height="903" alt="image" src="https://github.com/user-attachments/assets/6a01fcd2-c77d-46de-9e69-a76d7f58a6d2" />
+<img width="1905" height="402" alt="image" src="https://github.com/user-attachments/assets/1fd91a05-7ad5-4000-8448-07303287770c" />
+
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
 
