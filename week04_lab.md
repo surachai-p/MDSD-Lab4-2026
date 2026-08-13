@@ -485,8 +485,191 @@ class DestinationCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
 ```
+
+**โค้ดที่แก้ไขจริง (`lib/widgets/destination_card.dart`) — Checkpoint 3 ครบทั้ง 3 ข้อ:**
+
+```dart
+import 'package:flutter/material.dart';
+import '../models/destination.dart';
+
+class DestinationCard extends StatelessWidget {
+  final Destination destination;
+  final VoidCallback onTap;
+
+  const DestinationCard({
+    super.key,
+    required this.destination,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.network(
+                      destination.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (ctx, err, _) => Container(
+                        color: Colors.grey.shade200,
+                        child: const Icon(Icons.image_not_supported, size: 48),
+                      ),
+                    ),
+                  ),
+                  // Badge Rating — ย้ายมามุมซ้ายล่างของรูป (Checkpoint 3.1)
+                  // ต้องอยู่เป็น Child ตรงของ Stack เท่านั้น Positioned ถึงจะทำงาน
+                  // เพราะ Positioned สั่ง "ตำแหน่งอ้างอิงจากขอบของ Stack" โดยตรง
+                  // ถ้าเอา Positioned ไปวางนอก Stack (เช่น ใน Column ปกติ) จะ throw error
+                  // ทันที เพราะ Positioned ต้องมี Stack เป็น Parent ที่รู้วิธีจัดวางแบบ
+                  // absolute ให้ (Column/Row จัดวางแบบ relative ตามลำดับ ไม่รองรับ Positioned)
+                  Positioned(
+                    bottom: 8,
+                    left: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 14),
+                          const SizedBox(width: 4),
+                          Text(
+                            destination.rating.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            destination.name,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          '\$${destination.price}/คืน',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on,
+                            size: 13, color: Colors.grey),
+                        const SizedBox(width: 2),
+                        Text(
+                          destination.country,
+                          style: const TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    Wrap(
+                      spacing: 6,
+                      runSpacing: 4,
+                      children: destination.tags
+                          .map(
+                            (tag) => Chip(
+                              label: Text(tag, style: const TextStyle(fontSize: 10)),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                              backgroundColor: Colors.blue.shade50,
+                              shape: const StadiumBorder(
+                                  side: BorderSide(color: Colors.transparent)),
+                              padding: EdgeInsets.zero,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    const SizedBox(height: 4),
+                    // Row "พร้อมเข้าพัก" (Checkpoint 3.2) — Expanded ครอบ Text กันไว้
+                    // เผื่อพื้นที่การ์ดแคบแล้วข้อความยาวเกิน จะได้ตัดด้วย ellipsis แทนที่
+                    // จะดันให้ Row ล้นออกนอกการ์ด (Overflow)
+                    Row(
+                      children: [
+                        const Icon(Icons.bed, size: 13, color: Colors.grey),
+                        const SizedBox(width: 4),
+                        Expanded(
+                          child: Text(
+                            'พร้อมเข้าพัก',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
@@ -641,7 +824,71 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+![alt text](image-3.png)
+![alt text](image-4.png)
+![alt text](image-5.png)
+![alt text](image-6.png)
+```
+
+**โค้ดที่แก้ไขจริง (`lib/screens/explore_screen.dart` เมธอด `_buildGrid()`) — Checkpoint 4.1 ครบทั้ง 3 ข้อ:**
+
+```dart
+Widget _buildGrid() {
+  // ── LayoutBuilder: ปรับ Column Count ตามมาตรฐาน M3 Window Size Classes ──
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      // MediaQuery.of(context).size.width = ความกว้างของ "ทั้งหน้าจอ/หน้าต่าง" เสมอ
+      // ไม่ว่า Widget นี้จะถูกฝังอยู่ลึกแค่ไหนในต้นไม้ Widget ก็ตาม
+      // ส่วน constraints.maxWidth (จาก LayoutBuilder) = ความกว้างที่ "Parent widget ตรงนี้"
+      // ส่งลงมาให้จริง ๆ ซึ่งอาจแคบกว่าหน้าจอทั้งหมด ถ้ามี Sidebar/Padding/NavigationRail
+      // กินพื้นที่ไปก่อนถึง Widget นี้ (Checkpoint 4.1)
+      // ค่าที่สังเกตได้จริง: บนหน้านี้ทั้งสองค่าเท่ากันเสมอ เพราะ ExploreScreen ไม่มี
+      // Sidebar/Padding ซ้ายขวาที่กิน Layout ก่อนถึง GridView — แต่ในหน้าที่มี
+      // Sidebar/NavigationRail/Multi-pane layout สองค่านี้จะต่างกันชัดเจน
+      // สรุปหลักการเลือกใช้: จะจัด Layout "เฉพาะพื้นที่ของ Widget นี้เอง" ให้ใช้ LayoutBuilder
+      // เพราะสะท้อนพื้นที่จริงที่ได้รับ ถ้าจะตัดสินใจอะไรที่ผูกกับ "ขนาดอุปกรณ์/หน้าจอโดยรวม"
+      // (เช่น จะโชว์ Bottom Navigation หรือ Navigation Rail) ให้ใช้ MediaQuery แทน
+      final screenWidth = MediaQuery.of(context).size.width;
+      debugPrint(
+          'screenWidth(MediaQuery)=$screenWidth vs maxWidth(LayoutBuilder)=${constraints.maxWidth}');
+
+      int crossAxisCount;
+      if (constraints.maxWidth < 600) {
+        crossAxisCount = 2; // Compact: Phone
+      } else if (constraints.maxWidth < 840) {
+        crossAxisCount = 3; // Medium: Tablet Portrait
+      } else if (constraints.maxWidth < 1200) {
+        crossAxisCount = 4; // Expanded: Tablet Landscape / Desktop
+      } else {
+        crossAxisCount = 5; // Large (Checkpoint 4.1): จอกว้างมาก/Desktop ใหญ่
+      }
+
+      return GridView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          childAspectRatio: 0.72,
+        ),
+        itemCount: _filteredDestinations.length,
+        itemBuilder: (context, index) {
+          final destination = _filteredDestinations[index];
+          return DestinationCard(
+            destination: destination,
+            onTap: () {
+              context.pushNamed(
+                'destination-detail',
+                pathParameters: {'id': destination.id},
+                extra: destination,
+              );
+            },
+          );
+        },
+      );
+    },
+  );
+}
 ```
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
@@ -1104,7 +1351,79 @@ class _StatCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+![alt text](image-7.png)
+![alt text](image-8.png)
+```
+
+**โค้ดที่แก้ไขจริง (`lib/screens/home_screen.dart`) — Checkpoint 4.3 ครบทั้ง 3 ข้อ:**
+
+```dart
+@override
+Widget build(BuildContext context) {
+  // Checkpoint 4.3.1: โชว์ครบทุกรายการแทนที่จะตัดแค่ 3 อันแรก
+  final featured = sampleDestinations;
+
+  // Checkpoint 4.3.2: เรียง Destination ตาม rating มากไปน้อย แล้วหยิบ 3 อันดับแรก
+  // สร้าง List ใหม่ก่อน (toList()) เพื่อไม่ไป sort ทับ sampleDestinations ตัวจริง
+  // ซึ่งเป็น Global List ที่หน้าอื่น (Explore ฯลฯ) ใช้อ้างอิงลำดับเดิมอยู่ด้วย
+  final topRated = sampleDestinations.toList()
+    ..sort((a, b) => b.rating.compareTo(a.rating));
+  final topReviews = topRated.take(3).toList();
+
+  return Scaffold(
+    // ... Header + Featured Section (ListView.separated) เดิม ใช้ featured ตัวใหม่ที่ไม่ตัด take(3) แล้ว
+    // ... Quick Stats เดิม
+  );
+}
+```
+
+ส่วน "รีวิวยอดนิยม" ที่เพิ่มใหม่ต่อจาก Quick Stats (Checkpoint 4.3.3):
+
+```dart
+// ── รีวิวยอดนิยม (Checkpoint 4.3.2) ──────────────────
+const Text('รีวิวยอดนิยม',
+    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+const SizedBox(height: 12),
+// ListView นี้ถูกวางซ้อนอยู่ใน Column ที่อยู่ใน SingleChildScrollView อีกที
+// ต้องใส่ shrinkWrap: true เพราะ ListView ปกติจะพยายามขยายเต็ม MainAxis
+// (สูงไม่จำกัด) ซึ่งขัดกับ Column ที่ต้องรู้ความสูงจำกัดของลูกแต่ละตัว
+// ถ้าไม่ใส่จะเจอ Error "RenderBox was not laid out" ทันที
+// ส่วน physics: NeverScrollableScrollPhysics() ปิดการเลื่อนของ ListView ตัวใน
+// เพื่อให้การเลื่อนทั้งหน้าเป็นหน้าที่ของ SingleChildScrollView ตัวนอกแทน
+// ถ้าไม่ใส่ จะมี ScrollView ซ้อนกัน 2 ชั้นแย่งกันรับ Gesture การเลื่อน
+// ทำให้เลื่อนหน้าไม่ลื่น/กระตุก
+ListView.separated(
+  shrinkWrap: true,
+  physics: const NeverScrollableScrollPhysics(),
+  itemCount: topReviews.length,
+  separatorBuilder: (_, __) => const Divider(height: 20),
+  itemBuilder: (context, index) {
+    final dest = topReviews[index];
+    return Row(
+      children: [
+        Container(
+          width: 28,
+          height: 28,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.blue.shade50,
+            shape: BoxShape.circle,
+          ),
+          child: Text('${index + 1}',
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(dest.name,
+              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+        ),
+        const Icon(Icons.star, color: Colors.amber, size: 16),
+        const SizedBox(width: 4),
+        Text('${dest.rating}'),
+      ],
+    );
+  },
+),
 ```
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
@@ -1357,7 +1676,132 @@ final GoRouter appRouter = GoRouter(
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+![alt text](image-9.png)
+```
+
+**ไฟล์ใหม่ที่สร้าง (`lib/screens/about_screen.dart`) — Checkpoint 5.1.1:**
+
+```dart
+import 'package:flutter/material.dart';
+
+class AboutScreen extends StatelessWidget {
+  const AboutScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('เกี่ยวกับ')),
+      body: const Center(
+        child: Padding(
+          padding: EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.flight_takeoff, size: 64, color: Colors.blue),
+              SizedBox(height: 16),
+              Text('Travel App',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              SizedBox(height: 8),
+              Text(
+                'แอปตัวอย่างสำหรับใบงานการทดลองที่ 4\n'
+                'Flutter Layout & Navigation — Multi-Screen Travel App',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+**ไฟล์ใหม่ที่สร้าง (`lib/screens/destination_not_found_screen.dart`) — Checkpoint 5.1.2:**
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+class DestinationNotFoundScreen extends StatelessWidget {
+  const DestinationNotFoundScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('ไม่พบข้อมูล')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 64, color: Colors.grey.shade400),
+            const SizedBox(height: 16),
+            const Text('ไม่พบข้อมูลที่ต้องการ',
+                style: TextStyle(fontSize: 16, color: Colors.grey)),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () => context.go('/explore'),
+              child: const Text('กลับไปหน้าสำรวจ'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+**โค้ดที่แก้ไขจริง (`lib/router/app_router.dart`) — ส่วนที่เปลี่ยน:**
+
+```dart
+// 1) เพิ่ม NavigationDestination "เกี่ยวกับ" ใน ScaffoldWithNavBar
+NavigationDestination(
+  icon: Icon(Icons.info_outline),
+  selectedIcon: Icon(Icons.info),
+  label: 'เกี่ยวกับ',
+),
+
+// 2) แก้ Fallback Logic ใน route destination-detail (Checkpoint 5.1.2)
+// เดิม: orElse: () => sampleDestinations.first — หา id ไม่เจอก็เงียบ ๆ โชว์รายการแรกแทน
+// ใหม่: ค้นหาด้วย manual loop แล้วเช็ค null เอง ถ้าไม่เจอค่อยส่งไปหน้า NotFound
+pageBuilder: (context, state) {
+  final id = state.pathParameters['id'];
+  Destination? destination = state.extra as Destination?;
+  if (destination == null) {
+    for (final d in sampleDestinations) {
+      if (d.id == id) {
+        destination = d;
+        break;
+      }
+    }
+  }
+
+  final child = destination == null
+      ? const DestinationNotFoundScreen()
+      : DestinationDetailScreen(destination: destination);
+
+  return CustomTransitionPage(
+    child: child,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return SlideTransition(
+        position: Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
+            .animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+        child: child,
+      );
+    },
+  );
+},
+
+// 3) เพิ่ม Branch 4 ใหม่ใน appRouter
+StatefulShellBranch(
+  routes: [
+    GoRoute(
+      path: '/about',
+      name: 'about',
+      builder: (context, state) => const AboutScreen(),
+    ),
+  ],
+),
 ```
 
 
@@ -1439,21 +1883,21 @@ flutter devices
 
 | # | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผลจริง |
 |---|---|---|---|
-| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | |
-| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | |
-| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | |
-| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | |
-| 5 | กด Back บน Detail | กลับมา Explore Screen | |
-| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | |
-| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | |
-| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | |
-| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | |
-| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | |
-| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
-| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | |
-| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | |
+| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | ✅ |
+| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | ✅ |
+| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | ✅ |
+| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | ✅ |
+| 5 | กด Back บน Detail | กลับมา Explore Screen | ✅ |
+| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | ✅ |
+| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | ✅ |
+| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | ✅ |
+| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | ✅ |
+| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | ✅ |
+| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | ✅ |
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | ✅ |
+| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | ✅ |
+| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | ✅ |
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | ✅ |
 
 ---
 
@@ -1548,8 +1992,159 @@ GoRoute(
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
+![alt text](image-10.png)
+![alt text](image-11.png)
+![alt text](image-12.png)
 ```
+
+**1) State กลาง (`lib/state/saved_destinations.dart`) — เก็บว่า Destination ไหนถูกบันทึกไว้บ้าง:**
+
+```dart
+import 'package:flutter/foundation.dart';
+
+// เก็บ ID ของ Destination ที่ผู้ใช้กดบันทึกไว้ เป็น Global Singleton ตัวเดียวทั้งแอป
+// ใช้ ChangeNotifier แทน State Management Library เพื่อให้ Explore, Detail และ Saved Screen
+// อ่าน/แก้ไขข้อมูลชุดเดียวกันได้ และ Widget ที่ Listen ผ่าน ListenableBuilder จะรีเฟรชอัตโนมัติ
+// ทุกครั้งที่มีการ toggle จากหน้าไหนก็ตาม โดยไม่ต้องส่ง Callback ไล่ผ่านทุกชั้น (Prop Drilling)
+class SavedDestinationsController extends ChangeNotifier {
+  SavedDestinationsController._internal();
+  static final SavedDestinationsController instance =
+      SavedDestinationsController._internal();
+
+  final Set<String> _savedIds = {};
+
+  Set<String> get savedIds => _savedIds;
+
+  bool isSaved(String id) => _savedIds.contains(id);
+
+  void toggle(String id) {
+    if (_savedIds.contains(id)) {
+      _savedIds.remove(id);
+    } else {
+      _savedIds.add(id);
+    }
+    notifyListeners();
+  }
+}
+```
+
+**2) ปุ่มหัวใจใน `DestinationCard` (มุมขวาบนของรูป, เพิ่มต่อจาก Checkpoint 3):**
+
+```dart
+Positioned(
+  top: 8,
+  right: 8,
+  child: ListenableBuilder(
+    listenable: SavedDestinationsController.instance,
+    builder: (context, _) {
+      final saved = SavedDestinationsController.instance.isSaved(destination.id);
+      return GestureDetector(
+        onTap: () => SavedDestinationsController.instance.toggle(destination.id),
+        child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.6),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            saved ? Icons.favorite : Icons.favorite_border,
+            color: saved ? Colors.redAccent : Colors.white,
+            size: 16,
+          ),
+        ),
+      );
+    },
+  ),
+),
+```
+
+**3) `SavedScreen` ที่ใช้งานได้จริง (`lib/screens/saved_screen.dart`):**
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../models/destination.dart';
+import '../state/saved_destinations.dart';
+import '../widgets/destination_card.dart';
+
+class SavedScreen extends StatelessWidget {
+  const SavedScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('บันทึกไว้')),
+      // ListenableBuilder ฟัง SavedDestinationsController ตัวเดียวกับ DestinationCard และ
+      // DestinationDetailScreen เมื่อผู้ใช้กดหัวใจจากหน้าไหนก็ตาม หน้านี้จะ rebuild ตามทันที
+      body: ListenableBuilder(
+        listenable: SavedDestinationsController.instance,
+        builder: (context, _) {
+          final savedDestinations = sampleDestinations
+              .where((d) => SavedDestinationsController.instance.isSaved(d.id))
+              .toList();
+
+          if (savedDestinations.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.favorite, size: 64, color: Colors.pink.shade200),
+                  const SizedBox(height: 16),
+                  const Text('ยังไม่มีรายการที่บันทึก',
+                      style: TextStyle(fontSize: 16, color: Colors.grey)),
+                ],
+              ),
+            );
+          }
+
+          // ปรับจำนวนคอลัมน์ตามความกว้างหน้าจอ แบบเดียวกับ ExploreScreen (M3 Breakpoints)
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              int crossAxisCount;
+              if (constraints.maxWidth < 600) {
+                crossAxisCount = 2;
+              } else if (constraints.maxWidth < 840) {
+                crossAxisCount = 3;
+              } else if (constraints.maxWidth < 1200) {
+                crossAxisCount = 4;
+              } else {
+                crossAxisCount = 5;
+              }
+
+              return GridView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.72,
+                ),
+                itemCount: savedDestinations.length,
+                itemBuilder: (context, index) {
+                  final destination = savedDestinations[index];
+                  return DestinationCard(
+                    destination: destination,
+                    onTap: () => context.pushNamed(
+                      'destination-detail',
+                      pathParameters: {'id': destination.id},
+                      extra: destination,
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+**คอมเมนต์อธิบายจุดซับซ้อนที่สุด 3 จุด (ตามข้อ 5 ของโจทย์):**
+1. `SavedDestinationsController` เป็น Singleton + `ChangeNotifier` — เหตุผลที่ต้องเป็น Global ตัวเดียว เพราะ 3 หน้า (Explore, Detail, Saved) ต้องอ่าน/เขียนชุดข้อมูลเดียวกัน ถ้าไม่มี State Management Library การส่งผ่าน Constructor จะยุ่งยากมาก (ต้องไล่ส่งผ่านทุกชั้นของ Route Tree)
+2. `ListenableBuilder` ครอบเฉพาะจุดที่ต้องรีเฟรช (ปุ่มหัวใจ) ไม่ใช่ทั้ง Widget — เพื่อลด rebuild ที่ไม่จำเป็น
+3. การกรอง `sampleDestinations` ด้วย `.where(isSaved)` ใหม่ทุกครั้งที่ `build()` ใน `SavedScreen` — ไม่เก็บ Cache ไว้แยกต่างหาก เพื่อการันตีว่าข้อมูลตรงกับ State ล่าสุดเสมอ ไม่มีปัญหาข้อมูลไม่ sync
 ---
 
 ## 📝 คำถามท้ายใบงาน
@@ -1558,23 +2153,81 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+MediaQuery.of(context).size.width คืนค่าความกว้างของ "หน้าจอ/หน้าต่างทั้งหมด" เสมอ ไม่ว่า
+Widget ที่เรียกจะอยู่ลึกแค่ไหนในต้นไม้ Widget ก็ตาม ส่วน LayoutBuilder ให้ constraints
+(BoxConstraints) ที่เป็นพื้นที่จริงที่ "Parent widget ตรงนั้น" ส่งลงมาให้ ซึ่งอาจแคบกว่าความกว้าง
+หน้าจอทั้งหมด เช่น ถ้ามี Sidebar/NavigationRail/Padding กินพื้นที่ไปก่อนแล้ว
 
+จากการทดลองจริงใน Checkpoint 4.1 (ExploreScreen ไม่มี Sidebar หรือ Padding ซ้าย-ขวาก่อนถึง
+GridView) พบว่า screenWidth (MediaQuery) กับ constraints.maxWidth (LayoutBuilder) มีค่าเท่ากัน
+แต่ถ้าเป็นหน้าที่มี Multi-pane Layout หรือ NavigationRail ค่าทั้งสองจะต่างกันชัดเจน
+
+หลักการเลือกใช้:
+- ใช้ LayoutBuilder เมื่อต้องการจัด Layout ของ Widget นั้นให้ตอบสนองกับ "พื้นที่ที่ตัวเองได้รับจริง"
+  เช่น จำนวนคอลัมน์ของ Grid ที่อยู่แค่ส่วนหนึ่งของหน้าจอ (ถูกต้องและแม่นยำกว่าเสมอในกรณีนี้)
+- ใช้ MediaQuery เมื่อต้องการตัดสินใจที่ผูกกับ "ขนาดอุปกรณ์/หน้าจอโดยรวม" เช่น จะเลือกแสดง
+  Bottom Navigation Bar หรือ Navigation Rail หรือจะเปิด/ปิดฟีเจอร์บางอย่างตามขนาดจอทั้งเครื่อง
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
+ShellRoute ธรรมดาสร้างเป็น Route Tree เดียว เมื่อผู้ใช้สลับ Tab ระบบจะไปสร้างหน้าจอใหม่ตาม path
+ที่เปลี่ยน ทำให้ Widget/State ของหน้าเดิม (เช่น ตำแหน่ง Scroll, ค่าที่พิมพ์ใน Search Box, Navigator
+Stack ของหน้าที่ push ซ้อนไว้) ถูกทำลายทิ้งไปด้วย พอสลับกลับมาหน้าเดิมจะเริ่มต้นใหม่ทุกครั้ง
 
+StatefulShellRoute.indexedStack ใช้ IndexedStack ภายใน ทำให้แต่ละ Branch (Tab) มี Navigator
+และ Widget Tree เป็นของตัวเอง ถูกสร้างขึ้นครั้งเดียวแล้วเก็บไว้ (Keep-Alive) เวลาสลับ Tab จริง ๆ
+แล้วคือการสลับว่าจะโชว์ Branch ไหนใน Stack เฉยๆ ไม่ได้ทำลาย Branch อื่น ผลคือ State ของแต่ละ
+Tab (ตำแหน่ง Scroll, ค่าค้นหาใน ExploreScreen, Stack ของหน้า Detail ที่ push ไว้) ยังอยู่ครบ
+เมื่อสลับกลับมา ตรงกับที่ทดสอบในตารางข้อ 6 (กด Tab หน้าหลักแล้วกลับมา Explore ต้องยัง
+มี Stack ค้างอยู่)
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
+Text ชื่อ Destination อยู่ใน Row ร่วมกับ Text ราคา (เช่น "$120/คืน") ซึ่งมีความกว้างไม่แน่นอน
+ตามความยาวชื่อสถานที่ Expanded บอกให้ Text ชื่อ "ยืดกินพื้นที่ว่างที่เหลือทั้งหมดใน Row" หลังจาก
+หัก MainAxis ที่ Text ราคาใช้ไปแล้ว และเมื่อคู่กับ overflow: TextOverflow.ellipsis จะทำให้ชื่อที่
+ยาวเกินพื้นที่ถูกตัดจบด้วย "..." แทนที่จะดันเลย์เอาต์
 
+ถ้าลบ Expanded ออก Text ชื่อจะกลายเป็น "Unconstrained width" ภายใน Row (เพราะ Row ไม่บีบ
+ความกว้างให้ Child ที่ไม่ใช่ Flexible/Expanded) ถ้าชื่อยาวเกินพื้นที่ที่มีจริงจะเกิด Layout Overflow
+Error ("A RenderFlex overflowed by X pixels") และเห็นแถบเหลือง-ดำ (Overflow indicator) ที่ขอบ
+ขวาของ Text แทน อีกทั้ง Text ราคาที่อยู่ท้าย Row ก็อาจถูกดันจนล้นออกนอกการ์ดไปด้วย
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
+extra ส่ง Object ผ่านหน่วยความจำ (in-memory) ตอน Navigate เท่านั้น ไม่ได้ถูกเข้ารหัสอยู่ใน URL
+เมื่อผู้ใช้กด Refresh หน้าเว็บ หรือเปิดผ่าน Deep Link URL ตรง ๆ (เช่นวาง URL ใน Address Bar แล้ว
+Enter) Flutter Web จะสร้าง Widget Tree ขึ้นมาใหม่ทั้งหมดจาก URL โดยไม่มี State เดิมในหน่วยความจำ
+ให้ดึงมาใช้ ทำให้ extra กลายเป็น null ทันที
 
+วิธีแก้คือต้องออกแบบให้ทุกหน้าที่ต้องใช้ extra มี Fallback เสมอ โดยดึงค่าจาก pathParameters
+(เช่น :id ใน URL ซึ่งฝังอยู่ใน URL จริง ๆ และรอดจากการ Refresh) แล้วไปค้นหาข้อมูลจากแหล่งข้อมูล
+ต้นทาง (เช่น List/Database/API) แทน ดังในโค้ด app_router.dart:
+  final destination = state.extra as Destination? ?? (ค้นหาจาก id ใน sampleDestinations)
+และถ้าหา id นั้นไม่เจอจริง ๆ (เช่น URL ผิด) ต้องแสดงหน้า "ไม่พบข้อมูล" แทนที่จะปล่อยให้ null ทำให้
+แอป Crash หรือเงียบ ๆ โชว์ข้อมูลผิดตัว — แก้ไว้แล้วใน Checkpoint 5.1 ข้อ 2 โดยเปลี่ยนจาก
+firstWhere + orElse: () => sampleDestinations.first เดิม มาเป็นการค้นหาด้วย manual loop
+แล้วเช็ค null เอง ถ้าไม่เจอค่อยส่งไปหน้า DestinationNotFoundScreen แทน (ดูโค้ดจริงใน
+app_router.dart)
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
+GoRouter
+└─ StatefulShellRoute.indexedStack (ScaffoldWithNavBar + Bottom Navigation, 5 Tabs)
+   ├─ Branch 0 (หน้าหลัก):     '/'                        → HomeScreen
+   ├─ Branch 1 (สำรวจ):        '/explore'                 → ExploreScreen
+   │                              └─ 'destinations/:id'    → DestinationDetailScreen
+   │                                                          (หรือ DestinationNotFoundScreen
+   │                                                           ถ้าหา id ไม่เจอ) — push ซ้อนบน
+   │                                                           Branch 1 มีปุ่ม Back กลับ Explore
+   ├─ Branch 2 (บันทึก):        '/saved'                   → SavedScreen
+   ├─ Branch 3 (โปรไฟล์):       '/profile'                 → ProfileScreen
+   └─ Branch 4 (เกี่ยวกับ):      '/about'                   → AboutScreen
 
+* ทั้ง 5 Branch อยู่ใน IndexedStack เดียวกัน สลับ Tab แล้ว State ของแต่ละ Branch ไม่หาย
+* เฉพาะ Branch 1 มี Sub-route ซ้อนอยู่ (destination-detail) เข้าถึงได้จาก DestinationCard
+  ในหน้า Home และ Explore ผ่าน context.pushNamed('destination-detail', ...)
+* errorBuilder ระดับบนสุด (นอก StatefulShellRoute) ดักกรณี URL ไม่ตรงกับ Route ใดเลยในระบบ
 ```
 ---
 
