@@ -1552,9 +1552,12 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
-```
+
+<img width="1919" height="1024" alt="image" src="https://github.com/user-attachments/assets/3f7c5b4a-9a8f-4159-aece-3f8653ce9f8a" />
+
+<img width="1918" height="1018" alt="image" src="https://github.com/user-attachments/assets/2d11e1cb-9103-4f4d-9c51-32dcd33141c3" />
+
+
 ---
 
 ## 📝 คำถามท้ายใบงาน
@@ -1562,23 +1565,44 @@ GoRoute(
 **ตอบคำถามต่อไปนี้:**
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
-```text
-
+```
+MediaQuery อ่านค่าขนาดของ "ทั้งหน้าจออุปกรณ์" (Viewport Size) ส่วน LayoutBuilder อ่านค่าขนาด "พื้นที่ที่ Widget นั้นได้รับจาก Parent" (Constraints)
+เลือกใช้ MediaQuery เมื่อต้องการอ้างอิงขนาดรวมทั้งหน้าจอ หรือคุณสมบัติของอุปกรณ์ เช่น ความสูงจอ, Safe Area, Orientation
+เลือกใช้ LayoutBuilder เมื่อต้องการทำ Responsive Component ย่อย เช่น การปรับจำนวนคอลัมน์ใน Grid หรือขนาดของ Card ตามพื้นที่ container ที่มันวางอยู่
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
-```text
-
+```
+ShellRoute = มีโครงหน้าร่วมกัน แต่ไม่ได้เน้นจำสถานะของแต่ละ Tab
+StatefulShellRoute = มีโครงหน้าร่วมกัน และจำสถานะของแต่ละ Tab แยกกัน
+เลยใช้ StatefulShellRoute เพื่อรักษาสภาพหน้าจอ (Preserve State) ของแต่ละแท็บใน Bottom Navigation ไว้เมื่อสลับไปมา
+ผลต่างเรื่อง คือ ShellRoute ธรรมดา เมื่อสลับแท็บ หน้าเดิมจะถูกทำลาย (Dispose) และสร้างใหม่ ทำให้ สูญเสีย State
+StatefulShellRoute: ใช้ StatefulShellBranch แยก Navigation Stack ของแต่ละแท็บออกจากกันทำให้ State ไม่หาย เมื่อสลับแท็บกลับมา หน้าจอจะยังอยู่ที่เดิม
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
-```text
-
+```
+เพื่อให้ Text ใช้พื้นที่ที่เหลืออยู่ภายใน Row อย่างเหมาะสม และจำกัดขอบเขตของข้อความให้อยู่ในพื้นที่การ์ด ถ้าลบออกจะมีชื่อสถานที่ยาวมากๆ ข้อความจะพยายามขยายความกว้างออกไปเรื่อยๆ
+จนเกินขอบเขตของการ์ด ส่งผลให้เกิด RenderFlex Overflow Error
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
-```text
-
+```
+extra = ส่งข้อมูลสะดวก แต่ไม่เหมาะกับ Deep Link / Refresh
+path/query parameter = ข้อมูลอยู่ใน URL จึงเปิดตรงหรือ Refresh แล้วข้อมูลยังอยู่ได้
+วิธีแก้คือ ให้ส่งข้อมูลสำคัญผ่าน URL เช่น path parameter หรือ query parameter แทน
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
-```text
+```
+Root (GoRouter)
+ │
+ └── StatefulShellRoute (ScaffoldWithNavBar)
+      ├── Branch 1: Home (/home)
+      │    └── Route: Destination Detail (/home/destinations/:id)
+      │
+      ├── Branch 2: Explore (/explore)
+      │    └── Route: Destination Detail (/explore/destinations/:id)
+      │
+      ├── Branch 3: Saved (/saved)
+      │
+      └── Branch 4: About (/about)
 
 ```
 ---
