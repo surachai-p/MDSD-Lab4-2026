@@ -1553,9 +1553,16 @@ GoRoute(
 
 บันทึกรูปผลการทดลอง
 
+
 <img width="1919" height="1024" alt="image" src="https://github.com/user-attachments/assets/3f7c5b4a-9a8f-4159-aece-3f8653ce9f8a" />
 
+
 <img width="1918" height="1018" alt="image" src="https://github.com/user-attachments/assets/2d11e1cb-9103-4f4d-9c51-32dcd33141c3" />
+
+
+<img width="675" height="981" alt="image" src="https://github.com/user-attachments/assets/841a4cab-8adb-41f1-83a9-ac0823c63c8c" />
+
+**8.4**
 
 
 ---
