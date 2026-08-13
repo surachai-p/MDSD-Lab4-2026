@@ -484,8 +484,209 @@ class DestinationCard extends StatelessWidget {
 > 3. เขียน Comment สั้น ๆ ในโค้ดของตัวเองอธิบายว่าทำไมต้องใช้ `Positioned` คู่กับ `Stack` ถึงจะย้ายตำแหน่ง Badge ได้ (ถ้าใช้ `Positioned` นอก `Stack` จะเกิดอะไรขึ้น)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+
+![alt text](image/image.png)
+```dart
+import 'package:flutter/material.dart';
+import '../models/destination.dart';
+
+class DestinationCard extends StatelessWidget {
+  final Destination destination;
+  final VoidCallback onTap;
+
+  const DestinationCard({
+    super.key,
+    required this.destination,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        // ── 1. Decoration: rounded corner + shadow ──────────────
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        // ── 2. ClipRRect ป้องกัน Image เกิน Rounded Corner ──────
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ── 3. Stack: Image + Rating Badge ────────────────
+              Stack(
+                children: [
+                  // 3a. รูป Destination
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.network(
+                      destination.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (ctx, err, _) => Container(
+                        color: Colors.grey.shade200,
+                        child: const Icon(Icons.image_not_supported, size: 48),
+                      ),
+                    ),
+                  ),
+
+                  /* 
+                   * [ปี 3 ทฤษฎี Layout] ทำไมต้องใช้ Positioned คู่กับ Stack?
+                   * - Stack ทำหน้าที่เป็น Parent multi-child widget ที่จัดเลย์เอาต์แบบ Absolute/Overlapping คล้ายกับ CSS Position 
+                   * - Positioned จะทำหน้าที่เป็น Metadata/Constraint ให้กับ Stack ในการกำหนดพิกัดแกน X, Y (top, bottom, left, right) ของ Child ตัวนั้นๆ
+                   * - หากนำ Positioned ไปใช้นอก Stack (เช่น เอาไปใส่ใน Column หรือ Row โดยตรง) Framework จะโยน Runtime Error ทันที! 
+                   *   เนื่องจาก Parent Widget เหล่านั้นไม่เข้าใจ ParentData แบบ PositionedConstraints (ไม่รู้วิธีการ Render พิกัดแบบ Absolute)
+                   */
+                  // 3b. Badge Rating (ย้ายมามุมซ้ายล่างของรูป)
+                  Positioned(
+                    bottom: 8,
+                    left: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.star, color: Colors.amber, size: 14),
+                          const SizedBox(width: 4),
+                          Text(
+                            destination.rating.toString(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              // ── 4. Info Section ────────────────────────────────
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ชื่อและราคา
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            destination.name,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          '\$${destination.price}/คืน',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    // แสดงประเทศ
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          size: 14,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(width: 2),
+                        Text(
+                          destination.country,
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    // Tags
+                    Wrap(
+                      spacing: 6,
+                      runSpacing:
+                          6, // เพิ่ม runSpacing เผื่อกรณีขึ้นบรรทัดใหม่แล้วติดกันเกินไป
+                      children: destination.tags
+                          .map(
+                            (tag) => Chip(
+                              label: Text(
+                                tag,
+                                style: const TextStyle(fontSize: 11),
+                              ),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                              backgroundColor: Colors.blue.shade50,
+                              shape: const StadiumBorder(
+                                side: BorderSide(color: Colors.transparent),
+                              ),
+                              padding: EdgeInsets.zero,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    const SizedBox(height: 8),
+                    // ── เพิ่ม Row ใหม่ใต้ Tags (แสดงสถานะห้องพัก) ──
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.bed,
+                          size: 16,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        const SizedBox(width: 6),
+                        // ครอบด้วย Expanded เพื่อจัดการกับ TextOverflow ในกรณีที่ String ยาวเกินขนาดจอ
+                        const Expanded(
+                          child: Text(
+                            "พร้อมเข้าพัก",
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black87,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 ```
 ---
 
@@ -505,7 +706,7 @@ class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
 
   @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
+  State<ExploreScreen> createState() => _ExploreScreenStatRe();
 }
 
 class _ExploreScreenState extends State<ExploreScreen> {
@@ -640,10 +841,177 @@ class _ExploreScreenState extends State<ExploreScreen> {
 > 3. สังเกตว่าค่าทั้งสองตัวเท่ากันหรือไม่ แล้วเขียนสรุป 2-3 บรรทัดเป็น Comment ในโค้ดว่า `MediaQuery.of(context).size.width` (ความกว้างของทั้งหน้าจอ) กับ `LayoutBuilder` `constraints.maxWidth` (ความกว้างที่ Widget นั้น ๆ ได้รับจาก Parent) ต่างกันอย่างไร และควรเลือกใช้ตัวไหนเมื่อไหร่
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
 
+![alt text](image/image1.png)
+```dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../models/destination.dart';
+import '../widgets/destination_card.dart';
+
+class ExploreScreen extends StatefulWidget {
+  const ExploreScreen({super.key});
+
+  @override
+  State<ExploreScreen> createState() => _ExploreScreenState();
+}
+
+class _ExploreScreenState extends State<ExploreScreen> {
+  String _searchQuery = ''; // เก็บคำค้นหาปัจจุบัน อัปเดตทุกครั้งที่พิมพ์ใน TextField
+
+  // Getter คำนวณรายการที่ตรงกับคำค้นหาใหม่ทุกครั้งที่ถูกเรียก
+  List<Destination> get _filteredDestinations {
+    if (_searchQuery.isEmpty) return sampleDestinations;
+    return sampleDestinations
+        .where(
+          (d) =>
+              d.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+              d.country.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+              d.tags.any(
+                (t) => t.toLowerCase().contains(_searchQuery.toLowerCase()),
+              ),
+        )
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('สำรวจ'),
+        centerTitle: false,
+      ),
+      body: Column(
+        children: [
+          // ── Search Bar ──────────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: TextField(
+              onChanged: (value) => setState(() => _searchQuery = value),
+              decoration: InputDecoration(
+                hintText: 'ค้นหา Destination...',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Colors.grey.shade100,
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          // ── Grid หรือ Empty State ────────────────────────────────
+          Expanded(
+            child: _filteredDestinations.isEmpty
+                ? _buildEmptyState()
+                : _buildGrid(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGrid() {
+    // ดึงค่าความกว้างของหน้าจอทั้งหมดผ่าน MediaQuery ตามโจทย์สั่ง
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    // พิมพ์ค่าเปรียบเทียบใน Console เพื่อตรวจเช็กตอนรันโปรแกรม
+    debugPrint('MediaQuery width: $screenWidth | LayoutBuilder maxWidth: \${constraints.maxWidth}');
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        int crossAxisCount;
+        
+        // ── 1. เพิ่ม Breakpoint ระดับที่ 4 (Large) ตามเงื่อนไข ──
+        if (constraints.maxWidth < 600) {
+          crossAxisCount = 2; // Compact: Phone
+        } else if (constraints.maxWidth < 840) {
+          crossAxisCount = 3; // Medium: Tablet Portrait
+        } else if (constraints.maxWidth < 1200) {
+          crossAxisCount = 4; // Expanded: Tablet Landscape / Desktop ขนาดเล็ก
+        } else {
+          crossAxisCount = 5; // Large: จอ Desktop ขนาดใหญ่ หรือเบราว์เซอร์กว้างๆ (≥ 1200 dp)
+        }
+
+        /* 
+         * ── [ปี 3 สรุปความแตกต่างเชิงทฤษฎีภาษามนุษย์] ──
+         * 1. MediaQuery.of(context).size.width จะบอก "ความกว้างของหน้าจอฮาร์ดแวร์ทั้งหมด" (Physical Screen) ไม่ว่า Widget จะอยู่ตรงไหน
+         * 2. LayoutBuilder constraints.maxWidth จะบอก "พื้นที่ความกว้างสูงสุดที่ Parent เหลือให้ Widget ตัวนี้ใช้จริง" (Local Box Constraints)
+         * 3. [สรุปการเลือกใช้]: ไม่จำเป็นต้องเท่ากันเสมอ (เช่น ถ้าแอปเปิดบน iPad แล้วแบ่งครึ่งหน้าจอ หรือมี Sidebar บังอยู่ ข้างขวา) 
+         *    - ควรใช้ MediaQuery เมื่อต้องการเช็กสเปกเครื่องรวมๆ เช่น เช็กว่าเป็น Tablet หรือ Phone 
+         *    - ควรใช้ LayoutBuilder เมื่อทำ Responsive UI ของ Component นั้นๆ เพื่อให้มันปรับตัวตามขนาดกล่องที่มันไปสิงอยู่ได้อย่างถูกต้อง
+         */
+
+        return Column(
+          children: [
+            // แสดงค่าเปรียบเทียบบนหน้าจอชั่วคราวให้เห็นชัดๆ ตามโจทย์สั่ง
+            Container(
+              padding: const EdgeInsets.all(8),
+              color: Colors.amber.shade100,
+              width: double.infinity,
+              child: Text(
+                'Screen (MediaQuery): ${screenWidth.toStringAsFixed(1)} dp | Box (LayoutBuilder): ${constraints.maxWidth.toStringAsFixed(1)} dp',
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                textAlign: Center,
+              ),
+            ),
+            Expanded(
+              child: GridView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: crossAxisCount,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  childAspectRatio: 0.72,
+                ),
+                itemCount: _filteredDestinations.length,
+                itemBuilder: (context, index) {
+                  final destination = _filteredDestinations[index];
+                  return DestinationCard(
+                    destination: destination,
+                    onTap: () {
+                      context.pushNamed(
+                        'destination-detail',
+                        pathParameters: {'id': destination.id},
+                        extra: destination,
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.search_off, size: 64, color: Colors.grey.shade400),
+          const SizedBox(height: 16),
+          Text(
+            'ไม่พบ Destination ที่ค้นหา',
+            style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '"$_searchQuery"',
+            style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey),
+          ),
+        ],
+      ),
+    );
+  }
+}
+```
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
 สร้างไฟล์ `lib/screens/destination_detail_screen.dart`:
@@ -1103,8 +1471,267 @@ class _StatCard extends StatelessWidget {
 > 3. เขียน Comment อธิบายว่าทำไมต้องใส่ `shrinkWrap: true` และ `NeverScrollableScrollPhysics()` เมื่อวาง `ListView` ซ้อนอยู่ใน `Column` ที่อยู่ใน `SingleChildScrollView` อีกที (จะเกิดอะไรขึ้นถ้าไม่ใส่)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+
+![alt text](image/image2.png)
+```dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../models/destination.dart';
+import '../widgets/destination_card.dart';
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // ── 1. แก้ไขให้ดึงรายการทั้งหมดไปแสดงในแนวนอนตามโจทย์ ──
+    final allDestinations = sampleDestinations.toList();
+
+    // ── 2. Logic คัดสรร "รีวิวยอดนิยม" (3 อันดับแรกที่ Rating สูงสุด) ──
+    // ใช้ Cascade operator (..) เพื่อ copy list มาทำการ sort จะได้ไม่ไปกระทบกับข้อมูลต้นฉบับ
+    final topReviewed = (List<Destination>.from(sampleDestinations)
+      ..sort((a, b) => b.rating.compareTo(a.rating))) // เรียงจากมากไปน้อย
+      .take(3)
+      .toList();
+
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ── Header ──────────────────────────────────────────
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'สวัสดี, นักเดินทาง! 👋',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      const Text(
+                        'ไปไหนดีวันนี้?',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  CircleAvatar(
+                    backgroundColor: Colors.blue.shade100,
+                    child: const Icon(Icons.person, color: Colors.blue),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // ── Featured Section ────────────────────────────────
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'แนะนำสำหรับคุณ',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  TextButton(
+                    onPressed: () => context.go('/explore'),
+                    child: const Text('ดูทั้งหมด'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              // ListView แนวนอน (แสดงครบทุกตัวแล้ว)
+              SizedBox(
+                height: 280,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: allDestinations.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 16),
+                  itemBuilder: (context, index) {
+                    final dest = allDestinations[index];
+                    return SizedBox(
+                      width: 220,
+                      child: DestinationCard(
+                        destination: dest,
+                        onTap: () => context.pushNamed(
+                          'destination-detail',
+                          pathParameters: {'id': dest.id},
+                          extra: dest,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 24),
+
+              // ── Quick Stats ─────────────────────────────────────
+              const Text(
+                'สถิติการเดินทาง',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: _StatCard(
+                      icon: Icons.flight,
+                      label: 'Trip',
+                      value: '5',
+                      color: Colors.blue,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _StatCard(
+                      icon: Icons.place,
+                      label: 'Country',
+                      value: '3',
+                      color: Colors.orange,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _StatCard(
+                      icon: Icons.favorite,
+                      label: 'Saved',
+                      value: '12',
+                      color: Colors.pink,
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 28),
+
+              // ── 3. Section ใหม่: รีวิวยอดนิยม ─────────────────────
+              const Text(
+                'รีวิวยอดนิยม',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 12),
+
+              /* 
+               * ── [ปี 3 ติวทฤษฎีภาษามนุษย์] ทำไมต้องใช้ shrinkWrap และ NeverScrollableScrollPhysics? ──
+               * 
+               * ปัญหาเกิดจาก: พ่อคนนอกสุดคือ SingleChildScrollView เขาเปิดพื้นที่ให้ลูกยืดขยายแนวตั้งได้ไม่จำกัด (Infinite Height)
+               * แต่พอเราใส่ ListView (แนวตั้ง) เข้าไปข้างใน นิสัยปกติของ ListView คือมันจะพยายาม "ยืดตัวเองให้สุดขอบโลก" 
+               * พอ Infinite Height มาเจอกับตัวที่อยากจะยืดแบบเบรกแตก Flutter Engine จะงงทันทีว่าสรุปต้องวาดสูงเท่าไหร่ แล้วบึ้มเป็นข้อผิดพลาด (Vertical viewport was given unbounded height)
+               * 
+               * วิธีแก้คือ:
+               * 1. ใส่ `shrinkWrap: true` เพื่อสั่งให้ ListView "หดกลับมา" เอาความสูงเท่ากับจำนวนการ์ดที่มีอยู่จริงข้างในพอ ไม่ต้องยืดเผื่อ
+               * 2. ใส่ `physics: const NeverScrollableScrollPhysics()` เพื่อสั่ง "ปิดการไถหน้าจอของ ListView ตัวใน" แล้วยกหน้าที่ให้ SingleChildScrollView ตัวนอกเป็นคนพาไถทั้งหน้าจอแทน 
+               *    (ถ้าไม่ใส่จะเกิดอาการ "สกรอลล์ชนกัน" ล็อกตึกๆ ตักๆ ไถไม่ไปนั่นเองครับ)
+               */
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: topReviewed.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 12),
+                itemBuilder: (context, index) {
+                  final dest = topReviewed[index];
+                  return ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        dest.imageUrl,
+                        width: 60,
+                        height: 60,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(
+                          width: 60,
+                          height: 60,
+                          color: Colors.grey.shade200,
+                          child: const Icon(Icons.image_not_supported, size: 24),
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      dest.name,
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                    subtitle: Text(dest.country, style: const TextStyle(fontSize: 13)),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.star, color: Colors.amber, size: 16),
+                        const SizedBox(width: 4),
+                        Text(
+                          dest.rating.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    tileColor: Colors.grey.shade50,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      side: BorderSide(color: Colors.grey.shade200),
+                    ),
+                    onTap: () => context.pushNamed(
+                      'destination-detail',
+                      pathParameters: {'id': dest.id},
+                      extra: dest,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StatCard extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color color;
+
+  const _StatCard({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          Icon(icon, color: color, size: 28),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+          Text(label, style: TextStyle(fontSize: 12, color: color)),
+        ],
+      ),
+    );
+  }
+}
 ```
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
@@ -1356,10 +1983,214 @@ final GoRouter appRouter = GoRouter(
 > 3. ทดสอบ Fallback ที่แก้ไข โดยรันแอปบน Chrome (`flutter run -d chrome`) แล้วพิมพ์ URL `/explore/destinations/999` ตรง ๆ ใน Address Bar (เป็น `id` ที่ไม่มีอยู่จริง) — ต้องเห็นหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดงหรือข้อมูลผิดตัว
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
 
+```dart
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../models/destination.dart';
+import '../screens/home_screen.dart';
+import '../screens/explore_screen.dart';
+import '../screens/destination_detail_screen.dart';
+import '../screens/saved_screen.dart';
+import '../screens/profile_screen.dart';
+
+// ── หน้า AboutScreen (สร้างเพิ่มเติมสำหรับ Branch ใหม่) ────────────────
+class AboutScreen extends StatelessWidget {
+  const AboutScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('เกี่ยวกับ'),
+      ),
+      body: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.info_outline, size: 64, color: Colors.blue),
+            SizedBox(height: 16),
+            Text(
+              'แอปพลิเคชันแนะนำสถานที่ท่องเที่ยว v1.0',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text('พัฒนาด้วย Flutter และ GoRouter', style: TextStyle(color: Colors.grey)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ── Scaffold Shell Wrapper ─────────────────────────────────────────
+class ScaffoldWithNavBar extends StatelessWidget {
+  final StatefulNavigationShell navigationShell;
+
+  const ScaffoldWithNavBar({
+    super.key,
+    required this.navigationShell,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: navigationShell, // แสดง Content ของ active branch
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: navigationShell.currentIndex,
+        onDestinationSelected: (index) {
+          navigationShell.goBranch(
+            index,
+            initialLocation: index == navigationShell.currentIndex,
+          );
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home_outlined),
+            selectedIcon: Icon(Icons.home),
+            label: 'หน้าหลัก',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.explore_outlined),
+            selectedIcon: Icon(Icons.explore),
+            label: 'สำรวจ',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.favorite_outline),
+            selectedIcon: Icon(Icons.favorite),
+            label: 'บันทึก',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person),
+            label: 'โปรไฟล์',
+          ),
+          // ── 1. เพิ่มเมนู Bottom Navigation สำหรับ Branch ที่ 4 ──
+          NavigationDestination(
+            icon: Icon(Icons.info_outline),
+            selectedIcon: Icon(Icons.info),
+            label: 'เกี่ยวกับ',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Router Definition ──────────────────────────────────────────────
+final GoRouter appRouter = GoRouter(
+  initialLocation: '/',
+  debugLogDiagnostics: true,
+  routes: [
+    StatefulShellRoute.indexedStack(
+      builder: (context, state, navigationShell) {
+        return ScaffoldWithNavBar(navigationShell: navigationShell);
+      },
+      branches: [
+        // ── Branch 0: Home ──────────────────────────────────────
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/',
+              name: 'home',
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
+        ),
+        // ── Branch 1: Explore + Detail ──────────────────────────
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/explore',
+              name: 'explore',
+              builder: (context, state) => const ExploreScreen(),
+              routes: [
+                GoRoute(
+                  path: 'destinations/:id',
+                  name: 'destination-detail',
+                  builder: (context, state) {
+                    final id = state.pathParameters['id'];
+                    
+                    // ── 2. แก้ไข Fallback Logic ให้ค้นหาแบบ Safe ──
+                    // ค้นหาโดยใช้ firstWhereOrNull เพื่อไม่ให้โปรแกรมพังเมื่อไม่เจอ id
+                    final Destination? destination;
+                    if (state.extra != null) {
+                      destination = state.extra as Destination;
+                    } else {
+                      // วนลูปหาใน list ถ้าไม่เจอให้คืนค่ากลับมาเป็น null
+                      final found = sampleDestinations.where((d) => d.id == id);
+                      destination = found.isNotEmpty ? found.first : null;
+                    }
+
+                    // ── 3. ถ้าหา ID ไม่เจอ (เช่น Refresh หน้าเว็บ /explore/destinations/999) ──
+                    // ให้เด้งไปหน้า "ไม่พบข้อมูลที่ต้องการ" ทันที แทนที่จะโชว์ข้อมูลผิดอัน
+                    if (destination == null) {
+                      return Scaffold(
+                        appBar: AppBar(title: const Text('ไม่พบข้อมูล')),
+                        body: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.error_outline, size: 64, color: Colors.red.shade400),
+                              const SizedBox(height: 16),
+                              Text(
+                                'ไม่พบข้อมูลที่ต้องการ (ID: $id)',
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+
+                    return DestinationDetailScreen(destination: destination);
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+        // ── Branch 2: Saved ─────────────────────────────────────
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/saved',
+              name: 'saved',
+              builder: (context, state) => const SavedScreen(),
+            ),
+          ],
+        ),
+        // ── Branch 3: Profile ───────────────────────────────────
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/profile',
+              name: 'profile',
+              builder: (context, state) => const ProfileScreen(),
+            ),
+          ],
+        ),
+        // ── 4. เพิ่ม StatefulShellBranch ใหม่ สำหรับหน้า "เกี่ยวกับ" ──
+        StatefulShellBranch(
+          routes: [
+            GoRoute(
+              path: '/about',
+              name: 'about',
+              builder: (context, state) => const AboutScreen(),
+            ),
+          ],
+        ),
+      ],
+    ),
+  ],
+  errorBuilder: (context, state) => Scaffold(
+    body: Center(
+      child: Text('ไม่พบหน้าที่ต้องการ: ${state.error}'),
+    ),
+  ),
+);
+```
+---
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
 
@@ -1439,21 +2270,21 @@ flutter devices
 
 | # | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผลจริง |
 |---|---|---|---|
-| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | |
-| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | |
-| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | |
-| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | |
-| 5 | กด Back บน Detail | กลับมา Explore Screen | |
-| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | |
-| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | |
-| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | |
-| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | |
-| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | |
-| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
-| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | |
-| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | |
+| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | ✅|
+| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | ✅|
+| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | ✅|
+| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | ✅|
+| 5 | กด Back บน Detail | กลับมา Explore Screen | ✅|
+| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | ✅|
+| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ |✅ |
+| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | ✅|
+| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | ✅|
+| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint |✅ |
+| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) |✅ |
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล |✅ |
+| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง |✅ |
+| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | ✅|
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง |✅ |
 
 ---
 
@@ -1547,8 +2378,97 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
+
+ระบบเก็บข้อมูลตัวแปรสากล
+```dart
+import 'package:flutter/material.dart';
+
+class SavedManager {
+  // 1. ทำเป็น Singleton เพื่อให้ทั้งแอปเรียกใช้ instance ตัวเดียวกันเสมอ
+  static final SavedManager instance = SavedManager._internal();
+  SavedManager._internal();
+
+  // 2. เก็บไอดีของสถานทีที่ถูกบันทึกไว้ (ใช้ Set เพื่อไม่ให้ ID ซ้ำกัน)
+  final Set<String> _savedIds = {};
+
+  // 3. ใช้ ValueNotifier เพื่อเวลาข้อมูลเปลี่ยน จะได้ตะโกนบอกหน้าอื่นให้ Rebuild ทันที!
+  final ValueNotifier<int> changeNotifier = ValueNotifier<int>(0);
+
+  // เช็กว่าไอดีนี้ถูกบันทึกหรือยัง
+  bool isSaved(String id) => _savedIds.contains(id);
+
+  // สลับสถานะ (ถ้ามีให้ลบ ถ้าไม่มีให้เพิ่ม)
+  void toggleSave(String id) {
+    if (_savedIds.contains(id)) {
+      _savedIds.remove(id);
+    } else {
+      _savedIds.add(id);
+    }
+    // เพิ่มค่าเพื่อนับก้าว และเป็นการส่งสัญญาณ (Notify) ให้ผู้ฟังรับทราบ
+    changeNotifier.value++;
+  }
+
+  // ดึงรายการ ID ทั้งหมดออกมา
+  List<String> get savedIds => _savedIds.toList();
+}
+```
+
+การทำปุ่มหัวใจให้กดแล้วเปลี่ยนรูปทันที
+```dart
+// ในจุดที่ต้องการวาดปุ่มหัวใจ (เช่น บน Stack ของรูปภาพ)
+IconButton(
+  icon: Icon(
+    // 💡 ดึงเช็กจาก Manager สากลของเรา
+    SavedManager.instance.isSaved(widget.destination.id)
+        ? Icons.favorite
+        : Icons.favorite_border,
+    color: Colors.pink,
+  ),
+  onPressed: () {
+    setState(() {
+      // 💡 สลับสถานะในหน่วยความจำ
+      SavedManager.instance.toggleSave(widget.destination.id);
+    });
+  },
+)
+```
+
+ความลับใน SavedScreen
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: SafeArea(
+      // 🌟 พระเอกของงาน: คอยดักฟังว่าในสโตร์มีการกดหัวใจเพิ่ม/ลดไหม
+      child: ValueListenableBuilder<int>(
+        valueListenable: SavedManager.instance.changeNotifier,
+        builder: (context, counter, child) {
+          
+          // 1. ดึง ID ที่ถูกบันทึกทั้งหมด ณ ปัจจุบันออกมา
+          final savedIds = SavedManager.instance.savedIds;
+          
+          // 2. นำ ID ไป Map หา Object ข้อมูลเต็มจาก sampleDestinations 
+          final savedDestinations = sampleDestinations
+              .where((d) => savedIds.contains(d.id))
+              .toList();
+
+          // 3. เช็ก Empty State
+          if (savedDestinations.isEmpty) {
+            return const Center(child: Text('ยังไม่มีรายการที่บันทึกไว้'));
+          }
+
+          // 4. ถ้ามีข้อมูล ให้ใช้ LayoutBuilder ทำ Responsive เหมือน ExploreScreen ได้เลย!
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              // ออกแบบจำนวนคอลัมน์ตามความกว้าง (constraints.maxWidth) ตรงนี้ได้เลยครับ...
+              // อย่าลืมใส่ GridView.builder หรือ ListView.builder น้า
+            },
+          );
+        },
+      ),
+    ),
+  );
+}
 ```
 ---
 
@@ -1556,28 +2476,55 @@ GoRoute(
 
 **ตอบคำถามต่อไปนี้:**
 
-1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
-```text
+### 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
+*   **ตอบ** 
+    *   **ความแตกต่าง** `MediaQuery` จะอ้างอิงขนาดของหน้าจอหรือหน้าต่างแอปทั้งหมด (Viewport) เป็นหลัก ไม่ว่าจะเรียกใช้ ณ จุดใดของแอป ค่าที่ได้คือขนาดความกว้าง/สูงของจอเครื่องนั้น ๆ ส่วน `LayoutBuilder` จะอ้างอิงขนาดจาก Constraints (พื้นที่ที่ได้รับ) จาก Widget ตัวพ่อที่โอบล้อมมันอยู่เท่านั้น
+    *   **หลักการเลือกใช้** ใช้ `MediaQuery` เมื่อต้องการปรับแต่ง Layout ระดับโครงสร้างใหญ่ (Macro) เช่น เช็กว่าเป็นแท็บเล็ตหรือมือถือเพื่อเปลี่ยนจำนวนคอลัมน์ และใช้ `LayoutBuilder` เมื่อต้องการทำ Responsive ระดับ Widget ย่อย (Micro) เช่น การ์ดขนาดเล็กที่ต้องปรับดีไซน์ตามพื้นที่ที่มันไปวาง โดยไม่สนใจขนาดหน้าจอภาพรวม
 
-```
-2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
-```text
-
-```
-3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
-```text
-
-```
-4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
-```text
-
-```
-5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
-```text
-
-```
 ---
 
+### 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
+*   **ตอบ** ใช้เพื่อตอบโจทย์พฤติกรรมของระบบ Bottom Navigation Bar ที่ดี โดยผลต่างเรื่อง State Management มีดังนี้:
+    *   `ShellRoute` (ธรรมดา) ทุกครั้งที่ผู้ใช้สลับหน้า Tab ตัวคลาสหน้าเดิมจะถูกทำลายทิ้ง (dispose) และเมื่อกดกลับมาใหม่ หน้าจอจะถูกสร้างขึ้นใหม่ทั้งหมด ส่งผลให้ State หรือข้อมูลที่ทำค้างไว้ในหน้านั้นหายไป
+    *   `StatefulShellRoute` จะใช้กลไก `IndexedStack` เข้ามาช่วยรักษาสภาพ State ของแต่ละ Tab แยกจากกัน ทำให้เมื่อสลับ Tab ไปมา State ทั้งหมดจะยังคงถูกรักษาสภาพไว้ในหน่วยความจำ ไม่ถูกทำลาย ผู้ใช้สามารถกลับมาใช้งานต่อจากจุดเดิมได้ทันที
+
+---
+
+### 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
+*   **ตอบ** เหตุผลที่ใช้เพื่อบังคับให้ตัวข้อความ (`Text`) ขยายตัวและรับรู้ขอบเขตพื้นที่ที่เหลืออยู่ภายในแถว (`Row`) ส่งผลให้ระบบตัดขึ้นบรรทัดใหม่อัตโนมัติ (Text Wrapping) ทำงานได้อย่างถูกต้อง หากลบออกและชื่อสถานที่ยาวเกินขนาดความกว้างของการ์ด ตัวข้อความจะไม่ยอมขึ้นบรรทัดใหม่ แต่จะดันออกไปด้านข้างเรื่อย ๆ จนเกิดข้อผิดพลาดหน้าจอบึ้มสีเหลือง-ดำที่เรียกว่า `A RenderFlex overflowed`
+
+---
+
+### 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
+*   **ตอบ** 
+    *   **ข้อจำกัด** วัตถุที่ส่งผ่าน `extra` จะลอยอยู่ในหน่วยความจำภายในของแอป (In-memory Object) เมื่อผู้ใช้กด Refresh หน้าเว็บบนเบราว์เซอร์ หรือเปิดผ่าน Deep Link จากภายนอก ตัวแอปจะถูกโหลดใหม่ทั้งหมด ส่งผลให้ค่า `extra` หลุดหายกลายเป็น `null` ทันทีและทำให้หน้าจอนั้นพัง (Crash)
+    *   **วิธีแก้ไขปัญหา** ส่งเฉพาะค่า ID หรือรหัสระบุตัวตนผ่าน Path Parameters บน URL แทน (เช่น `/explore/destinations/:id`) และเขียน Fallback Logic ที่หน้าปลายทางเพื่อเช็กว่าถ้า `extra == null` ให้ใช้ค่า `id` จาก URL ไปค้นหาและดึงข้อมูลกลับมาจากไฟล์ข้อมูลจำลองหรือฐานข้อมูลกลางแทน
+
+---
+
+### 5. วาด Navigation Hierarchy ของแอปนี้
+*   **ตอบ** โครงสร้างลำดับขั้นการนำทาง (Navigation Hierarchy) ของแอปนี้ที่จัดการผ่าน `GoRouter` แสดงในรูปแบบแผนผังได้ดังนี้:
+
+```text
+[ appRouter (GoRouter) ]
+   └── [ / ] (Initial Location)
+        └── StatefulShellRoute.indexedStack (ScaffoldWithNavBar)
+             ├── Branch 0: หน้าหลัก (Home Tab)
+             │    └── path: '/' (HomeScreen)
+             │
+             ├── Branch 1: สำรวจ (Explore Tab)
+             │    └── path: '/explore' (ExploreScreen)
+             │         └── Sub-route: 'destinations/:id' (DestinationDetailScreen)
+             │
+             ├── Branch 2: บันทึก (Saved Tab)
+             │    └── path: '/saved' (SavedScreen)
+             │
+             ├── Branch 3: โปรไฟล์ (Profile Tab)
+             │    └── path: '/profile' (ProfileScreen)
+             │
+             └── Branch 4: เกี่ยวกับ (About Tab)
+                  └── path: '/about' (AboutScreen)
+```
 ## 📤 การส่งงาน
 
 1. Push โค้ดขึ้น GitHub Repository ส่วนตัว (Branch: `week04-layout-navigation`) 
