@@ -2477,21 +2477,22 @@ StatefulShellRoute: จะใช้โครงสร้างการเก็
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
-                                [ App Center ]
-                                      │
-                         (StatefulShellRoute.indexedStack)
-                                      │
-       ┌──────────────────┬───────────┴───────────┬──────────────────┐
-       │                  │                       │                  │
- [ Branch 0 ]       [ Branch 1 ]            [ Branch 2 ]       [ Branch 3 ]       [ Branch 4 ]
-   / (Home)           /explore                /saved             /profile           /about
-       │                  │                       │                  │                  │
- (HomeScreen)     (ExploreScreen)           (SavedScreen)      (ProfileScreen)    (AboutScreen)
-                          │                       │
-                          ├───────────────────────┤
-                          │ (Push Navigation)     │ (Push Navigation)
-                          ▼                       ▼
-                   /explore/destinations/:id  ────────── ( DestinationDetailScreen )
+                               [ Travel App ]
+                                         |
+                               (Bottom Navigation Bar)
+                                         |
+    +-----------------+------------------+------------------+------------------+
+    |                 |                  |                  |                  |
+[ Branch 0 ]     [ Branch 1 ]       [ Branch 2 ]       [ Branch 3 ]       [ Branch 4 ]
+    /                 /explore            /saved             /profile           /about
+    |                 |                  |                  |                  |
+(HomeScreen)    (ExploreScreen)     (SavedScreen)      (ProfileScreen)     (AboutScreen)
+    |                 |                  |
+    +-----------------+------------------+
+                      |
+                      |  (Push Navigation)
+                      v
+         /explore/destinations/:id  -------- ( DestinationDetailScreen )
 ```
 ---
 
@@ -2500,6 +2501,33 @@ StatefulShellRoute: จะใช้โครงสร้างการเก็
 1. Push โค้ดขึ้น GitHub Repository ส่วนตัว (Branch: `week04-layout-navigation`) 
 2. สร้าง Pull Request พร้อมเขียน Description ว่าทำอะไรไปบ้าง (รวมถึงสรุปสั้น ๆ ว่าการทดลองที่ 8 ทำอะไรสำเร็จบ้าง)
 
+ออกแบบและจัดทำ Navigation Hierarchy:
+
+วิเคราะห์และออกแบบโครงสร้างการนำทาง (Navigation Hierarchy) ของแอปพลิเคชัน Travel App โดยแบ่งออกเป็น 5 เมนูหลัก (Branches) ผ่านแถบ Bottom Navigation Bar
+
+กำหนด Route ให้แต่ละหน้าอย่างชัดเจน ได้แก่:
+
+Branch 0 : / ➔ HomeScreen (หน้าหลัก แสดงสถิติและแนะนำสถานที่)
+
+Branch 1 : /explore ➔ ExploreScreen (หน้าค้นหาและสำรวจ)
+
+Branch 2 : /saved ➔ SavedScreen (หน้าสถานที่ที่บันทึกไว้)
+
+Branch 3 : /profile ➔ ProfileScreen (หน้าโปรไฟล์ผู้ใช้)
+
+Branch 4 : /about ➔ AboutScreen (หน้าเกี่ยวกับแอปพลิเคชัน)
+
+กำหนดการนำทางแบบ Sub-route (Push Navigation) สำหรับหน้ารายละเอียดสถานที่ท่องเที่ยว /explore/destinations/:id (DestinationDetailScreen) ซึ่งสามารถเข้าถึงได้จากหน้า HomeScreen, ExploreScreen และ SavedScreen
+
+พัฒนาและตกแต่ง UI หน้าจอหลัก:
+
+พัฒนาหน้า HomeScreen ให้แสดงผลการ์ดสถานที่ท่องเที่ยว (Destination Cards) สถิติการเดินทาง (Travel Stats) และรีวิวยอดนิยม
+
+พัฒนาและเชื่อมต่อส่วนประกอบ UI ร่วมกับ State/Service เช่น SavedManager สำหรับจัดการการบันทึกสถานที่
+
+📌 สรุปผลการทดลองที่ 8 (Lab 8 Summary)
+สรุปความสำเร็จของการทดลองที่ 8:
+ในการทดลองนี้ ทำการประยุกต์ใช้ระบบการจัดการการนำทาง (Routing & Navigation) ใน Flutter ได้อย่างสำเร็จ โดยสามารถสร้างโครงสร้างแอปพลิเคชันที่รองรับ Bottom Navigation Bar แบบ 5 แท็บ และการส่งผ่านข้อมูล/พาผู้ใช้ไปยังหน้าเจาะลึก (DestinationDetailScreen) ผ่าน Push Navigation ได้อย่างถูกต้องตามไดอะแกรม รวมถึงแสดงผล UI หน้าหลัก และจัดการ State ของสถานที่ที่บันทึกไว้ได้อย่างเป็นระบบ
 
 **กำหนดส่ง:** ก่อนเรียนในสัปดาห์ถัดไป
 
