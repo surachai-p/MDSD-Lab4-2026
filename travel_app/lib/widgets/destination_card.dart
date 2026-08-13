@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/destination.dart';
+import '../services/saved_service.dart';
 
 class DestinationCard extends StatelessWidget {
   final Destination destination;
@@ -80,6 +81,43 @@ class DestinationCard extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  // Favorite button: อยู่บนมุมขวาบนของรูป เพื่อให้ผู้ใช้กดบันทึกได้ทันที
+                  // เราใช้ ValueListenableBuilder เพื่อฟังการเปลี่ยนแปลงของ SavedService
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: ValueListenableBuilder<Set<String>>(
+                      valueListenable: SavedService.savedIds,
+                      builder: (context, savedSet, _) {
+                        final saved = savedSet.contains(destination.id);
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withValues(alpha: 0.45),
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(
+                              saved ? Icons.favorite : Icons.favorite_border,
+                              color: saved ? Colors.pinkAccent : Colors.white,
+                            ),
+                            onPressed: () {
+                              SavedService.toggle(destination.id);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    saved
+                                        ? 'เอาออกจากบันทึก: ${destination.name}'
+                                        : 'บันทึก ${destination.name} แล้ว',
+                                  ),
+                                  duration: const Duration(seconds: 1),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],

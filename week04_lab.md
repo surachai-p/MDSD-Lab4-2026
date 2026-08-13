@@ -493,6 +493,7 @@ class DestinationCard extends StatelessWidget {
 ![alt text](image-Checkpoint-3/image-3.png)
 ![alt text](image-Checkpoint-3/image-4.png)
 ![alt text](image-Checkpoint-3/image-5.png)
+บันทึกรูปผลการทดลอง
 ![alt text](image-Checkpoint-3/image-6.png)
 ---
 
@@ -655,6 +656,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 ![alt text](image-Checkpoint-4.1/image-2.png)
 ![alt text](image-Checkpoint-4.1/image-3.png)
 ![alt text](image-Checkpoint-4.1/image-4.png)
+บันทึกรูปผลการทดลอง
 ![alt text](image-Checkpoint-4.1/image-5.png)
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
@@ -1125,6 +1127,7 @@ class _StatCard extends StatelessWidget {
 ![alt text](image-Checkpoint-4.3/image-3.png)
 ![alt text](image-Checkpoint-4.3/image-4.png)
 ![alt text](image-Checkpoint-4.3/image-5.png)
+บันทึกรูปผลการทดลอง
 ![alt text](image-Checkpoint-4.3/image-6.png)
 
 
@@ -1222,7 +1225,7 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 ```
-![alt text](image.png)
+![alt text](image/image.png)
 
 ---
 
@@ -1381,8 +1384,13 @@ final GoRouter appRouter = GoRouter(
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
 ```
-
-
+![alt text](image-Checkpoint-5.1/image.png)
+![alt text](image-Checkpoint-5.1/image-1.png)
+![alt text](image-Checkpoint-5.1/image-2.png)
+![alt text](image-Checkpoint-5.1/image-3.png)
+![alt text](image-Checkpoint-5.1/image-4.png)
+บันทึกรูปผลการทดลอง
+![alt text](image-Checkpoint-5.1/image-5.png)
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
 
 แก้ไขไฟล์ `lib/main.dart`:
@@ -1572,6 +1580,10 @@ GoRoute(
 ```image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
 ```
+![alt text](image/image8.png)
+![alt text](image/image8-1.png)
+![alt text](image/image8-2.png)
+![alt text](image/image8-3.png)
 ---
 
 ## 📝 คำถามท้ายใบงาน
@@ -1580,24 +1592,38 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+- **LayoutBuilder:** อ่านพื้นที่จริงที่ **Parent/Container** สั่งลงมา (`BoxConstraints`) ใช้ปรับ Layout ตามขนาดพื้นที่ที่ Widget นั้นได้รับ
+    
+- **MediaQuery:** อ่านขนาดและสถานะของ **ทั้งหน้าจอ/Device** (Size, Padding, Orientation) ใช้ทำ Responsive ระดับ Global Screen
 
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
-
+- **StatefulShellRoute:** **รักษา State/Stack** ของแต่ละ Tab ไว้เมื่อสลับหน้า (เช่น Scroll position หรือหน้าย่อยไม่หาย)
+    
+- **ShellRoute ธรรมดา:** **Destroy State** ทิ้งทันทีเมื่อสลับ Tab ทำให้ต้องโหลดใหม่ทุกครั้ง
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
-
+- **เหตุผลที่ใช้:** ขยาย Text เท่าพื้นที่ที่เหลือใน Row และตัดคำสั้นลงด้วย `overflow: TextOverflow.ellipsis`
+    
+- **ถ้าลบออก:** ข้อความจะดัน Element อื่นจนล้น Row เกิด **Overflow Error (แถบเหลือง-ดำ)**
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
-
+- **ข้อจำกัด:** เป็น In-Memory Data เท่านั้น เมื่อ **Refresh Web** หรือเข้าจาก **Deep Link** ข้อมูลจะกลายเป็น `null`
+    
+- **วิธีแก้:** ส่ง ID ผ่าน `pathParameters` หรือ `queryParams` แทน แล้วค่อยดึงข้อมูลใหม่ (หรือทำ Fallback เมื่อ `extra == null`)
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
-```text
-
-```
+Root: GoRouter
+└── StatefulShellRoute.indexedStack (ScaffoldWithNavBar)
+    ├── Branch 0: / (Home)
+    ├── Branch 1: /explore (Explore) ──> Subroute: destinations/:id (Detail)
+    ├── Branch 2: /saved (Saved)
+    ├── Branch 3: /profile (Profile)
+    └── Branch 4: /about (About)
+    
 ---
 
 ## 📤 การส่งงาน

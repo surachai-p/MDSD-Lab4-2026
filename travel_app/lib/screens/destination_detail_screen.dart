@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../models/destination.dart';
+import '../services/saved_service.dart';
 
 class DestinationDetailScreen extends StatelessWidget {
   final Destination destination;
 
-  const DestinationDetailScreen({
-    super.key,
-    required this.destination,
-  });
+  const DestinationDetailScreen({super.key, required this.destination});
 
   @override
   Widget build(BuildContext context) {
@@ -30,22 +28,38 @@ class DestinationDetailScreen extends StatelessWidget {
           ),
         ),
         actions: [
-          Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.45),
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.favorite_border, color: Colors.white),
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text('บันทึก ${destination.name} แล้ว!'),
-                      duration: const Duration(seconds: 2)),
-                );
-              },
-            ),
+          // Favorite action in AppBar: uses SavedService to reflect state
+          ValueListenableBuilder<Set<String>>(
+            valueListenable: SavedService.savedIds,
+            builder: (context, savedSet, _) {
+              final saved = savedSet.contains(destination.id);
+              return Container(
+                margin: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.45),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    saved ? Icons.favorite : Icons.favorite_border,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    SavedService.toggle(destination.id);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          saved
+                              ? 'เอาออกจากบันทึก: ${destination.name}'
+                              : 'บันทึก ${destination.name} แล้ว!',
+                        ),
+                        duration: const Duration(seconds: 1),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -103,13 +117,18 @@ class DestinationDetailScreen extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.location_on,
-                              color: Colors.white70, size: 16),
+                          const Icon(
+                            Icons.location_on,
+                            color: Colors.white70,
+                            size: 16,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             destination.country,
                             style: const TextStyle(
-                                color: Colors.white70, fontSize: 14),
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
                           ),
                         ],
                       ),
@@ -156,7 +175,10 @@ class DestinationDetailScreen extends StatelessWidget {
                   Text(
                     destination.description,
                     style: const TextStyle(
-                        fontSize: 15, height: 1.6, color: Colors.black87),
+                      fontSize: 15,
+                      height: 1.6,
+                      color: Colors.black87,
+                    ),
                   ),
                   const SizedBox(height: 20),
 
@@ -173,14 +195,18 @@ class DestinationDetailScreen extends StatelessWidget {
                         .map(
                           (tag) => Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
                             decoration: BoxDecoration(
                               color: Colors.blue.shade50,
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(color: Colors.blue.shade200),
                             ),
-                            child: Text(tag,
-                                style: TextStyle(color: Colors.blue.shade700)),
+                            child: Text(
+                              tag,
+                              style: TextStyle(color: Colors.blue.shade700),
+                            ),
                           ),
                         )
                         .toList(),
@@ -200,7 +226,8 @@ class DestinationDetailScreen extends StatelessWidget {
                           builder: (_) => AlertDialog(
                             title: const Text('จองสำเร็จ! 🎉'),
                             content: Text(
-                                'คุณได้จอง ${destination.name} เรียบร้อยแล้ว'),
+                              'คุณได้จอง ${destination.name} เรียบร้อยแล้ว',
+                            ),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -216,11 +243,14 @@ class DestinationDetailScreen extends StatelessWidget {
                         );
                       },
                       icon: const Icon(Icons.flight_takeoff),
-                      label: const Text('จองเลย',
-                          style: TextStyle(fontSize: 16)),
+                      label: const Text(
+                        'จองเลย',
+                        style: TextStyle(fontSize: 16),
+                      ),
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ),
@@ -264,13 +294,19 @@ class _InfoChip extends StatelessWidget {
             children: [
               Icon(icon, color: iconColor, size: 18),
               const SizedBox(width: 4),
-              Text(label,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
-          Text(subtitle,
-              style: const TextStyle(fontSize: 12, color: Colors.grey)),
+          Text(
+            subtitle,
+            style: const TextStyle(fontSize: 12, color: Colors.grey),
+          ),
         ],
       ),
     );
