@@ -492,6 +492,7 @@ class DestinationCard extends StatelessWidget {
 
 รูปผลการทดลอง
 <img width="1917" height="1011" alt="image" src="https://github.com/user-attachments/assets/d9782841-808b-46f6-a82f-507d3180a5fe" />
+<img width="1313" height="986" alt="image" src="https://github.com/user-attachments/assets/e564e081-c5e9-4e75-a83d-59f058a9fc3d" />
 
 ---
 
@@ -646,9 +647,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
 > 3. สังเกตว่าค่าทั้งสองตัวเท่ากันหรือไม่ แล้วเขียนสรุป 2-3 บรรทัดเป็น Comment ในโค้ดว่า `MediaQuery.of(context).size.width` (ความกว้างของทั้งหน้าจอ) กับ `LayoutBuilder` `constraints.maxWidth` (ความกว้างที่ Widget นั้น ๆ ได้รับจาก Parent) ต่างกันอย่างไร และควรเลือกใช้ตัวไหนเมื่อไหร่
 
 บันทึกรูปผลการทดลอง
-```image
+``image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
+<img width="1888" height="1014" alt="image" src="https://github.com/user-attachments/assets/a5df8fe9-21d8-4159-a6d0-db04deca560d" />
+
+รูปผลการทดลอง
+<img width="1916" height="1019" alt="image" src="https://github.com/user-attachments/assets/72b9779f-e5fb-4aeb-ac5d-0f0f290579a8" />
+
+<img width="1313" height="986" alt="image" src="https://github.com/user-attachments/assets/3a137c03-17d2-46a7-92b9-58c5d9b1d27b" />
+
+``
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
@@ -1109,9 +1117,18 @@ class _StatCard extends StatelessWidget {
 > 3. เขียน Comment อธิบายว่าทำไมต้องใส่ `shrinkWrap: true` และ `NeverScrollableScrollPhysics()` เมื่อวาง `ListView` ซ้อนอยู่ใน `Column` ที่อยู่ใน `SingleChildScrollView` อีกที (จะเกิดอะไรขึ้นถ้าไม่ใส่)
 
 บันทึกรูปผลการทดลอง
-```image
+``image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
+
+<img width="1881" height="1010" alt="image" src="https://github.com/user-attachments/assets/bc10bcdb-80cf-4b68-b11b-fbfb7a9f07c9" />
+
+<img width="1906" height="1003" alt="image" src="https://github.com/user-attachments/assets/7d3d36ec-30f6-48de-ac23-cc969c381395" />
+
+<img width="1313" height="986" alt="image" src="https://github.com/user-attachments/assets/7bd829f1-a9c9-4ddf-95e6-9ce527b436d2" />
+
+
+
+`
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
 
@@ -1362,9 +1379,14 @@ final GoRouter appRouter = GoRouter(
 > 3. ทดสอบ Fallback ที่แก้ไข โดยรันแอปบน Chrome (`flutter run -d chrome`) แล้วพิมพ์ URL `/explore/destinations/999` ตรง ๆ ใน Address Bar (เป็น `id` ที่ไม่มีอยู่จริง) — ต้องเห็นหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดงหรือข้อมูลผิดตัว
 
 บันทึกรูปผลการทดลอง
-```image
+``image
 บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
+
+
+<img width="1914" height="1012" alt="image" src="https://github.com/user-attachments/assets/343de749-a9af-4e01-8cd2-ea02de7799c2" />
+<img width="1904" height="979" alt="image" src="https://github.com/user-attachments/assets/1de5a8d8-d7c8-4586-98c7-4e405d1e2503" />
+
+`
 
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
