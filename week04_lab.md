@@ -484,9 +484,8 @@ class DestinationCard extends StatelessWidget {
 > 3. เขียน Comment สั้น ๆ ในโค้ดของตัวเองอธิบายว่าทำไมต้องใช้ `Positioned` คู่กับ `Stack` ถึงจะย้ายตำแหน่ง Badge ได้ (ถ้าใช้ `Positioned` นอก `Stack` จะเกิดอะไรขึ้น)
 
 บันทึกรูปผลการทดลอง
-```image
-![Checkpoint 3: DestinationCard พร้อม Rating Badge และปุ่มบันทึก](screenshots/02-explore.png)
-```
+<img width="1215" height="735" alt="image" src="https://github.com/user-attachments/assets/fa8a8357-42bb-48d9-9e31-3c7dc914e6c3" />
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
@@ -1103,9 +1102,7 @@ class _StatCard extends StatelessWidget {
 > 3. เขียน Comment อธิบายว่าทำไมต้องใส่ `shrinkWrap: true` และ `NeverScrollableScrollPhysics()` เมื่อวาง `ListView` ซ้อนอยู่ใน `Column` ที่อยู่ใน `SingleChildScrollView` อีกที (จะเกิดอะไรขึ้นถ้าไม่ใส่)
 
 บันทึกรูปผลการทดลอง
-```image
-![Checkpoint 4.3: Home Featured List และรีวิวยอดนิยม](screenshots/01-home.png)
-```
+<img width="1215" height="735" alt="image" src="https://github.com/user-attachments/assets/ef593c21-7c9e-4dfe-839f-94e88fff9be6" />
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
 
@@ -1356,9 +1353,9 @@ final GoRouter appRouter = GoRouter(
 > 3. ทดสอบ Fallback ที่แก้ไข โดยรันแอปบน Chrome (`flutter run -d chrome`) แล้วพิมพ์ URL `/explore/destinations/999` ตรง ๆ ใน Address Bar (เป็น `id` ที่ไม่มีอยู่จริง) — ต้องเห็นหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดงหรือข้อมูลผิดตัว
 
 บันทึกรูปผลการทดลอง
-```image
-![Checkpoint 5.1: Fallback เมื่อไม่พบ Destination](screenshots/06-fallback-999.png)
-```
+<img width="1215" height="735" alt="image" src="https://github.com/user-attachments/assets/61ec9125-7b77-4f46-8ab1-b3cba064bf72" />
+<img width="1215" height="735" alt="image" src="https://github.com/user-attachments/assets/35226dff-d8d4-45b8-8598-726db9a46eee" />
+
 
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
@@ -1547,9 +1544,8 @@ GoRoute(
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
 บันทึกรูปผลการทดลอง
-```image
-![การทดลองที่ 8: Saved Screen](screenshots/04-saved-empty.png)
-```
+<img width="1215" height="735" alt="image" src="https://github.com/user-attachments/assets/f5ff3d5f-52cc-4afc-9e98-bc997b203d8f" />
+
 ---
 
 ## 📝 คำถามท้ายใบงาน
