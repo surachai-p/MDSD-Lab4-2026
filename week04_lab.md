@@ -485,7 +485,7 @@ class DestinationCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+![Checkpoint 3: DestinationCard พร้อม Rating Badge และปุ่มบันทึก](screenshots/02-explore.png)
 ```
 ---
 
@@ -641,7 +641,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+![Checkpoint 4.1: Explore Responsive Grid](screenshots/02-explore.png)
 ```
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
@@ -1104,7 +1104,7 @@ class _StatCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+![Checkpoint 4.3: Home Featured List และรีวิวยอดนิยม](screenshots/01-home.png)
 ```
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
@@ -1357,7 +1357,7 @@ final GoRouter appRouter = GoRouter(
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+![Checkpoint 5.1: Fallback เมื่อไม่พบ Destination](screenshots/06-fallback-999.png)
 ```
 
 
@@ -1548,7 +1548,7 @@ GoRoute(
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
+![การทดลองที่ 8: Saved Screen](screenshots/04-saved-empty.png)
 ```
 ---
 
@@ -1594,3 +1594,16 @@ GoRoute(
 - [Flutter Layout Guide](https://docs.flutter.dev/ui/layout)
 - [Material Design 3 — Navigation](https://m3.material.io/components/navigation-bar/overview)
 - [Flutter Cookbook — Navigation](https://docs.flutter.dev/cookbook/navigation)
+
+---
+
+## ✅ ผลการทำใบงานและคำตอบสำหรับส่งงาน
+
+โค้ดที่ทำเสร็จอยู่ในโฟลเดอร์ `travel_app/` และรันด้วยคำสั่งต่อไปนี้:
+
+```bash
+cd travel_app
+flutter pub get
+flutter analyze
+flutter run -d chrome
+```
