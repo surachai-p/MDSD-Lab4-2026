@@ -491,21 +491,6 @@ class DestinationCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-📸 ต้องแคป 3 รูป — วางแทนบรรทัดนี้
-
-[รูป 1 | โค้ด] travel_app/lib/widgets/destination_card.dart  บรรทัด 43-95
-   ต้องเห็น: Comment [Checkpoint 3 ข้อ 3] ที่อธิบายว่า Positioned เป็น
-             ParentDataWidget ที่มีแต่ Stack เท่านั้นที่อ่านได้ (บรรทัด 45-56)
-             + Positioned(bottom: 8, left: 8) ของ Rating Badge (บรรทัด 71-73)
-
-[รูป 2 | โค้ด] travel_app/lib/widgets/destination_card.dart  บรรทัด 204-222
-   ต้องเห็น: Row ใหม่ใต้ Tags = Icon(Icons.bed) + Expanded(Text('พร้อมเข้าพัก'))
-
-[รูป 3 | ผลรัน] รันแอป (flutter run -d chrome) -> กด Tab "สำรวจ"
-   ซูมการ์ด 1 ใบให้ชัด ต้องเห็นครบ 2 จุด:
-     (ก) ป้าย ⭐ 4.7 ย้ายมาอยู่ "มุมซ้ายล่าง" ของรูปแล้ว (เดิมอยู่ขวาบน)
-     (ข) บรรทัด 🛏 พร้อมเข้าพัก อยู่ใต้แถว Tags
-   * มุมขวาบนของรูปจะมีปุ่มหัวใจแทน ซึ่งเป็นของการทดลองที่ 8
 ```
 ---
 
@@ -661,23 +646,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 บันทึกรูปผลการทดลอง
 ```image
-📸 ต้องแคป 3 รูป — วางแทนบรรทัดนี้
-
-[รูป 1 | โค้ด] travel_app/lib/screens/explore_screen.dart  บรรทัด 113-157
-   ต้องเห็นครบ 3 อย่าง:
-     (ก) บรรทัด 129-130 = Breakpoint ระดับที่ 4 -> crossAxisCount = 5
-     (ข) บรรทัด 117-119 = final screenWidth = MediaQuery.of(context).size.width;
-     (ค) บรรทัด 140-156 = Comment สรุปความต่างของ MediaQuery กับ LayoutBuilder
-
-[รูป 2 | ผลรัน จอแคบ] flutter run -d chrome -> Tab "สำรวจ" -> ย่อหน้าต่างให้แคบ (< 600 dp)
-   ต้องเห็น: กรอบสีเหลืองด้านบนโชว์ค่าทั้ง 3 บรรทัด + Grid เป็น 2 คอลัมน์
-
-[รูป 3 | ผลรัน จอกว้าง] ขยายหน้าต่างเต็มจอ (>= 1200 dp)
-   ต้องเห็น: ค่าในกรอบสีเหลืองเปลี่ยนไป + Grid กลายเป็น 5 คอลัมน์
-
-[ทางเลือก | Debug Console] แคป Debug Console ตอนย่อ-ขยายหน้าต่าง จะเห็นบรรทัด
-   [Checkpoint 4.1] MediaQuery.width = ... | LayoutBuilder.maxWidth = ... | crossAxisCount = ...
-   วิ่งออกมาเรื่อย ๆ (ใช้ประกอบคำตอบข้อ 15 ในตารางทดสอบ)
 ```
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
@@ -1140,19 +1108,7 @@ class _StatCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-📸 ต้องแคป 3 รูป — วางแทนบรรทัดนี้
 
-[รูป 1 | โค้ด] travel_app/lib/screens/home_screen.dart  บรรทัด 12-22
-   ต้องเห็น: final featured = sampleDestinations;  (เดิมคือ .take(3))
-             + Logic Sort หา 3 อันดับ rating สูงสุด พร้อม Comment ว่าทำไมต้อง copy List ก่อน sort
-
-[รูป 2 | โค้ด] travel_app/lib/screens/home_screen.dart  บรรทัด 158-190
-   ต้องเห็น: Section "รีวิวยอดนิยม" + Comment [Checkpoint 4.3 ข้อ 3]
-             ที่อธิบาย shrinkWrap: true และ NeverScrollableScrollPhysics()
-
-[รูป 3 | ผลรัน] หน้า "หน้าหลัก" เลื่อนลงจนเห็น Section "รีวิวยอดนิยม"
-   ต้องเห็น: อันดับ 1 โตเกียว 4.9 / อันดับ 2-3 เชียงใหม่ 4.8, สิงคโปร์ 4.8
-   และเลื่อน Featured List แนวนอนไปจนสุด ให้เห็นว่ามีครบ 6 แห่ง (ใช้ตอบตารางข้อ 12 ได้ด้วย)
 ```
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
@@ -1405,24 +1361,6 @@ final GoRouter appRouter = GoRouter(
 
 บันทึกรูปผลการทดลอง
 ```image
-📸 ต้องแคป 4 รูป — วางแทนบรรทัดนี้
-
-[รูป 1 | โค้ด] travel_app/lib/router/app_router.dart  บรรทัด 56-63 และ 165-176
-   ต้องเห็น: NavigationDestination "เกี่ยวกับ" ที่เพิ่มใน ScaffoldWithNavBar
-             + StatefulShellBranch ตัวที่ 5 (path: '/about') ที่เพิ่มใน appRouter
-
-[รูป 2 | โค้ด] travel_app/lib/router/app_router.dart  บรรทัด 100-125
-   ต้องเห็น: Fallback Logic แบบใหม่ที่คืน DestinationNotFoundScreen เมื่อหา id ไม่เจอ
-             (แทน orElse: () => sampleDestinations.first ของเดิม)
-
-[รูป 3 | ผลรัน Tab ใหม่] กด Tab "เกี่ยวกับ" ใน Bottom Navigation
-   ต้องเห็น: หน้า AboutScreen + แถบเมนูล่างมี 5 Tab และ Tab "เกี่ยวกับ" ถูกไฮไลต์อยู่
-
-[รูป 4 | ผลรัน Deep Link] flutter run -d chrome แล้วพิมพ์ใน Address Bar:
-   http://localhost:<port>/explore/destinations/999
-   ต้องเห็น: หน้า "ไม่พบข้อมูลที่ต้องการ" พร้อมข้อความว่าไม่มีรหัส "999"
-             และปุ่ม "กลับไปหน้าสำรวจ" — ต้องไม่ใช่จอแดงหรือข้อมูลของกรุงเทพฯ
-   * แคปให้ติด Address Bar ด้วย จะได้เห็น URL ที่พิมพ์เข้าไป
 ```
 
 
@@ -1643,25 +1581,6 @@ GoRoute(
 
 บันทึกรูปผลการทดลอง
 ```image
-📸 ต้องแคป 5 รูป — วางแทนบรรทัดนี้
-
-[รูป 1 | โค้ด] travel_app/lib/services/saved_store.dart (ทั้งไฟล์)
-   ต้องเห็น: Class SavedStore extends ChangeNotifier + Comment #1/#2/#3
-             (นี่คือ 3 จุดที่ซับซ้อนที่สุดตามข้อ 5 ของโจทย์)
-
-[รูป 2 | โค้ด] travel_app/lib/screens/saved_screen.dart  บรรทัด 7-62
-   ต้องเห็น: ListenableBuilder ที่ครอบทั้งหน้า + LayoutBuilder ที่สลับ
-             ListView (จอแคบ) / GridView (จอกว้าง) + Comment จุดซับซ้อนที่ 1-3
-
-[รูป 3 | ผลรัน ก่อนบันทึก] Tab "บันทึก" ตอนยังไม่ได้กดหัวใจอะไรเลย
-   ต้องเห็น: Empty State "ยังไม่มีรายการที่บันทึก"
-
-[รูป 4 | ผลรัน หลังกดหัวใจ] ไป Tab "สำรวจ" กดหัวใจ 2-3 การ์ด (ไอคอนต้องเปลี่ยน
-   จาก favorite_border ขาว เป็น favorite ชมพู) แล้วกลับมา Tab "บันทึก"
-   ต้องเห็น: รายการที่กดไว้โผล่ครบ + ตัวเลข Saved บนหน้าหลักเปลี่ยนตาม
-
-[รูป 5 | ผลรัน Responsive] ขยายหน้าต่างให้กว้าง >= 600 dp ขณะอยู่หน้า "บันทึก"
-   ต้องเห็น: Layout สลับจาก List แนวตั้ง เป็น Grid หลายคอลัมน์
 ```
 ---
 
@@ -1869,8 +1788,6 @@ MaterialApp.router
                     อยู่บน root Navigator ไม่ใช่ Navigator ของ Branch
                     (เหตุผลที่ต้อง pop ด้วย dialogContext — ดูหมายเหตุท้ายตารางทดสอบ)
 
-หมายเหตุ: ข้อนี้โจทย์อนุญาตให้วาดบนกระดาษแล้วถ่ายรูปส่งได้
-          ถ้าจะวาดมือ ให้ลอกโครงสร้างด้านบนลงกระดาษแล้วแคปรูปมาแปะเพิ่มได้เลย
 ```
 ---
 
@@ -1887,10 +1804,10 @@ MaterialApp.router
 ### ✅ Checklist ก่อนส่ง
 
 - [ ] แคปรูปครบทุกช่อง `image` (Checkpoint 3 / 4.1 / 4.3 / 5.1 และการทดลองที่ 8) — รวม 18 รูป
-- [ ] `flutter analyze` ไม่มี Error/Warning
-- [ ] `flutter test` ผ่านครบ 16 เคส
-- [ ] สร้าง Branch: `git checkout -b week04-layout-navigation`
-- [ ] Push ขึ้น GitHub แล้วเปิด Pull Request พร้อม Description ด้านล่าง
+- [✅] `flutter analyze` ไม่มี Error/Warning
+- [✅] `flutter test` ผ่านครบ 16 เคส
+- [✅] สร้าง Branch: `git checkout -b week04-layout-navigation`
+- [✅] Push ขึ้น GitHub แล้วเปิด Pull Request พร้อม Description ด้านล่าง
 
 ### 📄 ร่าง Pull Request Description (คัดลอกไปวางได้เลย)
 
