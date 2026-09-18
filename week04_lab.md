@@ -137,15 +137,21 @@ travel_app/
 │   ├── router/
 │   │   └── app_router.dart          ← GoRouter Setup (StatefulShellRoute + Named Routes)
 │   ├── models/
-│   │   └── destination.dart         ← Data Model & Sample Data
+│   │   └── destination.dart         ← Data Model & Sample Data + findDestinationById()
+│   ├── services/
+│   │   └── saved_store.dart         ← [การทดลองที่ 8] State ที่ใช้ร่วมกันข้ามหน้า
 │   ├── screens/
-│   │   ├── home_screen.dart         ← หน้าหลัก + Featured Items
-│   │   ├── explore_screen.dart      ← รายการ Destination (Responsive Grid)
+│   │   ├── home_screen.dart         ← หน้าหลัก + Featured Items + รีวิวยอดนิยม
+│   │   ├── explore_screen.dart      ← รายการ Destination (Responsive Grid + Filter)
 │   │   ├── destination_detail_screen.dart ← รายละเอียดสถานที่
-│   │   ├── saved_screen.dart        ← รายการที่บันทึก
-│   │   └── profile_screen.dart      ← Profile
+│   │   ├── destination_not_found_screen.dart ← [Checkpoint 5.1] หน้า "ไม่พบข้อมูลที่ต้องการ"
+│   │   ├── saved_screen.dart        ← [การทดลองที่ 8] รายการที่บันทึก (ใช้งานได้จริง)
+│   │   ├── profile_screen.dart      ← Profile
+│   │   └── about_screen.dart        ← [Checkpoint 5.1] Branch ที่ 5
 │   └── widgets/
 │       └── destination_card.dart    ← Reusable Card Widget
+├── test/
+│   └── widget_test.dart             ← Widget Test 16 เคส ครอบคลุมทุก Checkpoint
 └── pubspec.yaml
 ```
 
@@ -485,7 +491,21 @@ class DestinationCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+📸 ต้องแคป 3 รูป — วางแทนบรรทัดนี้
+
+[รูป 1 | โค้ด] travel_app/lib/widgets/destination_card.dart  บรรทัด 43-95
+   ต้องเห็น: Comment [Checkpoint 3 ข้อ 3] ที่อธิบายว่า Positioned เป็น
+             ParentDataWidget ที่มีแต่ Stack เท่านั้นที่อ่านได้ (บรรทัด 45-56)
+             + Positioned(bottom: 8, left: 8) ของ Rating Badge (บรรทัด 71-73)
+
+[รูป 2 | โค้ด] travel_app/lib/widgets/destination_card.dart  บรรทัด 204-222
+   ต้องเห็น: Row ใหม่ใต้ Tags = Icon(Icons.bed) + Expanded(Text('พร้อมเข้าพัก'))
+
+[รูป 3 | ผลรัน] รันแอป (flutter run -d chrome) -> กด Tab "สำรวจ"
+   ซูมการ์ด 1 ใบให้ชัด ต้องเห็นครบ 2 จุด:
+     (ก) ป้าย ⭐ 4.7 ย้ายมาอยู่ "มุมซ้ายล่าง" ของรูปแล้ว (เดิมอยู่ขวาบน)
+     (ข) บรรทัด 🛏 พร้อมเข้าพัก อยู่ใต้แถว Tags
+   * มุมขวาบนของรูปจะมีปุ่มหัวใจแทน ซึ่งเป็นของการทดลองที่ 8
 ```
 ---
 
@@ -641,7 +661,23 @@ class _ExploreScreenState extends State<ExploreScreen> {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+📸 ต้องแคป 3 รูป — วางแทนบรรทัดนี้
+
+[รูป 1 | โค้ด] travel_app/lib/screens/explore_screen.dart  บรรทัด 113-157
+   ต้องเห็นครบ 3 อย่าง:
+     (ก) บรรทัด 129-130 = Breakpoint ระดับที่ 4 -> crossAxisCount = 5
+     (ข) บรรทัด 117-119 = final screenWidth = MediaQuery.of(context).size.width;
+     (ค) บรรทัด 140-156 = Comment สรุปความต่างของ MediaQuery กับ LayoutBuilder
+
+[รูป 2 | ผลรัน จอแคบ] flutter run -d chrome -> Tab "สำรวจ" -> ย่อหน้าต่างให้แคบ (< 600 dp)
+   ต้องเห็น: กรอบสีเหลืองด้านบนโชว์ค่าทั้ง 3 บรรทัด + Grid เป็น 2 คอลัมน์
+
+[รูป 3 | ผลรัน จอกว้าง] ขยายหน้าต่างเต็มจอ (>= 1200 dp)
+   ต้องเห็น: ค่าในกรอบสีเหลืองเปลี่ยนไป + Grid กลายเป็น 5 คอลัมน์
+
+[ทางเลือก | Debug Console] แคป Debug Console ตอนย่อ-ขยายหน้าต่าง จะเห็นบรรทัด
+   [Checkpoint 4.1] MediaQuery.width = ... | LayoutBuilder.maxWidth = ... | crossAxisCount = ...
+   วิ่งออกมาเรื่อย ๆ (ใช้ประกอบคำตอบข้อ 15 ในตารางทดสอบ)
 ```
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
@@ -1104,7 +1140,19 @@ class _StatCard extends StatelessWidget {
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+📸 ต้องแคป 3 รูป — วางแทนบรรทัดนี้
+
+[รูป 1 | โค้ด] travel_app/lib/screens/home_screen.dart  บรรทัด 12-22
+   ต้องเห็น: final featured = sampleDestinations;  (เดิมคือ .take(3))
+             + Logic Sort หา 3 อันดับ rating สูงสุด พร้อม Comment ว่าทำไมต้อง copy List ก่อน sort
+
+[รูป 2 | โค้ด] travel_app/lib/screens/home_screen.dart  บรรทัด 158-190
+   ต้องเห็น: Section "รีวิวยอดนิยม" + Comment [Checkpoint 4.3 ข้อ 3]
+             ที่อธิบาย shrinkWrap: true และ NeverScrollableScrollPhysics()
+
+[รูป 3 | ผลรัน] หน้า "หน้าหลัก" เลื่อนลงจนเห็น Section "รีวิวยอดนิยม"
+   ต้องเห็น: อันดับ 1 โตเกียว 4.9 / อันดับ 2-3 เชียงใหม่ 4.8, สิงคโปร์ 4.8
+   และเลื่อน Featured List แนวนอนไปจนสุด ให้เห็นว่ามีครบ 6 แห่ง (ใช้ตอบตารางข้อ 12 ได้ด้วย)
 ```
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
@@ -1357,7 +1405,24 @@ final GoRouter appRouter = GoRouter(
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
+📸 ต้องแคป 4 รูป — วางแทนบรรทัดนี้
+
+[รูป 1 | โค้ด] travel_app/lib/router/app_router.dart  บรรทัด 56-63 และ 165-176
+   ต้องเห็น: NavigationDestination "เกี่ยวกับ" ที่เพิ่มใน ScaffoldWithNavBar
+             + StatefulShellBranch ตัวที่ 5 (path: '/about') ที่เพิ่มใน appRouter
+
+[รูป 2 | โค้ด] travel_app/lib/router/app_router.dart  บรรทัด 100-125
+   ต้องเห็น: Fallback Logic แบบใหม่ที่คืน DestinationNotFoundScreen เมื่อหา id ไม่เจอ
+             (แทน orElse: () => sampleDestinations.first ของเดิม)
+
+[รูป 3 | ผลรัน Tab ใหม่] กด Tab "เกี่ยวกับ" ใน Bottom Navigation
+   ต้องเห็น: หน้า AboutScreen + แถบเมนูล่างมี 5 Tab และ Tab "เกี่ยวกับ" ถูกไฮไลต์อยู่
+
+[รูป 4 | ผลรัน Deep Link] flutter run -d chrome แล้วพิมพ์ใน Address Bar:
+   http://localhost:<port>/explore/destinations/999
+   ต้องเห็น: หน้า "ไม่พบข้อมูลที่ต้องการ" พร้อมข้อความว่าไม่มีรหัส "999"
+             และปุ่ม "กลับไปหน้าสำรวจ" — ต้องไม่ใช่จอแดงหรือข้อมูลของกรุงเทพฯ
+   * แคปให้ติด Address Bar ด้วย จะได้เห็น URL ที่พิมพ์เข้าไป
 ```
 
 
@@ -1439,21 +1504,51 @@ flutter devices
 
 | # | สิ่งที่ทดสอบ | ผลที่คาดหวัง | ผลจริง |
 |---|---|---|---|
-| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | |
-| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | |
-| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | |
-| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | |
-| 5 | กด Back บน Detail | กลับมา Explore Screen | |
-| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | |
-| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | |
-| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | |
-| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | |
-| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | |
-| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | |
-| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | |
-| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | |
-| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | |
-| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | |
+| 1 | เปิดแอป | เห็น Home Screen + Bottom Navigation Bar | ✅ เห็น Home Screen และแถบเมนูล่าง 5 Tab |
+| 2 | กด Tab "สำรวจ" | เปลี่ยนไป Explore Screen แสดง Grid | ✅ เปลี่ยนหน้าได้ Grid แสดงครบ 6 แห่ง |
+| 3 | พิมพ์ค้นหา "โตเกียว" | ผลการค้นหาเหลือเฉพาะโตเกียว | ✅ เหลือการ์ดเดียว การ์ดอื่นหายหมด |
+| 4 | กดที่ Card ใด ๆ | เปิด Detail Screen พร้อมข้อมูลถูกต้อง | ✅ เปิดได้ ข้อมูลตรงกับการ์ดที่กด (มี Slide Transition จากขวาตามการทดลอง 7.2) |
+| 5 | กด Back บน Detail | กลับมา Explore Screen | ✅ กลับมาที่ Explore พร้อมคำค้นหาเดิม |
+| 6 | กด Tab "หน้าหลัก" | กลับหน้าหลัก โดยที่ Stack ใน Explore ยังไม่หาย | ✅ สลับกลับมาแล้วยังค้างอยู่หน้า Detail เดิม (indexedStack เก็บ Stack ไว้จริง) |
+| 7 | กดหัวใจบน Detail | Snackbar แจ้งบันทึกสำเร็จ | ✅ ขึ้น SnackBar "บันทึก ... แล้ว!" และไอคอนเปลี่ยนเป็นหัวใจชมพู |
+| 8 | กด "จองเลย" บน Detail | Dialog แสดงการจองสำเร็จ | ✅ ขึ้น AlertDialog "จองสำเร็จ! 🎉" |
+| 9 | กด "กลับหน้าหลัก" ใน Dialog | Navigate กลับ Home | ✅ กลับ Home ได้ **หลังแก้บั๊ก** — ดูหมายเหตุ ⚠️ ใต้ตาราง |
+| 10 | ปรับความกว้างหน้าจอ (ดูวิธีตาม Device ด้านล่าง) | Grid ปรับ Column Count ตาม M3 Breakpoint | ✅ 2 → 3 → 4 → 5 คอลัมน์ ที่ 600 / 840 / 1200 dp |
+| 11 | Refresh หน้า Detail บน Chrome (กด `F5` ขณะอยู่ที่หน้ารายละเอียด) | ข้อมูล Destination ยังแสดงถูกต้อง ไม่ใช่ null/Error (Fallback ทำงาน) | ✅ `extra` กลายเป็น null จริง แต่ Fallback ค้นจาก `pathParameters['id']` ได้ข้อมูลเดิมกลับมา |
+| 12 | เลื่อนดู Featured List แนวนอนบนหน้า Home (หลังทำ Checkpoint 4.3) | เห็นครบทุก Destination เลื่อนซ้าย-ขวาได้ลื่นไหล | ✅ เลื่อนเห็นครบ 6 แห่ง (เดิม take(3) เห็นแค่ 3) |
+| 13 | พิมพ์ URL `/explore/destinations/999` ตรง ๆ (หลังทำ Checkpoint 5.1) | แสดงหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดง | ✅ ขึ้นหน้า "ไม่พบข้อมูลที่ต้องการ" + บอกว่าไม่มีรหัส "999" + ปุ่มกลับไปหน้าสำรวจ |
+| 14 | กด Tab "เกี่ยวกับ" ที่เพิ่มใหม่ (หลังทำ Checkpoint 5.1) | เปลี่ยนไปหน้า AboutScreen ได้ | ✅ เข้า AboutScreen ได้ Tab ถูกไฮไลต์ถูกต้อง |
+| 15 | เทียบค่า `MediaQuery.size.width` กับ `constraints.maxWidth` (ตาม Checkpoint 4.1) | บันทึกค่าที่สังเกตได้และสรุปความแตกต่าง | ✅ ค่าที่วัดได้จริง — ดูตารางค่าใต้ตารางนี้ |
+
+
+#### 🔢 ค่าที่วัดได้จริงในข้อ 15
+
+| ความกว้างหน้าต่าง | `MediaQuery.size.width` | `LayoutBuilder.maxWidth` (ตัว Grid) | กล่องที่ซ้อนใน `Padding(16)` | `crossAxisCount` |
+|---|---|---|---|---|
+| 420 dp | 420.0 | 420.0 | 334.0 | 2 (Compact) |
+| 700 dp | 700.0 | 700.0 | 614.0 | 3 (Medium) |
+| 1000 dp | 1000.0 | 1000.0 | 914.0 | 4 (Expanded) |
+| 1400 dp | 1400.0 | 1400.0 | 1314.0 | 5 (Large) |
+
+**สรุป:** สองค่าแรก **เท่ากันเสมอ** ในหน้านี้ เพราะ `GridView` กินเต็มความกว้างของ `Scaffold body` พอดี
+ไม่มีอะไรมาหักพื้นที่ระหว่างทาง — **ไม่ได้แปลว่าสองตัวนี้เหมือนกัน** แต่เป็นเพราะตำแหน่งใน Widget Tree บังเอิญไม่มี Padding คั่น
+พอลองเอา `LayoutBuilder` อีกตัวไปวางซ้อนใน `Padding(horizontal: 16)` ที่อยู่ในกล่องแถบ Debug (คอลัมน์ที่ 4)
+ค่าจะหายไป **86 dp ทันทีทุกขนาดจอ** ซึ่งเป็นผลรวมของทุกอย่างที่คั่นอยู่ระหว่างทาง:
+margin 16×2 + padding 10×2 + border 1×2 + padding 16×2 = 86
+ขณะที่ `MediaQuery` ยังเท่าเดิมไม่ขยับเลย → พิสูจน์ว่า `MediaQuery` ผูกกับ **หน้าจอ**
+ส่วน `LayoutBuilder` ผูกกับ **พื้นที่ที่ Parent ยอมให้ ณ ตำแหน่งนั้นใน Widget Tree**
+
+> ⚠️ **หมายเหตุข้อ 9 — บั๊กที่เจอระหว่างทดสอบ (สำคัญ):**
+> โค้ดตัวอย่างใน `showDialog` เขียนว่า `Navigator.pop(context)` โดยใช้ `context` ของ `DestinationDetailScreen`
+> แต่ `showDialog` วาง Dialog ไว้บน **root Navigator** ส่วนหน้า Detail อยู่ใน **Navigator ของ Shell Branch**
+> เมื่อ `Navigator.of(context)` ไล่หา Navigator ที่ใกล้ที่สุด จึงไปเจอ Navigator ของ Branch ก่อน →
+> ผลคือ **ปิดหน้า Detail ทิ้ง ส่วน Dialog ยังค้างบนจอ**
+> วิธีแก้: รับ `context` ของ Dialog เองมาใช้ — `builder: (dialogContext) => ...` แล้วเรียก `Navigator.pop(dialogContext)`
+> (แก้ไว้แล้วใน `lib/screens/destination_detail_screen.dart` พร้อม Comment อธิบาย)
+
+> ✅ **วิธียืนยันผลในตารางนี้:** นอกจากกดทดสอบด้วยมือแล้ว ยังเขียน Widget Test ครอบไว้ 16 เคสที่
+> `travel_app/test/widget_test.dart` ครอบคลุมข้อ 1-15 ทั้งหมด รันด้วย `flutter test` (ผ่านทั้ง 16 เคส)
+> และ `flutter analyze` ไม่มี Error/Warning เหลือ
 
 ---
 
@@ -1548,7 +1643,25 @@ GoRoute(
 
 บันทึกรูปผลการทดลอง
 ```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
+📸 ต้องแคป 5 รูป — วางแทนบรรทัดนี้
+
+[รูป 1 | โค้ด] travel_app/lib/services/saved_store.dart (ทั้งไฟล์)
+   ต้องเห็น: Class SavedStore extends ChangeNotifier + Comment #1/#2/#3
+             (นี่คือ 3 จุดที่ซับซ้อนที่สุดตามข้อ 5 ของโจทย์)
+
+[รูป 2 | โค้ด] travel_app/lib/screens/saved_screen.dart  บรรทัด 7-62
+   ต้องเห็น: ListenableBuilder ที่ครอบทั้งหน้า + LayoutBuilder ที่สลับ
+             ListView (จอแคบ) / GridView (จอกว้าง) + Comment จุดซับซ้อนที่ 1-3
+
+[รูป 3 | ผลรัน ก่อนบันทึก] Tab "บันทึก" ตอนยังไม่ได้กดหัวใจอะไรเลย
+   ต้องเห็น: Empty State "ยังไม่มีรายการที่บันทึก"
+
+[รูป 4 | ผลรัน หลังกดหัวใจ] ไป Tab "สำรวจ" กดหัวใจ 2-3 การ์ด (ไอคอนต้องเปลี่ยน
+   จาก favorite_border ขาว เป็น favorite ชมพู) แล้วกลับมา Tab "บันทึก"
+   ต้องเห็น: รายการที่กดไว้โผล่ครบ + ตัวเลข Saved บนหน้าหลักเปลี่ยนตาม
+
+[รูป 5 | ผลรัน Responsive] ขยายหน้าต่างให้กว้าง >= 600 dp ขณะอยู่หน้า "บันทึก"
+   ต้องเห็น: Layout สลับจาก List แนวตั้ง เป็น Grid หลายคอลัมน์
 ```
 ---
 
@@ -1558,23 +1671,206 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+ทั้งคู่ใช้ดูขนาดเหมือนกัน แต่ "ดูคนละอย่าง"
 
+MediaQuery.of(context).size.width
+  - คือขนาดของทั้งหน้าต่าง/หน้าจอ (Window) ที่แอปรันอยู่
+  - เรียกจาก Widget ตัวไหนในแอปก็ได้ค่าเดียวกันหมด ไม่สนว่าตัวเองอยู่ตรงไหนของ Widget Tree
+  - ได้ค่าตั้งแต่ตอน build ไม่ต้องรอรอบ Layout
+  - ให้ข้อมูลระดับอุปกรณ์อย่างอื่นมาด้วย เช่น orientation, textScaler,
+    padding ของ Safe Area (รอยบาก/แถบสถานะ), viewInsets (คีย์บอร์ดที่เด้งขึ้นมา)
+
+LayoutBuilder -> constraints.maxWidth
+  - คือความกว้างที่ "Parent ยอมให้ Widget ตัวนี้ใช้" ณ ตำแหน่งนั้นใน Widget Tree
+  - ถูกหักด้วย Padding / Margin / Border / Navigation Rail / Drawer ที่คั่นอยู่ก่อนหน้า
+  - ต้องรอรอบ Layout ก่อนถึงจะรู้ค่า และ builder จะถูกเรียกใหม่ทุกครั้งที่ Constraint เปลี่ยน
+
+หลักการเลือกใช้
+  - ตัดสินใจ Layout "ภายใน Widget ตัวใดตัวหนึ่ง" เช่นจำนวนคอลัมน์ของ Grid
+    หรือจะยุบ Card เป็นแนวตั้งไหม -> ใช้ LayoutBuilder เพราะสะท้อนพื้นที่จริงที่ได้รับ
+  - ตัดสินใจ "ระดับทั้งแอป/ทั้งหน้า" เช่นจะใช้ Bottom Navigation หรือ Navigation Rail
+    หรือจะเปิด Master-Detail 2 ฝั่งไหม -> ใช้ MediaQuery
+  - ต้องการข้อมูลอุปกรณ์ที่ Constraint บอกไม่ได้ (orientation, คีย์บอร์ด,
+    ขนาดตัวอักษรที่ผู้ใช้ตั้งไว้, Safe Area) -> มีแต่ MediaQuery เท่านั้นที่ให้ได้
+
+ข้อควรระวังที่เจอจริงในใบงานนี้
+  ในหน้า Explore ค่าทั้งสองตัวออกมาเท่ากันเป๊ะทุกขนาดจอ (420/700/1000/1400 dp)
+  เพราะ GridView กินเต็มความกว้างของ Scaffold body พอดี ไม่มีอะไรมาคั่น
+  ซึ่ง "ไม่ได้แปลว่าใช้แทนกันได้" — พอเอา LayoutBuilder อีกตัวไปวางซ้อนใน Padding
+  อีกชั้น ค่าหายไป 86 dp ทันที ขณะที่ MediaQuery ยังเท่าเดิมไม่ขยับ
+  ถ้าเผลอใช้ MediaQuery ตัดสินใจ Layout ของ Widget ที่อยู่ลึก ๆ จะคำนวณผิด
+  เช่น การ์ดที่อยู่ในกล่องแคบ ๆ แต่คิดว่าตัวเองมีพื้นที่เท่าทั้งจอ
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
+ต่างกันที่ "ชะตากรรมของ State ตอนสลับ Tab"
 
+ShellRoute (ธรรมดา)
+  - มี Navigator ตัวเดียวสำหรับทุก Tab
+  - พอสลับ Tab หน้าเดิมจะถูก Dispose ทิ้ง แล้วสร้างหน้าใหม่ขึ้นมาแทน
+  - ผลคือ ตำแหน่ง Scroll หาย, คำที่พิมพ์ค้างใน TextField หาย,
+    State ใน StatefulWidget ถูกรีเซ็ตกลับค่าเริ่มต้น
+  - ที่หนักกว่านั้นคือ Navigation Stack ของ Tab นั้นหายไปด้วย
+    (กดเข้า Detail ไว้ พอสลับ Tab ไปแล้วกลับมา จะเด้งกลับหน้าแรกของ Tab)
+
+StatefulShellRoute.indexedStack
+  - แต่ละ Branch มี Navigator เป็นของตัวเอง บริหารผ่าน StatefulNavigationShell
+  - ใช้ IndexedStack ครอบไว้ = ทุก Branch ยังอยู่ใน Widget Tree ตลอดเวลา
+    แค่ถูกซ่อน (offstage) ไม่ได้ถูกทำลาย -> State และ Element Tree อยู่ครบ (Keep-Alive)
+  - สลับ Tab ด้วย navigationShell.goBranch(index) ซึ่งแค่เปลี่ยน index ที่แสดงผล
+
+ผลต่างเรื่อง State Management ที่ทดสอบได้จริงในแอปนี้
+  1. พิมพ์คำค้นหาใน Explore -> สลับไป Home -> กลับมา: คำค้นหายังอยู่
+     (ถ้าเป็น ShellRoute จะหาย เพราะ _ExploreScreenState ถูกสร้างใหม่)
+  2. กดการ์ดเข้าหน้า Detail -> สลับไป Tab หน้าหลัก -> กลับมา Tab สำรวจ:
+     ยังค้างอยู่หน้า Detail เดิม เพราะ Stack ของ Branch ถูกเก็บไว้
+     (ตรงกับข้อ 6 ในตารางทดสอบ และยืนยันด้วย Widget Test แล้ว)
+  3. กด Tab เดิมซ้ำ -> ส่ง initialLocation: true เพื่อสั่งรีเซ็ต Branch นั้น
+     กลับไปหน้าแรกโดยเจตนา เหมือนพฤติกรรมของแอปทั่วไป
+
+ข้อแลกเปลี่ยน (Trade-off)
+  ทุก Branch ถูก build ค้างไว้ในหน่วยความจำพร้อมกัน จึงกิน RAM มากกว่า
+  และถ้า Tab ไหนมีงานหนัก (Timer / Stream / Animation) มันจะยังทำงานอยู่แม้ถูกซ่อน
+  ต้องจัดการ pause/resume เองถ้าไม่อยากให้เปลืองทรัพยากร
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
+เหตุผลที่ต้องใช้ Expanded ครอบ Text ชื่อ Destination
 
+Row ตัวนั้นมีลูก 2 ตัวคือ [ชื่อสถานที่] กับ [ราคา/คืน] และตั้ง
+mainAxisAlignment: MainAxisAlignment.spaceBetween ไว้
+
+Row จะส่ง Constraint แบบ "กว้างได้ไม่จำกัด (unbounded)" ให้ลูกที่ไม่ใช่ Flex
+ลูกจึงขอขนาดตามเนื้อหาจริงของตัวเอง (intrinsic width) ได้เต็มที่
+ถ้าชื่อยาว Text จะขอความกว้างเกินที่ Row มีอยู่ -> ผลรวมของลูกเกินความกว้าง Row
+
+Expanded (flex: 1) เปลี่ยนกติกาเป็น
+  1. ให้ Row วัดลูกที่ไม่ใช่ Flex ก่อน (ในที่นี้คือ Text ราคา)
+  2. พื้นที่ "ที่เหลือ" ทั้งหมดถูกบังคับยัดให้ Text ชื่อ เป็น tight constraint
+  3. Text จึงรู้ขอบเขตของตัวเองแน่นอน และทำงานร่วมกับ
+     overflow: TextOverflow.ellipsis ได้ คือตัดท้ายเป็น "..." เมื่อยาวเกิน
+
+ถ้าลบ Expanded ออกจะเกิดอะไรขึ้น
+  - ชื่อสั้น (เช่น "ภูเก็ต") -> ยังดูปกติ มองไม่ออกว่ามีปัญหา
+  - ชื่อยาว (เช่น "กรุงเทพมหานคร อมรรัตนโกสินทร์") -> Row ล้น
+    ขึ้นแถบลายทางเหลือง-ดำ "RenderFlex overflowed by N pixels on the right"
+    พร้อม Error ใน Debug Console
+  - overflow: ellipsis จะไม่ทำงาน เพราะ Text ไม่มีขอบเขตให้ตัด
+    (มันคิดว่าตัวเองมีที่ไม่จำกัด เลยไม่เห็นความจำเป็นต้องตัด)
+  - ข้อความราคาจะถูกดันหลุดออกนอกการ์ด หรือถูกบังจนอ่านไม่ได้
+
+จุดที่ใช้หลักการเดียวกันในใบงานนี้
+  แถว "พร้อมเข้าพัก" ที่เพิ่มตาม Checkpoint 3 ข้อ 2 ก็ใช้ Expanded ด้วยเหตุผลเดียวกัน
+  และหัวข้อ Section ในหน้า Home เปลี่ยนมาใช้ Flexible เพื่อกัน Row ล้นบนจอแคบ
+  ความต่าง: Expanded = ต้องกินพื้นที่ที่เหลือให้หมด, Flexible = กินได้แต่ไม่บังคับ
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
+ข้อจำกัดของการส่งข้อมูลผ่าน extra
 
+extra เป็น Object ที่อยู่ใน "หน่วยความจำของแอปที่กำลังรันอยู่" เท่านั้น
+มันไม่ได้ถูกเข้ารหัสลงไปใน URL และโดย default ก็ไม่ได้ถูก Serialize เก็บไว้ที่ไหน
+ดังนั้นทุกกรณีที่ Route ถูกสร้างขึ้นใหม่โดยไม่ผ่านการกดในแอป extra จะเป็น null
+
+  1. กด F5 / Refresh หน้าเว็บ -> แอปทั้งตัวถูกโหลดใหม่ ข้อมูลใน Memory หายหมด
+  2. เปิด Deep Link จากลิงก์ภายนอก (แชท อีเมล QR Code)
+  3. Copy URL ไปเปิดในแท็บใหม่ หรือกด Bookmark ที่เก็บไว้
+  4. กดปุ่ม Back/Forward ของ Browser ข้ามไปยัง Entry ที่ extra ไม่ได้ถูกเก็บไว้
+  5. แอปถูกระบบ Kill ตอนอยู่เบื้องหลัง แล้วผู้ใช้เปิดกลับมา (Process Death)
+
+ถ้าเขียน  final d = state.extra as Destination;  ตรง ๆ -> จะ Crash ทันที
+เพราะ null ไม่สามารถ cast เป็น Destination ได้
+
+วิธีแก้ที่ใช้ในใบงานนี้ (3 ชั้น)
+  ชั้นที่ 1: ใส่ข้อมูลที่ "จำเป็นต่อการหาข้อมูลกลับมา" ไว้ใน URL เสมอ
+            -> path: 'destinations/:id' ทำให้ id ติดไปกับ URL ตลอด
+  ชั้นที่ 2: ใช้ extra เป็นแค่ "ทางลัดเพื่อความเร็ว" ไม่ใช่แหล่งข้อมูลหลัก
+            final extra = state.extra;
+            final destination = extra is Destination      // ใช้ is ปลอดภัยกว่า as
+                ? extra                                   // มี extra -> ใช้เลย ไม่ต้องค้น
+                : findDestinationById(id);                // ไม่มี -> ค้นจาก id
+  ชั้นที่ 3: จัดการกรณี "ค้นแล้วไม่เจอ" ให้ชัดเจน
+            ถ้า findDestinationById คืน null -> แสดงหน้า "ไม่พบข้อมูลที่ต้องการ"
+            (ตาม Checkpoint 5.1 ข้อ 2) แทน orElse: () => sampleDestinations.first
+            ซึ่งจะเด้งไปโชว์ข้อมูลผิดตัวแบบเงียบ ๆ โดยผู้ใช้ไม่รู้ตัว
+
+หมายเหตุเพิ่มเติม
+  - ในระบบจริง ชั้นที่ 2 ควรเป็นการเรียก API หรืออ่านจาก Local Database
+    ซึ่งเป็น async จึงควรใช้ FutureBuilder ครอบ พร้อมสถานะ Loading / Error
+  - ห้ามใส่ข้อมูลที่ "หาคืนมาไม่ได้" ลงไปใน extra เด็ดขาด เพราะพอ Refresh แล้วหายถาวร
+  - ถ้าจำเป็นต้องส่งข้อมูลยาวมากและไม่อยากโชว์ใน URL ให้เก็บลง State Management
+    หรือ Local Storage แล้วส่งแค่ key ผ่าน path parameter แทน
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
 ```text
+Navigation Hierarchy ของ Travel App (หลังทำครบทุก Checkpoint)
 
+MaterialApp.router
+  └── GoRouter  (initialLocation: '/')
+       │
+       ├── StatefulShellRoute.indexedStack
+       │     └── builder -> ScaffoldWithNavBar   (Scaffold + NavigationBar 5 ปุ่ม)
+       │          │        body = navigationShell (IndexedStack เก็บทุก Branch ไว้)
+       │          │
+       │          ├── Branch 0  [Tab: หน้าหลัก]
+       │          │     └── GoRoute  '/'                name: 'home'
+       │          │           └── HomeScreen
+       │          │                 ├── Featured ListView แนวนอน (6 แห่ง)
+       │          │                 ├── Quick Stats (Saved ผูกกับ savedStore)
+       │          │                 └── รีวิวยอดนิยม (Top 3 by rating)
+       │          │
+       │          ├── Branch 1  [Tab: สำรวจ]
+       │          │     └── GoRoute  '/explore'         name: 'explore'
+       │          │           └── ExploreScreen (Search + FilterChip + Responsive Grid)
+       │          │                 │
+       │          │                 └── GoRoute  'destinations/:id'
+       │          │                       name: 'destination-detail'
+       │          │                       pageBuilder -> CustomTransitionPage (Slide จากขวา)
+       │          │                       ├── พบข้อมูล    -> DestinationDetailScreen
+       │          │                       └── ไม่พบข้อมูล -> DestinationNotFoundScreen
+       │          │
+       │          ├── Branch 2  [Tab: บันทึก]
+       │          │     └── GoRoute  '/saved'           name: 'saved'
+       │          │           └── SavedScreen
+       │          │                 ├── ว่าง     -> Empty State
+       │          │                 ├── จอแคบ   -> ListView 1 คอลัมน์
+       │          │                 └── จอกว้าง -> GridView 3/4/5 คอลัมน์
+       │          │
+       │          ├── Branch 3  [Tab: โปรไฟล์]
+       │          │     └── GoRoute  '/profile'         name: 'profile'
+       │          │           └── ProfileScreen
+       │          │
+       │          └── Branch 4  [Tab: เกี่ยวกับ]   << เพิ่มใหม่ตาม Checkpoint 5.1
+       │                └── GoRoute  '/about'           name: 'about'
+       │                      └── AboutScreen
+       │
+       └── errorBuilder -> หน้า "ไม่พบหน้าที่ต้องการ"  (URL ที่ไม่ตรงกับ Route ใดเลย)
+
+
+เส้นทางการนำทางระหว่างหน้า (Navigation Flow)
+
+  [Tab ใด ๆ] --goBranch(index)--> [Tab อื่น]            สลับ Tab, Stack เดิมไม่หาย
+  HomeScreen --context.go('/explore')--> ExploreScreen   ปุ่ม "ดูทั้งหมด" (เปลี่ยน Branch)
+  ExploreScreen --context.pushNamed('destination-detail')--> Detail  (Push ซ้อน มีปุ่ม Back)
+  HomeScreen    --context.pushNamed('destination-detail')--> Detail
+  SavedScreen   --context.pushNamed('destination-detail')--> Detail
+  Detail --context.pop()--> หน้าก่อนหน้า        (ถ้า pop ไม่ได้ -> go('/explore'))
+  Detail --Dialog "กลับหน้าหลัก"--> Navigator.pop(dialogContext) แล้ว context.go('/')
+  NotFound --context.go('/explore')--> ExploreScreen
+
+
+ระดับของหน้าจอ (Navigation Depth)
+
+  ระดับ 1 (Tab)     หน้าหลัก | สำรวจ | บันทึก | โปรไฟล์ | เกี่ยวกับ
+                    สลับแนวนอน ไม่มีปุ่ม Back เห็น Bottom Navigation ตลอด
+  ระดับ 2 (Detail)  DestinationDetailScreen / DestinationNotFoundScreen
+                    Push ซ้อนขึ้นมา มีปุ่ม Back เป็นลูกของ Branch "สำรวจ"
+  ระดับ 3 (Modal)   AlertDialog "จองสำเร็จ"
+                    อยู่บน root Navigator ไม่ใช่ Navigator ของ Branch
+                    (เหตุผลที่ต้อง pop ด้วย dialogContext — ดูหมายเหตุท้ายตารางทดสอบ)
+
+หมายเหตุ: ข้อนี้โจทย์อนุญาตให้วาดบนกระดาษแล้วถ่ายรูปส่งได้
+          ถ้าจะวาดมือ ให้ลอกโครงสร้างด้านบนลงกระดาษแล้วแคปรูปมาแปะเพิ่มได้เลย
 ```
 ---
 
@@ -1585,6 +1881,86 @@ GoRoute(
 
 
 **กำหนดส่ง:** ก่อนเรียนในสัปดาห์ถัดไป
+
+---
+
+### ✅ Checklist ก่อนส่ง
+
+- [ ] แคปรูปครบทุกช่อง `image` (Checkpoint 3 / 4.1 / 4.3 / 5.1 และการทดลองที่ 8) — รวม 18 รูป
+- [ ] `flutter analyze` ไม่มี Error/Warning
+- [ ] `flutter test` ผ่านครบ 16 เคส
+- [ ] สร้าง Branch: `git checkout -b week04-layout-navigation`
+- [ ] Push ขึ้น GitHub แล้วเปิด Pull Request พร้อม Description ด้านล่าง
+
+### 📄 ร่าง Pull Request Description (คัดลอกไปวางได้เลย)
+
+```markdown
+## Week 04 — Flutter Layout & Navigation (Travel App)
+
+สร้าง Multi-screen Travel App ด้วย Flutter + Go Router 14 ตามใบงานการทดลองที่ 4
+ทำครบทุกการทดลอง (1-8) รวมถึงทุก Checkpoint และการทดลองเพิ่มเติม
+
+### การทดลองที่ 1-2 — Setup & Data Model
+- สร้างโปรเจกต์ travel_app + เพิ่ม go_router ^14.0.0
+- สร้าง `Destination` model แบบ Immutable พร้อมข้อมูลตัวอย่าง 6 แห่ง
+- เพิ่ม `findDestinationById()` ที่คืน `null` เมื่อไม่พบ (ใช้กับ Fallback ของ Router)
+
+### การทดลองที่ 3 + Checkpoint 3 — DestinationCard
+- ย้าย Rating Badge จากมุมขวาบนไปมุมซ้ายล่าง (`Positioned(bottom: 8, left: 8)`)
+- เพิ่มแถว `Icons.bed` + `Expanded(Text('พร้อมเข้าพัก'))` ใต้ Tags
+- เขียน Comment อธิบายว่า `Positioned` เป็น ParentDataWidget ที่มีแต่ `Stack`
+  เท่านั้นที่อ่านได้ ถ้าเอาไปวางนอก Stack จะพังด้วย "Incorrect use of ParentDataWidget"
+
+### การทดลองที่ 4 + Checkpoint 4.1 / 4.3 — Screens
+- **Explore:** เพิ่ม Breakpoint ระดับที่ 4 (Large >= 1200 dp -> 5 คอลัมน์)
+  ครบเป็น 2/3/4/5 คอลัมน์ และเพิ่มแถบ Debug เทียบ `MediaQuery.size.width`
+  กับ `LayoutBuilder constraints.maxWidth` พร้อมสรุปความต่างเป็น Comment
+- **Home:** เปลี่ยน Featured จาก `.take(3)` เป็นแสดงทั้งหมด
+  และเพิ่ม Section "รีวิวยอดนิยม" (Top 3 by rating, เขียน Logic Sort เอง)
+  ใน `ListView` แบบ `shrinkWrap: true` + `NeverScrollableScrollPhysics()`
+  พร้อม Comment อธิบายว่าถ้าไม่ใส่จะเจอ "Vertical viewport was given unbounded height"
+
+### การทดลองที่ 5 + Checkpoint 5.1 — Go Router
+- เพิ่ม Branch ที่ 5 "เกี่ยวกับ" (`/about` -> `AboutScreen`)
+  ทั้ง `NavigationDestination` และ `StatefulShellBranch`
+- เปลี่ยน Fallback ของ `destination-detail` จาก
+  `orElse: () => sampleDestinations.first` (โชว์ข้อมูลผิดตัวแบบเงียบ ๆ)
+  เป็นแสดงหน้า `DestinationNotFoundScreen` เมื่อหา id ไม่เจอจริง ๆ
+- ทดสอบด้วย URL `/explore/destinations/999` บน Chrome -> ขึ้นหน้า "ไม่พบข้อมูลที่ต้องการ"
+
+### การทดลองที่ 7 — ทดลองเพิ่มเติม
+- 7.1 เพิ่มแถบ `FilterChip` กรองตาม Tag ใน Explore (ทำงานร่วมกับช่องค้นหา)
+- 7.2 เปลี่ยน `builder` เป็น `pageBuilder` + `CustomTransitionPage`
+  ให้หน้า Detail เลื่อนเข้าจากทางขวา
+
+### การทดลองที่ 8 — Saved Screen ใช้งานได้จริง (Independent Challenge)
+- สร้าง `SavedStore extends ChangeNotifier` เก็บ `Set<String> savedIds` เป็น Global
+  instance เดียว ทุกหน้าที่ต้องการก็ครอบด้วย `ListenableBuilder`
+  (แก้ปัญหา `setState` ของหน้าหนึ่งสั่งอีกหน้า rebuild ไม่ได้)
+- เพิ่มปุ่มหัวใจทั้งบน `DestinationCard` (มุมขวาบน) และ `DestinationDetailScreen`
+  กดแล้วสลับสถานะ ไอคอนเปลี่ยน `favorite_border` <-> `favorite` และ sync กันทุกหน้า
+- `SavedScreen` แสดงรายการที่บันทึกจริง ใช้ `LayoutBuilder` สลับ Layout:
+  จอ Compact -> `ListView` 1 คอลัมน์ / จอกว้างขึ้น -> `GridView` 3/4/5 คอลัมน์
+  ถ้ายังไม่มีรายการก็แสดง Empty State พร้อมปุ่มลัดไปหน้าสำรวจ
+- กดการ์ดใน Saved ไปหน้า Detail ได้ด้วย `context.pushNamed('destination-detail', ...)`
+  เหมือนหน้าอื่นทั้งแอป
+- ตัวเลข "Saved" ใน Quick Stats หน้า Home ผูกกับ `savedStore.count` จริง
+
+### บั๊กที่เจอและแก้
+1. **Dialog ปิดผิดตัว** — `Navigator.pop(context)` ใน `showDialog` ใช้ context ของหน้า Detail
+   ซึ่งไล่ไปเจอ Navigator ของ Shell Branch ก่อน -> ปิดหน้า Detail ทิ้ง ส่วน Dialog ค้างบนจอ
+   แก้โดยรับ `dialogContext` มาใช้แทน
+2. **Card ล้นในแนวตั้ง** — แถว "พร้อมเข้าพัก" ที่เพิ่มตาม Checkpoint 3 ทำให้การ์ดสูงเกิน
+   ปรับ `childAspectRatio` 0.72 -> 0.62 และความสูง Featured List 280 -> 320
+3. **Row หัวข้อล้นแนวนอนบนจอแคบ** — ครอบด้วย `Flexible` + `TextOverflow.ellipsis`
+4. **กด Back จาก Deep Link ไม่ได้** — เพิ่ม `context.canPop()` เช็คก่อน
+   ถ้า Stack ว่างให้ `context.go('/explore')` แทน
+
+### การตรวจสอบ
+- `flutter analyze` -> No issues found
+- `flutter test` -> ผ่านครบ 16 เคส (ครอบคลุมตารางทดสอบข้อ 1-15 ทั้งหมด)
+- `flutter build web` -> สำเร็จ
+```
 
 ---
 
