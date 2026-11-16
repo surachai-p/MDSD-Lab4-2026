@@ -484,9 +484,8 @@ class DestinationCard extends StatelessWidget {
 > 3. เขียน Comment สั้น ๆ ในโค้ดของตัวเองอธิบายว่าทำไมต้องใช้ `Positioned` คู่กับ `Stack` ถึงจะย้ายตำแหน่ง Badge ได้ (ถ้าใช้ `Positioned` นอก `Stack` จะเกิดอะไรขึ้น)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
+![](https://github.com/user-attachments/assets/e80db63a-af4b-475a-a94e-169e9bce0d2d)
+
 ---
 
 ### การทดลองที่ 4 — สร้าง Screens
@@ -640,9 +639,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
 > 3. สังเกตว่าค่าทั้งสองตัวเท่ากันหรือไม่ แล้วเขียนสรุป 2-3 บรรทัดเป็น Comment ในโค้ดว่า `MediaQuery.of(context).size.width` (ความกว้างของทั้งหน้าจอ) กับ `LayoutBuilder` `constraints.maxWidth` (ความกว้างที่ Widget นั้น ๆ ได้รับจาก Parent) ต่างกันอย่างไร และควรเลือกใช้ตัวไหนเมื่อไหร่
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
+![](https://github.com/user-attachments/assets/00d8e9f6-0ae5-4139-b278-e41c1b0e07c3)
+
 
 #### ขั้นตอนที่ 4.2 — Destination Detail Screen
 
@@ -1103,9 +1101,8 @@ class _StatCard extends StatelessWidget {
 > 3. เขียน Comment อธิบายว่าทำไมต้องใส่ `shrinkWrap: true` และ `NeverScrollableScrollPhysics()` เมื่อวาง `ListView` ซ้อนอยู่ใน `Column` ที่อยู่ใน `SingleChildScrollView` อีกที (จะเกิดอะไรขึ้นถ้าไม่ใส่)
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
+![](https://github.com/user-attachments/assets/b55fbfed-6089-4666-b2cb-cd578b5fa5b5)
+
 
 สร้างไฟล์ `lib/screens/saved_screen.dart`:
 
@@ -1356,9 +1353,11 @@ final GoRouter appRouter = GoRouter(
 > 3. ทดสอบ Fallback ที่แก้ไข โดยรันแอปบน Chrome (`flutter run -d chrome`) แล้วพิมพ์ URL `/explore/destinations/999` ตรง ๆ ใน Address Bar (เป็น `id` ที่ไม่มีอยู่จริง) — ต้องเห็นหน้า "ไม่พบข้อมูลที่ต้องการ" ไม่ใช่ Error สีแดงหรือข้อมูลผิดตัว
 
 บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ (กรณีที่ยังไม่สามารถรันได้ ให้ทดลองจนถึงขั้นตอนที่สามารถ capture รูปได้และบันทึกรูปไว้ในส่วนนี้)
-```
+![](https://github.com/user-attachments/assets/34d4ad5d-d7c9-440c-b4be-4a71ea996141)
+
+![](https://github.com/user-attachments/assets/6c101cb2-1e25-4e5d-a33d-58f97136844c)
+
+
 
 
 #### ขั้นตอนที่ 5.2 — ตั้งค่า main.dart
@@ -1536,20 +1535,38 @@ GoRoute(
 
 1. **เพิ่มปุ่มบันทึก :** เพิ่ม Icon รูปหัวใจบน `DestinationCard` หรือ `DestinationDetailScreen` (เลือกจุดใดจุดหนึ่งหรือทั้งสองจุด) ให้กดแล้วสลับสถานะ "บันทึกแล้ว / ยังไม่บันทึก" ได้ โดยไอคอนต้องเปลี่ยนรูปตามสถานะ (เช่น `Icons.favorite` ↔ `Icons.favorite_border`)
 
+![](https://github.com/user-attachments/assets/d6400beb-9791-4ab2-8ca6-440ada6c0112)
+
+
 2. **จัดการ State ที่ใช้ร่วมกันข้ามหน้า:** ข้อมูลว่า Destination ไหนถูกบันทึกไว้บ้าง ต้องเข้าถึงได้จากทั้ง Explore Screen, Detail Screen และ Saved Screen พร้อมกัน (คำใบ้: ลองสร้าง Class ง่าย ๆ เก็บ `Set<String> savedIds` ไว้เป็นตัวแปร Global หรือส่งผ่าน Constructor — ยังไม่ต้องใช้ State Management Library ใด ๆ ในระดับนี้)
+
+<img width="997" height="678" alt="image" src="https://github.com/user-attachments/assets/58aee41a-5f60-41a6-a778-3b8cf25431b0" />
+
 
 3. **แสดงผลใน Saved Screen (Objective 1 & 2):** ให้ `SavedScreen` แสดงรายการ Destination ที่ถูกบันทึกไว้จริง โดยใช้ `GridView` หรือ `ListView` (เลือกอย่างใดอย่างหนึ่ง) และต้องปรับจำนวนคอลัมน์/Layout ตามขนาดหน้าจอด้วย `LayoutBuilder` เหมือนที่ทำใน Explore Screen — ถ้ายังไม่มีรายการที่บันทึกไว้ ให้แสดง Empty State เหมือนเดิม
 
+<img width="1013" height="686" alt="image" src="https://github.com/user-attachments/assets/80d530d7-e4bb-4d67-ad02-324ced786d68" />
+
+
 4. **Navigation (Objective 3 & 4):** กดที่ Card ใน Saved Screen แล้วต้องไปหน้า Detail ได้ถูกต้อง โดยใช้ `context.pushNamed('destination-detail', ...)` แบบเดียวกับหน้าอื่น ๆ
+<img width="1014" height="697" alt="image" src="https://github.com/user-attachments/assets/f8ecba06-55fa-477a-a47d-6cfd12b36af8" />
+
 
 5. **เขียน Comment อธิบายโค้ดของตัวเอง** อย่างน้อย 3 จุดที่คิดว่าซับซ้อนที่สุด เพื่อให้เพื่อนหรืออาจารย์อ่านเข้าใจการทำงานได้
+```
+1. LayoutBuilder ปรับจำนวนคอลัมน์ตามขนาดพื้นที่หน้าจอ เพื่อให้แสดงผลได้เหมาะสมกับทุกอุปกรณ์
+```
+```
+2. StatefulShellRoute เก็บสถานะของแต่ละหน้าไว้ เมื่อสลับ Tab กลับมา ข้อมูลเดิมยังอยู่
+```
+```
+3. ใช้ Path Parameters ค้นหาข้อมูลโรงแรมจาก ID หากไม่พบข้อมูลจะแสดงหน้าแจ้งเตือนแทน
+```
+
 
 > 💡 **หลีกเลี่ยงการขอโค้ดทั้งไฟล์จาก AI** ให้ลองเขียนเองก่อน ถ้าติดจริง ๆ ให้ถามเป็นจุด ๆ ไป (เช่น "ทำไม setState ใน Widget อื่นไม่ทำให้ Saved Screen รีเฟรช") จะได้เรียนรู้มากกว่าการคัดลอกมาทั้งหมด
 
-บันทึกรูปผลการทดลอง
-```image
-บันทึกรูปโค้ด และรูปผลการทดลองที่นี่ 
-```
+
 ---
 
 ## 📝 คำถามท้ายใบงาน
@@ -1558,24 +1575,28 @@ GoRoute(
 
 1. `LayoutBuilder` ต่างกับ `MediaQuery` อย่างไร? มีหลักการเลือกใช้แต่ละแบบในสถานการณ์ใด?
 ```text
+LayoutBuilder ใช้ดูขนาดพื้นที่ที่ Widget ได้รับจาก Parent ส่วน MediaQuery ใช้ดูขนาดหน้าจอของแอป ควรใช้ LayoutBuilder เมื่อต้องการปรับ Layout ตามพื้นที่จริง และใช้ MediaQuery เมื่อต้องการปรับตามขนาดหน้าจอโดยรวม
 
 ```
 2. ทำไม Go Router ถึงใช้ `StatefulShellRoute` แทน `ShellRoute` ธรรมดา? ผลต่างเรื่อง State Management คืออะไร?
 ```text
+เพราะ StatefulShellRoute สามารถเก็บ State และ Navigation Stack ของแต่ละ Tab แยกกันได้ เมื่อสลับกลับมา หน้าเดิมและตำแหน่งการเลื่อนยังอยู่ ต่างจาก ShellRoute ธรรมดาที่ไม่ได้เก็บ Stack แยกให้อัตโนมัติ
 
 ```
 3. ในโค้ด `DestinationCard` เหตุใดจึงใช้ `Expanded` ครอบ `Text` ชื่อ Destination ? จะเกิดอะไรขึ้นถ้าลบออก?
 ```text
+เพื่อให้ชื่อโรงแรมใช้พื้นที่ที่เหลือภายใน Row และตัดข้อความด้วย ... เมื่อชื่อยาวเกินไป หากลบ Expanded ออก อาจทำให้ข้อความล้นขอบหน้าจอ (Overflow)
 
 ```
 4. การส่งข้อมูลผ่าน `extra` ของ Go Router มีข้อจำกัดอะไรกรณี Deep Link / Web Refresh? และแก้ปัญหานี้ได้อย่างไร?
 ```text
+เมื่อเปิด Deep Link หรือ Refresh หน้าเว็บ ข้อมูลใน extra อาจหายไปหรือเป็น null แก้โดยส่ง id ผ่าน URL และใช้ pathParameters ค้นหาข้อมูลใหม่ หากไม่พบให้แสดงหน้าแจ้งเตือน
 
 ```
 5. วาด Navigation Hierarchy ของแอปนี้ (สามารถวาดบนกระดาษแล้วถ่ายรูปส่งได้)
-```text
 
-```
+![](https://github.com/user-attachments/assets/c4543eb4-ab10-4dec-83cc-4cbb18304d00)
+
 ---
 
 ## 📤 การส่งงาน
